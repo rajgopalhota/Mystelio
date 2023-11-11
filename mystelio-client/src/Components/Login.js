@@ -4,7 +4,7 @@ const Login = () => {
   return (
     <div className="login">
       <div class="container">
-        <div class="heading"><h1 className="title">Sign In</h1></div>
+        <div class="heading"><h1 className="title">LogIn to Mystelio</h1></div>
         <form class="form" action="">
           <input
             placeholder="E-mail"

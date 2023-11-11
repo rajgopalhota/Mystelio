@@ -189,28 +189,21 @@
   box-shadow: rgba(133, 189, 215, 0.8784313725) 0px 30px 30px -20px;
 }
 
-.register .container h1 {
-  font-size: 3.4rem;
-  color: #000;
-  font-weight: 600;
-  text-align: center;
-}
-
-.register .container .form {
+.login .container .form {
   margin-top: 15px;
 }
 
-.register .form .input-box {
+.login .form .input-box {
   width: 100%;
   margin-top: 10px;
 }
 
-.register .input-box label {
+.login .input-box label {
   color: #000;
   font-size: 2rem;
 }
 
-.register .form :where(.input-box input, .select-box) {
+.login .form :where(.input-box input, .select-box) {
   position: relative;
   height: 35px;
   width: 100%;
@@ -224,47 +217,47 @@
   background: #fcedda;
 }
 
-.register .input-box input:focus {
+.login .input-box input:focus {
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
 }
 
-.register .form .column {
+.login .form .column {
   display: flex;
   column-gap: 15px;
 }
 
-.register .form .gender-box {
+.login .form .gender-box {
   margin-top: 10px;
 }
 
-.register .form :where(.gender-option, .gender) {
+.login .form :where(.gender-option, .gender) {
   display: flex;
   align-items: center;
   column-gap: 50px;
   flex-wrap: wrap;
 }
 
-.register .form .gender {
+.login .form .gender {
   column-gap: 5px;
 }
 
-.register .gender input {
+.login .gender input {
   accent-color: #ee4e34;
 }
 
-.register .form :where(.gender input, .gender label) {
+.login .form :where(.gender input, .gender label) {
   cursor: pointer;
 }
 
-.register .gender label {
+.login .gender label {
   color: #000;
 }
 
-.register .address :where(input, .select-box) {
+.login .address :where(input, .select-box) {
   margin-top: 10px;
 }
 
-.register .select-box select {
+.login .select-box select {
   height: 100%;
   width: 100%;
   outline: none;

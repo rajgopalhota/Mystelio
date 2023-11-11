@@ -2,9 +2,9 @@ import React from "react";
 
 const Signup = () => {
   return (
-    <div className="register">
+    <div className="login register">
       <div class="container">
-        <h1><span className="title"></span>Registration Form</h1>
+      <div class="heading"><h1 className="title">Register to Mystelio</h1></div>
         <form class="form" action="#">
           <div class="input-box">
             <label>Full Name</label>
