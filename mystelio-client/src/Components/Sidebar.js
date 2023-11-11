@@ -1,16 +1,12 @@
 import React, { useState } from "react";
 import logo from "./../assets/logo.jpg";
+import { NavLink, Link } from "react-router-dom";
 
 function Sidebar() {
   const [menu, setMenu] = useState(false);
-  const [darkTheme, setDarkTheme] = useState(false);
 
   const handleClick = () => {
     setMenu(!menu);
-  };
-
-  const handleThemeToggle = () => {
-    setDarkTheme(!darkTheme);
   };
 
   return (
@@ -20,32 +16,16 @@ function Sidebar() {
         id="menu-bars"
         onClick={handleClick}
       ></i>
-      <header className={`${menu ? "active" : ""}`}>
-        <a href="/#home" className="logo">
-          <img
-            src={logo}
-            alt="Logo"
-            className="logo-image"
-          />
-        </a>
+      <header className={`${menu ? "smallact" : ""}`}>
+        <Link to="/" className="logo">
+          <img src={logo} alt="Logo" className="logo-image" />
+        </Link>
 
         <nav className="navbar">
-          <a href="/#home">home</a>
-          <a href="/#about">about</a>
-          <a href="/#achievement">Achievements</a>
-          <a href="/#experience">perks</a>
-          <a href="/#experience">perks</a>
-          <a href="/#portfolio">portfolio</a>
-          <a href="/#playground">stats</a>
-          <a href="/#contact">contact</a>
+          <NavLink to="/"><i class="fa-solid fa-dove"></i>&nbsp;home</NavLink>
+          <NavLink to="/register"><i class="fa-solid fa-user-plus"></i>&nbsp;Register</NavLink>
+          <NavLink to="/login"><i class="fa-solid fa-lock fa-flip"></i>&nbsp; Login</NavLink>
         </nav>
-
-        <label className="ui-switch">
-          <input type="checkbox" checked={darkTheme} onChange={handleThemeToggle} />
-          <div className="slider">
-            <div className="circle"></div>
-          </div>
-        </label>
 
         <div className="follow">
           <a
