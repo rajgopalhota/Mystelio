@@ -19,12 +19,41 @@ function Sidebar() {
       <header className={`${menu ? "smallact" : ""}`}>
         <Link to="/" className="logo">
           <img src={logo} alt="Logo" className="logo-image" />
+          <div className="quote">
+            <p><i className="fa-brands fa-tiktok fa-fade"></i>&nbsp;Mystelio - Connect in style!</p>
+          </div>
         </Link>
-
         <nav className="navbar">
-          <NavLink to="/"><i class="fa-solid fa-dove"></i>&nbsp;home</NavLink>
-          <NavLink to="/register"><i class="fa-solid fa-user-plus"></i>&nbsp;Register</NavLink>
-          <NavLink to="/login"><i class="fa-solid fa-lock fa-flip"></i>&nbsp; Login</NavLink>
+          <NavLink to="/">
+            <span>
+              <i className="fa-solid fa-dove"></i>home
+            </span>
+          </NavLink>
+          <NavLink to="/explore">
+            <span>
+              <i className="fa-solid fa-magnifying-glass"></i>explore
+            </span>
+          </NavLink>
+          <NavLink to="/notifications">
+            <span>
+              <i className="fa-solid fa-bell"></i>notifications
+            </span>
+          </NavLink>
+          <NavLink to="/messages">
+            <span>
+              <i className="fa-solid fa-comments"></i>messages
+            </span>
+          </NavLink>
+          <NavLink to="/profile">
+            <span>
+              <i className="fa-solid fa-user"></i>profile
+            </span>
+          </NavLink>
+          <NavLink to="/login">
+            <span>
+              <i className="fa-solid fa-lock fa-flip"></i> Login
+            </span>
+          </NavLink>
         </nav>
 
         <div className="follow">

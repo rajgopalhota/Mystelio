@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
 :root {
   --thistle: #cdb4dbff;
   --fairy-tale: #ffc8ddff;
@@ -13,7 +15,7 @@ html {
   scroll-behavior: smooth;
 }
 * {
-  font-family: "Roboto Slab", serif;
+  font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;

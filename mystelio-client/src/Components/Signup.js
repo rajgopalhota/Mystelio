@@ -1,51 +1,50 @@
 import React from "react";
+import {Link} from "react-router-dom"
 
 const Signup = () => {
   return (
     <div className="login register">
-      <div class="container">
-      <div class="heading"><h1 className="title">Register to Mystelio</h1></div>
-        <form class="form" action="#">
-          <div class="input-box">
-            <label>Full Name</label>
+      <div className="container">
+      <div className="heading"><h1 className="title"><i className="fa-solid fa-user-plus"></i>&nbsp;Register to Mystelio</h1></div>
+        <form className="form" action="#">
+          <div className="input-box">
+            <label><i className="fa-solid fa-signature"></i>&nbsp;Full Name</label>
             <input required="" placeholder="Enter full name" type="text" />
           </div>
-          <div class="column">
-            <div class="input-box">
-              <label>Phone Number</label>
+          <div className="column">
+            <div className="input-box">
+              <label><i className="fa-solid fa-phone"></i>&nbsp;Phone Number</label>
               <input
                 required=""
                 placeholder="Enter phone number"
                 type="telephone"
               />
             </div>
-            <div class="input-box">
-              <label>Birth Date</label>
+            <div className="input-box">
+              <label><i className="fa-solid fa-cake-candles"></i>&nbsp;Birth Date</label>
               <input required="" placeholder="Enter birth date" type="date" />
             </div>
           </div>
-          <div class="gender-box">
-            <label>Gender</label>
-            <div class="gender-option">
-              <div class="gender">
-                <input name="gender" id="check-male" type="radio" />
-                <label for="check-male">Male</label>
-              </div>
-              <div class="gender">
-                <input name="gender" id="check-female" type="radio" />
-                <label for="check-female">Female</label>
-              </div>
-              <div class="gender">
-                <input name="gender" id="check-other" type="radio" />
-                <label for="check-other">Prefer not to say</label>
-              </div>
+          <div className="column">
+            <div className="input-box">
+              <label><i className="fa-solid fa-key"></i>&nbsp;Enter Password</label>
+              <input
+                required=""
+                placeholder="Enter password"
+                type="password"
+              />
+            </div>
+            <div className="input-box">
+              <label><i className="fa-solid fa-key"></i>&nbsp;Re Enter Password</label>
+              <input required="" placeholder="Re Enter Password" type="password" />
             </div>
           </div>
-          <div class="input-box address">
-            <label>Address</label>
-            <input required="" placeholder="Enter street address" type="text" />
-            <div class="column">
-              <div class="select-box">
+          
+          <div className="input-box address">
+            <label><i className="fa-solid fa-folder-open"></i>&nbsp;Additional Details</label>
+            <input required="" placeholder="Enter Email address" type="email" />
+            <div className="column">
+              <div className="select-box">
                 <select>
                   <option hidden="">Country</option>
                   <option>USA</option>
@@ -58,6 +57,9 @@ const Signup = () => {
             </div>
           </div>
           <button className="login-button">Submit</button>
+          <span className="agreement">
+          <Link to="/login">Already a user? Login Here!</Link>
+        </span>
         </form>
       </div>
     </div>
