@@ -42,7 +42,7 @@ router.post("/register", async (req, res) => {
       city: req.body.city,
     });
 
-    res.status(201).json(newUser);
+    res.status(201).json({message:"Success"});
   } catch (error) {
     console.error("Error registering user:", error);
     res.status(500).send("Error registering user");

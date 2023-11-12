@@ -11,6 +11,11 @@
   --bg-1: #efc3e6;
   --bg-2: #e9f5db;
 }
+
+.Toastify__toast-body {
+  font-size: 1.7rem !important;
+}
+
 html {
   scroll-behavior: smooth;
 }

@@ -10,6 +10,7 @@ const sequelize = new Sequelize({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
   timezone: '+05:30', // Set the timezone to India Standard Time (IST)
+  logging: false, // Set to false to disable logging
 });
 
 module.exports = sequelize;
