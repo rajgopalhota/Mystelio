@@ -17,39 +17,39 @@ function Sidebar() {
         onClick={handleClick}
       ></i>
       <header className={`${menu ? "smallact" : ""}`}>
-        <Link to="/" className="logo">
+        <Link to="/" className="logo" onClick={handleClick}>
           <img src={logo} alt="Logo" className="logo-image" />
           <div className="quote">
             <p><i className="fa-brands fa-tiktok fa-fade"></i>&nbsp;Mystelio - Connect in style!</p>
           </div>
         </Link>
         <nav className="navbar">
-          <NavLink to="/">
+          <NavLink to="/" onClick={handleClick}>
             <span>
               <i className="fa-solid fa-dove"></i>home
             </span>
           </NavLink>
-          <NavLink to="/explore">
+          <NavLink to="/explore" onClick={handleClick}>
             <span>
               <i className="fa-solid fa-magnifying-glass"></i>explore
             </span>
           </NavLink>
-          <NavLink to="/notifications">
+          <NavLink to="/notifications" onClick={handleClick}>
             <span>
               <i className="fa-solid fa-bell"></i>notifications
             </span>
           </NavLink>
-          <NavLink to="/messages">
+          <NavLink to="/messages" onClick={handleClick}>
             <span>
               <i className="fa-solid fa-comments"></i>messages
             </span>
           </NavLink>
-          <NavLink to="/profile">
+          <NavLink to="/profile" onClick={handleClick}>
             <span>
               <i className="fa-solid fa-user"></i>profile
             </span>
           </NavLink>
-          <NavLink to="/login">
+          <NavLink to="/login" onClick={handleClick}>
             <span>
               <i className="fa-solid fa-lock fa-flip"></i> Login
             </span>
