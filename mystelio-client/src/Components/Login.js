@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "./../UrlHelper";
 import { toast } from "react-toastify";
 
 const Login = () => {
+
+  const [user, setUser] = useState(null);
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -21,8 +24,11 @@ const Login = () => {
       // Assume the server sends a JWT token in the response
       const token = response.data.token;
 
-      // Handle the token as needed (e.g., store it in local storage or a state variable)
+      const userData = response.data.user;
+      setUser(userData)
+      handleImageFetch(userData);
 
+      // Handle the token as needed (e.g., store it in local storage or a state variable)
       toast.success("Login Successful");
       console.log("Login Successful:", response.data);
 
@@ -35,6 +41,21 @@ const Login = () => {
       // Handle errors, you can console.log them for now
       console.error("Login Error:", error.message);
       toast.error("Login Failed");
+    }
+  };
+  
+  const handleImageFetch = (userData) => {
+    if (userData && userData.profileImage && userData.profileImage.data) {
+      const bufferToBase64 = (buffer) => {
+        const binary = buffer.reduce(
+          (acc, byte) => acc + String.fromCharCode(byte),
+          ""
+        );
+        return btoa(binary);
+      };
+  
+      const base64Image = bufferToBase64(userData.profileImage.data);
+      setUser((prevUser) => ({ ...prevUser, profileImage: base64Image }));
     }
   };
 
@@ -86,6 +107,10 @@ const Login = () => {
           <Link to="/register">New to Mystelio? Signup Here!</Link>
         </span>
       </div>
+      {user && user.profileImage && (
+        <img src={`data:image/png;base64,${user.profileImage}`} alt="Profile" />
+      )}
+      {user && user.fullName}
     </div>
   );
 };

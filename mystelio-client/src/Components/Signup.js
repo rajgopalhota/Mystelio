@@ -21,6 +21,7 @@ const Signup = () => {
     email: "",
     country: "",
     city: "",
+    profileImage: null,
   });
 
   const handleInputChange = (e) => {
@@ -28,15 +29,32 @@ const Signup = () => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      // Convert the base64 data to a Uint8Array
+      const uint8Array = new Uint8Array(atob(reader.result.split(",")[1]).split("").map((char) => char.charCodeAt(0)));
+      
+      // Set the Uint8Array in the component's state
+      setFormData((prevData) => ({ ...prevData, profileImage: uint8Array }));
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+    console.log(formData)
     try {
       const response = await axios.post("/auth/register", formData);
       toast.success(
         <>
-          <i class="fa-solid fa-handshake"></i> {"Successfully Registered"}
+          <i className="fa-solid fa-handshake"></i> {"Successfully Registered"}
         </>
       );
+      console.log(response.data);
       // Clear form data after successful submission
       setFormData({
         fullName: "",
@@ -144,6 +162,7 @@ const Signup = () => {
                   value={formData.country}
                   onChange={handleInputChange}
                 >
+                  <option value="">Select</option>
                   {countriesData.map((country) => (
                     <option key={country.value} value={country.value}>
                       {country.label}
@@ -160,6 +179,12 @@ const Signup = () => {
                 onChange={handleInputChange}
               />
             </div>
+          </div>
+          <div className="input-box">
+            <label>
+              <i className="fa-solid fa-file-image"></i>&nbsp;Profile Image
+            </label>
+            <input type="file" accept="image/*" onChange={handleImageChange} />
           </div>
           <button className="login-button" type="submit">
             Submit

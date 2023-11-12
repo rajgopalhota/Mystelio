@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const Joi = require("joi");
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
+const multer = require('multer');
 const express = require("express");
 const router = express.Router();
 require('dotenv').config();
@@ -20,32 +21,36 @@ const userSchema = Joi.object({
   email: Joi.string().email().required(),
   country: Joi.string(),
   city: Joi.string(),
+  profileImage: Joi.allow(),
 });
 
-router.post("/register", async (req, res) => {
+router.post('/register', async (req, res) => {
   try {
-    // Validate user input
     const { error } = userSchema.validate(req.body);
     if (error) {
+      console.log(error)
       return res.status(400).json({ error: error.details[0].message });
     }
 
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
-
+    // Create a new user in the database
+    const imageBytes = Object.values(req.body.profileImage);
+    const imageBuffer = Buffer.from(imageBytes);
     const newUser = await User.create({
-      fullName: req.body.fullName,
+      fullName : req.body.fullName,
       phoneNumber: req.body.phoneNumber,
       birthDate: req.body.birthDate,
       password: hashedPassword,
       email: req.body.email,
       country: req.body.country,
       city: req.body.city,
+      profileImage: imageBuffer,
     });
 
-    res.status(201).json({message:"Success"});
+    res.status(201).json({ message: 'Success' });
   } catch (error) {
-    console.error("Error registering user:", error);
-    res.status(500).send("Error registering user");
+    console.error('Error registering user:', error);
+    res.status(500).send('Error registering user');
   }
 });
 
@@ -76,7 +81,7 @@ router.post("/login", async (req, res) => {
     if (!passwordMatch) {
       return res.status(401).json({ error: "Invalid password" });
     }
-    console.log("hellooooooooooo", process.env.JWT_SECRET)
+    
     // Generate JWT token
     const token = jwt.sign(
       { userId: user.id, email: user.email },
@@ -96,7 +101,8 @@ router.post("/login", async (req, res) => {
         country: user.country,
         city: user.city,
         creted_at: user.createdAt,
-        updated_at:user.updatedAt
+        updated_at: user.updatedAt,
+        profileImage: user.profileImage
       },
     });
   } catch (error) {

@@ -1,13 +1,7 @@
-// models/User.js
 const { DataTypes } = require('sequelize');
 const db = require('../config/database');
 
 const User = db.define('User', {
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
-  },
   fullName: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -28,12 +22,18 @@ const User = db.define('User', {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
+    validate: {
+      isEmail: true,
+    },
   },
   country: {
     type: DataTypes.STRING,
   },
   city: {
     type: DataTypes.STRING,
+  },
+  profileImage: {
+    type: DataTypes.BLOB('medium'),
   },
 });
 
