@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "./../UrlHelper";
 import { toast } from "react-toastify";
+import { useAuth } from "../AuthContext";
 
 const Login = () => {
-  const [user, setUser] = useState(null);
+
+  const auth = useAuth();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -16,15 +18,10 @@ const Login = () => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleImageFetch = (userData) => {
-    if (userData && userData.profileImage) {
-      // Assuming userData.profileImage contains the file path
-      const imageUrl = `http://localhost:5000/${userData.profileImage.replace(
-        "\\",
-        "/"
-      )}`;
-      console.log(imageUrl);
-      setUser((prevUser) => ({ ...prevUser, profileImage: imageUrl }));
+  const handleUrl = (url) => {
+    if (url) {
+      const imageUrl = `http://localhost:5000/${url}`;
+      return imageUrl.replace("\\", "/");
     }
   };
 
@@ -32,11 +29,20 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post("/auth/login", formData);
-      const token = response.data.token;
-      const userData = response.data.user;
-      setUser(userData);
-      handleImageFetch(userData);
-      console.log(user)
+      const user = {
+        id: response.data.id,
+        fullName: response.data.fullName,
+        phoneNumber: response.data.phoneNumber,
+        birthDate: response.data.birthDate,
+        email: response.data.email,
+        country: response.data.country,
+        city: response.data.city,
+        creted_at: response.data.creted_at,
+        updated_at: response.data.updated_at,
+        profileImage: handleUrl(response.data.profileImage),
+        token: response.data.token,
+      };
+      auth.login(user);
       // Handle the token as needed (e.g., store it in local storage or a state variable)
       toast.success("Login Successful");
 
@@ -99,10 +105,6 @@ const Login = () => {
           <Link to="/register">New to Mystelio? Signup Here!</Link>
         </span>
       </div>
-      {user && user.profileImage && (
-        <img className="profilepic" src={user.profileImage} alt="Profile" />
-      )}
-      {user && user.fullName}
     </div>
   );
 };

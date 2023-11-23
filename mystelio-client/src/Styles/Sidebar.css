@@ -5,7 +5,14 @@
   letter-spacing: 2px !important;
   font-weight: 600;
 }
-
+.profile a{
+  letter-spacing: normal !important;
+}
+.profile .active{
+  letter-spacing: normal !important;
+  border: 2px solid var(--bg-1) !important;
+  color: white !important;
+}
 header::-webkit-scrollbar {
   width: 0.5em;
 }
@@ -21,7 +28,7 @@ header {
   justify-content: space-between;
   z-index: 999;
   flex-flow: column;
-  padding: 5rem 0rem;
+  padding: 5rem 0rem 0rem 0rem;
   width: 30rem;
   text-align: center;
   box-shadow: rgba(0, 0, 0, 0.759) 0px 22px 70px 4px;
@@ -83,17 +90,28 @@ header .navbar a:hover {
   color: var(--bg-2);
 }
 
-header .follow a {
-  font-size: 2.5rem;
-  margin: 0 0.7rem;
-  color: white;
+header .profile a{
+  margin: 0;
 }
 
-header .follow a:hover {
-  transition: all ease-in-out 0.2s;
-  transform: scale(1.1);
-  color: rgb(211, 235, 255);
+.user-profile-link {
+  text-decoration: none;
+  color: #333; /* Set your desired text color */
 }
+
+.user-profile-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-image {
+  width: 50px; /* Set your desired image width */
+  height: 50px; /* Set your desired image height */
+  border-radius: 50%; /* Make the image circular if needed */
+  margin-right: 10px; /* Adjust as needed for spacing between image and text */
+}
+
 
 #menu-bars {
   position: fixed;

@@ -25,7 +25,7 @@ const userSchema = Joi.object({
 });
 
 // Set up storage for multer
-const profilePicsStorage  = multer.diskStorage({
+const profilePicsStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "uploads/profilepics/"); // Upload files to the 'uploads' folder
   },
@@ -36,35 +36,39 @@ const profilePicsStorage  = multer.diskStorage({
   },
 });
 
-const profilePicsUpload  = multer({ storage: profilePicsStorage });
+const profilePicsUpload = multer({ storage: profilePicsStorage });
 
-router.post("/register", profilePicsUpload.single("profileImage"), async (req, res) => {
-  try {
-    const { error } = userSchema.validate(req.body);
-    if (error) {
-      return res.status(400).json({ error: error.details[0].message });
+router.post(
+  "/register",
+  profilePicsUpload.single("profileImage"),
+  async (req, res) => {
+    try {
+      const { error } = userSchema.validate(req.body);
+      if (error) {
+        return res.status(400).json({ error: error.details[0].message });
+      }
+
+      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
+      // Create a new user in the database
+      const newUser = await User.create({
+        fullName: req.body.fullName,
+        phoneNumber: req.body.phoneNumber,
+        birthDate: req.body.birthDate,
+        password: hashedPassword,
+        email: req.body.email,
+        country: req.body.country,
+        city: req.body.city,
+        profileImagePath: req.file ? req.file.path : null, // Save the image path
+      });
+
+      res.status(201).json({ message: "Success" });
+    } catch (error) {
+      console.error("Error registering user:", error);
+      res.status(500).send("Error registering user");
     }
-
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-
-    // Create a new user in the database
-    const newUser = await User.create({
-      fullName: req.body.fullName,
-      phoneNumber: req.body.phoneNumber,
-      birthDate: req.body.birthDate,
-      password: hashedPassword,
-      email: req.body.email,
-      country: req.body.country,
-      city: req.body.city,
-      profileImagePath: req.file ? req.file.path : null, // Save the image path
-    });
-
-    res.status(201).json({ message: "Success" });
-  } catch (error) {
-    console.error("Error registering user:", error);
-    res.status(500).send("Error registering user");
   }
-});
+);
 
 // Validation schema for login
 const loginSchema = Joi.object({
@@ -102,19 +106,17 @@ router.post("/login", async (req, res) => {
     );
     // Return JWT token and user data (excluding password)
     res.status(200).json({
-      token,
-      user: {
-        id: user.id,
-        fullName: user.fullName,
-        phoneNumber: user.phoneNumber,
-        birthDate: user.birthDate,
-        email: user.email,
-        country: user.country,
-        city: user.city,
-        creted_at: user.createdAt,
-        updated_at: user.updatedAt,
-        profileImage: user.profileImagePath,
-      },
+      id: user.id,
+      fullName: user.fullName,
+      phoneNumber: user.phoneNumber,
+      birthDate: user.birthDate,
+      email: user.email,
+      country: user.country,
+      city: user.city,
+      creted_at: user.createdAt,
+      updated_at: user.updatedAt,
+      profileImage: user.profileImagePath,
+      token: token,
     });
   } catch (error) {
     console.error("Error during login:", error);
