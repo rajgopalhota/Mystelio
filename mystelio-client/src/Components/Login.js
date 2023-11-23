@@ -4,7 +4,6 @@ import axios from "./../UrlHelper";
 import { toast } from "react-toastify";
 
 const Login = () => {
-
   const [user, setUser] = useState(null);
 
   const [formData, setFormData] = useState({
@@ -17,22 +16,30 @@ const Login = () => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
+  const handleImageFetch = (userData) => {
+    if (userData && userData.profileImage) {
+      // Assuming userData.profileImage contains the file path
+      const imageUrl = `http://localhost:5000/${userData.profileImage.replace(
+        "\\",
+        "/"
+      )}`;
+      console.log(imageUrl);
+      setUser((prevUser) => ({ ...prevUser, profileImage: imageUrl }));
+    }
+  };
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post("/auth/login", formData);
-      // Assume the server sends a JWT token in the response
       const token = response.data.token;
-
       const userData = response.data.user;
-      setUser(userData)
+      setUser(userData);
       handleImageFetch(userData);
-
+      console.log(user)
       // Handle the token as needed (e.g., store it in local storage or a state variable)
       toast.success("Login Successful");
-      console.log("Login Successful:", response.data);
 
-      // Clear form data after successful submission
       setFormData({
         email: "",
         password: "",
@@ -41,21 +48,6 @@ const Login = () => {
       // Handle errors, you can console.log them for now
       console.error("Login Error:", error.message);
       toast.error("Login Failed");
-    }
-  };
-  
-  const handleImageFetch = (userData) => {
-    if (userData && userData.profileImage && userData.profileImage.data) {
-      const bufferToBase64 = (buffer) => {
-        const binary = buffer.reduce(
-          (acc, byte) => acc + String.fromCharCode(byte),
-          ""
-        );
-        return btoa(binary);
-      };
-  
-      const base64Image = bufferToBase64(userData.profileImage.data);
-      setUser((prevUser) => ({ ...prevUser, profileImage: base64Image }));
     }
   };
 
@@ -108,7 +100,7 @@ const Login = () => {
         </span>
       </div>
       {user && user.profileImage && (
-        <img src={`data:image/png;base64,${user.profileImage}`} alt="Profile" />
+        <img className="profilepic" src={user.profileImage} alt="Profile" />
       )}
       {user && user.fullName}
     </div>

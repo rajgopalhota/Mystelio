@@ -31,30 +31,23 @@ const Signup = () => {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      // Convert the base64 data to a Uint8Array
-      const uint8Array = new Uint8Array(atob(reader.result.split(",")[1]).split("").map((char) => char.charCodeAt(0)));
-      
-      // Set the Uint8Array in the component's state
-      setFormData((prevData) => ({ ...prevData, profileImage: uint8Array }));
-    };
-    if (file) {
-      reader.readAsDataURL(file);
-    }
+    setFormData((prevData) => ({ ...prevData, profileImage: file }));
   };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData)
+    console.log(formData);
     try {
-      const response = await axios.post("/auth/register", formData);
+      const response = await axios.post("/auth/register", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       toast.success(
         <>
           <i className="fa-solid fa-handshake"></i> {"Successfully Registered"}
         </>
       );
-      console.log(response.data);
       // Clear form data after successful submission
       setFormData({
         fullName: "",
@@ -64,9 +57,9 @@ const Signup = () => {
         email: "",
         country: "",
         city: "",
+        profileImage: null,
       });
     } catch (error) {
-      // Handle errors, you can console.log them for now
       console.error("Registration Error:", error.message);
     }
   };
@@ -79,7 +72,11 @@ const Signup = () => {
             <i className="fa-solid fa-user-plus"></i>&nbsp;Register to Mystelio
           </h1>
         </div>
-        <form className="form" onSubmit={handleFormSubmit}>
+        <form
+          className="form"
+          onSubmit={handleFormSubmit}
+          encType="multipart/form-data"
+        >
           <div className="input-box">
             <label>
               <i className="fa-solid fa-signature"></i>&nbsp;Full Name

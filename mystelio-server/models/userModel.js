@@ -1,7 +1,7 @@
-const { DataTypes } = require('sequelize');
-const db = require('../config/database');
+const { DataTypes } = require("sequelize");
+const db = require("../config/database");
 
-const User = db.define('User', {
+const User = db.define("User", {
   fullName: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -32,8 +32,8 @@ const User = db.define('User', {
   city: {
     type: DataTypes.STRING,
   },
-  profileImage: {
-    type: DataTypes.BLOB('medium'),
+  profileImagePath: {
+    type: DataTypes.STRING, // Store the path to the image file
   },
 });
 

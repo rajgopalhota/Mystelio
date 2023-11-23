@@ -2,11 +2,11 @@ const bcrypt = require("bcrypt");
 const Joi = require("joi");
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
-const multer = require('multer');
+const multer = require("multer");
 const express = require("express");
 const router = express.Router();
-require('dotenv').config();
-
+const path = require("path");
+require("dotenv").config();
 
 // Joi is a powerful validation library for JavaScript and Node.js. It's commonly used for:
 // Input Validation: Joi helps you validate and sanitize user input to ensure that it meets the expected criteria. This is crucial for preventing security vulnerabilities such as SQL injection or other forms of injection attacks.
@@ -24,33 +24,45 @@ const userSchema = Joi.object({
   profileImage: Joi.allow(),
 });
 
-router.post('/register', async (req, res) => {
+// Set up storage for multer
+const profilePicsStorage  = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/profilepics/"); // Upload files to the 'uploads' folder
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    const ext = path.extname(file.originalname);
+    cb(null, file.fieldname + "-" + uniqueSuffix + ext);
+  },
+});
+
+const profilePicsUpload  = multer({ storage: profilePicsStorage });
+
+router.post("/register", profilePicsUpload.single("profileImage"), async (req, res) => {
   try {
     const { error } = userSchema.validate(req.body);
     if (error) {
-      console.log(error)
       return res.status(400).json({ error: error.details[0].message });
     }
 
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
     // Create a new user in the database
-    const imageBytes = Object.values(req.body.profileImage);
-    const imageBuffer = Buffer.from(imageBytes);
     const newUser = await User.create({
-      fullName : req.body.fullName,
+      fullName: req.body.fullName,
       phoneNumber: req.body.phoneNumber,
       birthDate: req.body.birthDate,
       password: hashedPassword,
       email: req.body.email,
       country: req.body.country,
       city: req.body.city,
-      profileImage: imageBuffer,
+      profileImagePath: req.file ? req.file.path : null, // Save the image path
     });
 
-    res.status(201).json({ message: 'Success' });
+    res.status(201).json({ message: "Success" });
   } catch (error) {
-    console.error('Error registering user:', error);
-    res.status(500).send('Error registering user');
+    console.error("Error registering user:", error);
+    res.status(500).send("Error registering user");
   }
 });
 
@@ -81,14 +93,13 @@ router.post("/login", async (req, res) => {
     if (!passwordMatch) {
       return res.status(401).json({ error: "Invalid password" });
     }
-    
+
     // Generate JWT token
     const token = jwt.sign(
       { userId: user.id, email: user.email },
       process.env.JWT_SECRET,
       { expiresIn: "1h" } // Token expires in 1 hour
     );
-
     // Return JWT token and user data (excluding password)
     res.status(200).json({
       token,
@@ -102,7 +113,7 @@ router.post("/login", async (req, res) => {
         city: user.city,
         creted_at: user.createdAt,
         updated_at: user.updatedAt,
-        profileImage: user.profileImage
+        profileImage: user.profileImagePath,
       },
     });
   } catch (error) {
