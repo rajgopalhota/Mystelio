@@ -67,11 +67,11 @@ function Sidebar() {
             >
               <span className="user-profile-content">
                 <img
-                  src="http://localhost:5000/uploads/profilepics/profileImage-1700756228821-703172628.jpg"
+                  src={auth.user.profileImage}
                   alt="Profile"
                   className="profile-image"
                 />
-                {" username"}
+                {auth.user.fullName}
               </span>
             </NavLink>
           )}
