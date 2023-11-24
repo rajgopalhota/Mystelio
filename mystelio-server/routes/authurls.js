@@ -50,6 +50,15 @@ router.post(
 
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
+      let profileImageUrl = null;
+
+      // Check if req.file exists before constructing the complete URL
+      if (req.file) {
+        profileImageUrl = `${req.protocol}://${req.get("host")}/${
+          req.file.path
+        }`;
+      }
+
       // Create a new user in the database
       const newUser = await User.create({
         fullName: req.body.fullName,
@@ -59,7 +68,7 @@ router.post(
         email: req.body.email,
         country: req.body.country,
         city: req.body.city,
-        profileImagePath: req.file ? req.file.path : null, // Save the image path
+        profileImagePath: profileImageUrl, // Save the image path
       });
 
       res.status(201).json({ message: "Success" });
@@ -108,7 +117,7 @@ router.post("/login", async (req, res) => {
     // Set the JWT token as a cookie
     res.cookie("authToken", token, {
       httpOnly: true,
-      expires: new Date(Date.now() + 90*24*60*60*1000)
+      expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
     });
 
     // Return user data (excluding password)

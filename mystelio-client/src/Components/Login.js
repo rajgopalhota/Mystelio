@@ -18,13 +18,6 @@ const Login = () => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const handleUrl = (url) => {
-    if (url) {
-      const imageUrl = `http://localhost:5000/${url}`;
-      return imageUrl.replace("\\", "/");
-    }
-  };
-
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -39,7 +32,7 @@ const Login = () => {
         city: response.data.city,
         creted_at: response.data.creted_at,
         updated_at: response.data.updated_at,
-        profileImage: handleUrl(response.data.profileImage),
+        profileImage: response.data.profileImage,
         token: response.data.token,
       };
       auth.login(user);
