@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const path = require("path");
 const cors = require('cors');
 const sequelize = require('./config/database');
@@ -9,6 +10,7 @@ const PORT = 5000;
 // Middleware
 app.use(cors());
 app.use(express.json({limit: '50mb'}));
+app.use(cookieParser())
 app.use(express.urlencoded({limit: '50mb', extended: true, parameterLimit: 50000}));
 
 // Serve static files from the "uploads" directory
@@ -26,9 +28,11 @@ sequelize.sync()
 // Routes
 const authRoutes = require('./routes/authurls');
 const apiroutes = require('./routes/api');
+const postRoutes = require('./routes/posturls')
 
 app.use('/auth', authRoutes);
 app.use('/vaayu', apiroutes);
+app.use('/posts', postRoutes);
 
 app.get('/', (req, res) => {
   res.send('Welcome to Mystelio API');

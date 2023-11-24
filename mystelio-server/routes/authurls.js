@@ -102,9 +102,16 @@ router.post("/login", async (req, res) => {
     const token = jwt.sign(
       { userId: user.id, email: user.email },
       process.env.JWT_SECRET,
-      { expiresIn: "1h" } // Token expires in 1 hour
+      { expiresIn: "90d" } // Token expires in 90 days
     );
-    // Return JWT token and user data (excluding password)
+
+    // Set the JWT token as a cookie
+    res.cookie("authToken", token, {
+      httpOnly: true,
+      expires: new Date(Date.now() + 90*24*60*60*1000)
+    });
+
+    // Return user data (excluding password)
     res.status(200).json({
       id: user.id,
       fullName: user.fullName,
