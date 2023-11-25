@@ -39,23 +39,27 @@ exports.getLoggedInUserPosts = async (req, res) => {
       ],
     });
 
-    const postsWithLikes = await Promise.all(userPosts.map(async (post) => {
-      const likesWithUserInfo = await Promise.all((post.likes || []).map(async (userId) => {
-        const likedUser = await User.findByPk(userId, {
-          attributes: ["id", "fullName", "email"],
-        });
-        return likedUser;
-      }));
+    const postsWithLikes = await Promise.all(
+      userPosts.map(async (post) => {
+        const likesWithUserInfo = await Promise.all(
+          (post.likes || []).map(async (userId) => {
+            const likedUser = await User.findByPk(userId, {
+              attributes: ["id", "fullName", "email"],
+            });
+            return likedUser;
+          })
+        );
 
-      return {
-        id: post.id,
-        title: post.title,
-        content: post.content,
-        createdAt: post.createdAt,
-        likes: likesWithUserInfo,
-        created_user: post.user,
-      };
-    }));
+        return {
+          id: post.id,
+          title: post.title,
+          content: post.content,
+          createdAt: post.createdAt,
+          likes: likesWithUserInfo,
+          created_user: post.user,
+        };
+      })
+    );
 
     res.status(200).json({ posts: postsWithLikes });
   } catch (error) {
@@ -70,7 +74,6 @@ exports.getLoggedInUserPosts = async (req, res) => {
 // Get a single post by ID
 exports.getPostById = async (req, res) => {
   try {
-
     const postId = req.params.postId;
 
     // Find the post by ID
@@ -91,12 +94,14 @@ exports.getPostById = async (req, res) => {
     }
 
     // Fetch likes with user information
-    const likesWithUserInfo = await Promise.all((post.likes || []).map(async (userId) => {
-      const likedUser = await User.findByPk(userId, {
-        attributes: ["id", "fullName", "email"],
-      });
-      return likedUser;
-    }));
+    const likesWithUserInfo = await Promise.all(
+      (post.likes || []).map(async (userId) => {
+        const likedUser = await User.findByPk(userId, {
+          attributes: ["id", "fullName", "email"],
+        });
+        return likedUser;
+      })
+    );
 
     // Construct the response object
     const postWithLikes = {
@@ -111,10 +116,11 @@ exports.getPostById = async (req, res) => {
     res.status(200).json({ post: postWithLikes });
   } catch (error) {
     console.error("Error fetching post:", error);
-    res.status(500).json({ message: "Error fetching post", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error fetching post", error: error.message });
   }
 };
-
 
 exports.getPosts = async (req, res) => {
   try {
@@ -129,28 +135,34 @@ exports.getPosts = async (req, res) => {
       ],
     });
 
-    const postsWithLikes = await Promise.all(allPosts.map(async (post) => {
-      const likesWithUserInfo = await Promise.all((post.likes || []).map(async (userId) => {
-        const likedUser = await User.findByPk(userId, {
-          attributes: ["id", "fullName", "email"],
-        });
-        return likedUser;
-      }));
+    const postsWithLikes = await Promise.all(
+      allPosts.map(async (post) => {
+        const likesWithUserInfo = await Promise.all(
+          (post.likes || []).map(async (userId) => {
+            const likedUser = await User.findByPk(userId, {
+              attributes: ["id", "fullName", "email"],
+            });
+            return likedUser;
+          })
+        );
 
-      return {
-        id: post.id,
-        title: post.title,
-        content: post.content,
-        createdAt: post.createdAt,
-        likes: likesWithUserInfo,
-        created_user: post.user
-      };
-    }));
+        return {
+          id: post.id,
+          title: post.title,
+          content: post.content,
+          createdAt: post.createdAt,
+          likes: likesWithUserInfo,
+          created_user: post.user,
+        };
+      })
+    );
 
     res.status(200).json({ posts: postsWithLikes });
   } catch (error) {
     console.error("Error fetching posts:", error);
-    res.status(500).json({ message: "Error fetching posts", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error fetching posts", error: error.message });
   }
 };
 
@@ -212,13 +224,15 @@ exports.unlikePost = async (req, res) => {
     }
 
     // Remove the user ID from the likes array
-    post.likes = post.likes.filter(id => id !== userId); // Change this line
+    post.likes = post.likes.filter((id) => id !== userId); // Change this line
 
     // Save the updated post
     try {
       await post.save();
       console.log("Post saved successfully");
-      res.status(200).json({ message: "Post unliked successfully", post: post });
+      res
+        .status(200)
+        .json({ message: "Post unliked successfully", post: post });
     } catch (error) {
       console.error("Error saving post:", error);
       res
@@ -249,7 +263,9 @@ exports.deletePost = async (req, res) => {
 
     // Check if the authenticated user is the owner of the post
     if (post.userId !== userId) {
-      return res.status(403).json({ message: "Unauthorized to delete this post" });
+      return res
+        .status(403)
+        .json({ message: "Unauthorized to delete this post" });
     }
 
     // Delete the post
@@ -258,6 +274,45 @@ exports.deletePost = async (req, res) => {
     res.status(200).json({ message: "Post deleted successfully" });
   } catch (error) {
     console.error("Error deleting post:", error);
-    res.status(500).json({ message: "Error deleting post", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error deleting post", error: error.message });
+  }
+};
+
+// Update a post
+exports.updatePost = async (req, res) => {
+  try {
+    const postId = req.params.postId;
+    const userId = req.user.id;
+    const { title, content } = req.body;
+
+    // Find the post
+    const post = await Post.findByPk(postId);
+
+    if (!post) {
+      return res.status(400).json({ message: "Post not found" });
+    }
+
+    // Check if the logged-in user is the creator of the post
+    if (post.userId !== userId) {
+      return res
+        .status(403)
+        .json({ message: "You are not authorized to update this post" });
+    }
+
+    // Update the post
+    post.title = title || post.title;
+    post.content = content || post.content;
+
+    // Save the updated post
+    await post.save();
+
+    res.status(200).json({ message: "Post updated successfully", post: post });
+  } catch (error) {
+    console.error("Error updating post:", error);
+    res
+      .status(500)
+      .json({ message: "Error updating post", error: error.message });
   }
 };

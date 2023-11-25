@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const authMiddleware = require("../middleware/authMiddleware");
-const { addPost, getPosts, getPostById, getLoggedInUserPosts, likePost, unlikePost, deletePost } = require("../controller/posts");
+const { addPost, getPosts, getPostById, getLoggedInUserPosts, likePost, unlikePost, deletePost, updatePost } = require("../controller/posts");
 
 // Route to add a new post
 router.post("/add", authMiddleware, addPost);
@@ -23,5 +23,8 @@ router.get("/unlike/:postId", authMiddleware, unlikePost);
 
 // Route to delete a post
 router.delete("/delete/:postId", authMiddleware, deletePost);
+
+// Route to update a post
+router.put("/update/:postId", authMiddleware, updatePost);
 
 module.exports = router;
