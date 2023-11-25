@@ -39,7 +39,9 @@ const User = db.define("User", {
 });
 // userModel.js
 
-User.hasMany(Post, { foreignKey: "userId", as: "posts" });
+User.hasMany(Post, { foreignKey: "userId", as: "posts"});
+// onDelete cascade makes if user deletes his posts also gets deleted!
+// User.hasMany(Post, { foreignKey: "userId", as: "posts", onDelete: "CASCADE"});
 Post.belongsTo(User, { foreignKey: "userId", as: "user" });
 
 module.exports = User;
