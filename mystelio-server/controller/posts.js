@@ -25,9 +25,8 @@ exports.addPost = async (req, res) => {
 exports.getPosts = async (req, res) => {
   try {
     const allPosts = await Post.findAll({
-      attributes: ["id", "title", "content", "createdAt"],
+      attributes: ["id", "title", "content", "createdAt", "likes"],
       include: [
-        // Include user information for each post
         {
           model: User,
           as: "user",
@@ -36,12 +35,28 @@ exports.getPosts = async (req, res) => {
       ],
     });
 
-    res.status(200).json({ posts: allPosts });
+    const postsWithLikes = await Promise.all(allPosts.map(async (post) => {
+      const likesWithUserInfo = await Promise.all((post.likes || []).map(async (userId) => {
+        const likedUser = await User.findByPk(userId, {
+          attributes: ["id", "fullName", "email"],
+        });
+        return likedUser;
+      }));
+
+      return {
+        id: post.id,
+        title: post.title,
+        content: post.content,
+        createdAt: post.createdAt,
+        likes: likesWithUserInfo,
+        created_user: post.user
+      };
+    }));
+
+    res.status(200).json({ posts: postsWithLikes });
   } catch (error) {
-    console.error("Error registering user:", error);
-    res
-      .status(500)
-      .json({ message: "Error registering user", error: error.message });
+    console.error("Error fetching posts:", error);
+    res.status(500).json({ message: "Error fetching posts", error: error.message });
   }
 };
 
@@ -64,11 +79,89 @@ exports.getUserWithPosts = async (req, res) => {
     res.status(200).json({ user: userWithPosts });
   } catch (error) {
     console.error("Error fetching user with posts:", error);
-    res
-      .status(500)
-      .json({
-        message: "Error fetching user with posts",
-        error: error.message,
-      });
+    res.status(500).json({
+      message: "Error fetching user with posts",
+      error: error.message,
+    });
   }
 };
+
+// Like and Dislikes
+exports.likePost = async (req, res) => {
+  try {
+    const postId = req.params.postId;
+    const userId = req.user.id;
+    const post = await Post.findByPk(postId);
+
+    if (!post) {
+      return res.status(400).json({ message: "Post not found" });
+    }
+
+    // Check if the user has already liked the post
+    const alreadyLiked = post.likes.includes(userId);
+
+    if (alreadyLiked) {
+      return res.status(400).json({ message: "Post already liked" });
+    }
+
+    // Add the user ID to the likes array
+    post.likes = [...post.likes, userId]; // Change this line
+
+    // Save the updated post
+    try {
+      await post.save();
+      console.log("Post saved successfully");
+      res.status(200).json({ message: "Post liked successfully", post: post });
+    } catch (error) {
+      console.error("Error saving post:", error);
+      res
+        .status(500)
+        .json({ message: "Error saving post", error: error.message });
+    }
+  } catch (error) {
+    console.error("Error liking post:", error);
+    res
+      .status(500)
+      .json({ message: "Error liking post", error: error.message });
+  }
+};
+
+exports.unlikePost = async (req, res) => {
+  try {
+    const postId = req.params.postId;
+    const userId = req.user.id;
+    const post = await Post.findByPk(postId);
+
+    if (!post) {
+      return res.status(400).json({ message: "Post not found" });
+    }
+
+    // Check if the user has already liked the post
+    const likedIndex = post.likes.indexOf(userId);
+
+    if (likedIndex === -1) {
+      return res.status(400).json({ message: "Post not liked yet" });
+    }
+
+    // Remove the user ID from the likes array
+    post.likes = post.likes.filter(id => id !== userId); // Change this line
+
+    // Save the updated post
+    try {
+      await post.save();
+      console.log("Post saved successfully");
+      res.status(200).json({ message: "Post unliked successfully", post: post });
+    } catch (error) {
+      console.error("Error saving post:", error);
+      res
+        .status(500)
+        .json({ message: "Error saving post", error: error.message });
+    }
+  } catch (error) {
+    console.error("Error unliking post:", error);
+    res
+      .status(500)
+      .json({ message: "Error unliking post", error: error.message });
+  }
+};
+
