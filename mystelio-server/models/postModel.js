@@ -16,7 +16,4 @@ const Post = db.define("Post", {
   },
 });
 
-// Add association to define the relationship between Post and User
-Post.belongsTo(User, { foreignKey: "userId", as: "user" });
-
 module.exports = Post;

@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const db = require("../config/database");
+const Post = require("./postModel");
 
 const User = db.define("User", {
   fullName: {
@@ -36,5 +37,9 @@ const User = db.define("User", {
     type: DataTypes.STRING, // Store the path to the image file
   },
 });
+// userModel.js
+
+User.hasMany(Post, { foreignKey: "userId", as: "posts" });
+Post.belongsTo(User, { foreignKey: "userId", as: "user" });
 
 module.exports = User;
