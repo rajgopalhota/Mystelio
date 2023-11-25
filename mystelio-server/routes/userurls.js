@@ -4,8 +4,11 @@ const {
   registerUser,
   profilePicsUpload,
   loginUser,
+  getUserWithPosts,
+  getAllUsers
 } = require("../controller/user");
 require("dotenv").config();
+const authMiddleware = require("../middleware/authMiddleware");
 
 router.post(
   "/register",
@@ -14,5 +17,9 @@ router.post(
 );
 
 router.post("/login", loginUser);
+
+router.get("/user-with-posts",authMiddleware, getUserWithPosts);
+
+router.get("/allusers", getAllUsers);
 
 module.exports = router;

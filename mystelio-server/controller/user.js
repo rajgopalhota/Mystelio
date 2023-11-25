@@ -5,6 +5,7 @@
 
 const Joi = require("joi");
 const User = require("../models/userModel");
+const Post = require("../models/postModel");
 const path = require("path");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -133,5 +134,57 @@ exports.loginUser = async (req, res) => {
     res
       .status(500)
       .json({ message: "Error registering user", error: error.message });
+  }
+};
+
+// Get users
+exports.getUserWithPosts = async (req, res) => {
+  try {
+    const userId = req.user.id; // Assuming you have user data in req.user after authentication
+
+    // Find the user with the specified ID along with their posts
+    const userWithPosts = await User.findByPk(userId, {
+      attributes: ["id", "fullName", "email"],
+      include: [
+        {
+          model: Post,
+          as: "posts",
+          attributes: ["id", "title", "content", "createdAt", "likes"],
+        },
+      ],
+    });
+
+    res.status(200).json({ user: userWithPosts });
+  } catch (error) {
+    console.error("Error fetching user with posts:", error);
+    res.status(500).json({
+      message: "Error fetching user with posts",
+      error: error.message,
+    });
+  }
+};
+
+// Get all users with their posts
+exports.getAllUsers = async (req, res) => {
+  try {
+    // Find all users along with their posts
+    const allUsersWithPosts = await User.findAll({
+      attributes: ["id", "fullName", "email"],
+      include: [
+        {
+          model: Post,
+          as: "posts",
+          attributes: ["id", "title", "content", "createdAt", "likes"],
+        },
+      ],
+    });
+
+    res.status(200).json({ users: allUsersWithPosts });
+  } catch (error) {
+    console.error("Error fetching users with posts:", error);
+    res.status(500).json({
+      message: "Error fetching users with posts",
+      error: error.message,
+    });
   }
 };

@@ -1,20 +1,27 @@
 const express = require("express");
 const router = express.Router();
 const authMiddleware = require("../middleware/authMiddleware");
-const { addPost, getPosts, getUserWithPosts, likePost, unlikePost } = require("../controller/posts");
+const { addPost, getPosts, getPostById, getLoggedInUserPosts, likePost, unlikePost, deletePost } = require("../controller/posts");
 
 // Route to add a new post
 router.post("/add", authMiddleware, addPost);
+
+// Route to get posts for the logged-in user
+router.get("/my-posts", authMiddleware, getLoggedInUserPosts);
+
+// Route to retrieve posts based on id
+router.get("/post/:postId", getPostById);
 
 // Route to retrieve all posts
 router.get("/all", getPosts);
 
 // Like posts
-router.post("/like/:postId", authMiddleware, likePost);
+router.get("/like/:postId", authMiddleware, likePost);
 
 // Unlike posts
-router.post("/unlike/:postId", authMiddleware, unlikePost);
+router.get("/unlike/:postId", authMiddleware, unlikePost);
 
-router.get("/user-with-posts",authMiddleware, getUserWithPosts);
+// Route to delete a post
+router.delete("/delete/:postId", authMiddleware, deletePost);
 
 module.exports = router;
