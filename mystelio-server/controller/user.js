@@ -42,7 +42,14 @@ exports.registerUser = async (req, res) => {
     if (error) {
       return res.status(400).json({ error: error.details[0].message });
     }
-
+    const em = req.body.email;
+    if(await User.findOne({ where: { email:em } })){
+      return res.status(400).json({ error: "Email already in use!" });
+    }
+    const ph = req.body.phoneNumber;
+    if(await User.findOne({ where: { phoneNumber:ph } })){
+      return res.status(400).json({ error: "Phone number already in use!" });
+    }
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
     let profileImageUrl = null;
@@ -144,7 +151,9 @@ exports.getUserWithPosts = async (req, res) => {
 
     // Find the user with the specified ID along with their posts
     const userWithPosts = await User.findByPk(userId, {
-      attributes: ["id", "fullName", "email"],
+      attributes: {
+        exclude: ["password"], // Exclude the password field
+      },
       include: [
         {
           model: Post,
@@ -169,7 +178,9 @@ exports.getAllUsers = async (req, res) => {
   try {
     // Find all users along with their posts
     const allUsersWithPosts = await User.findAll({
-      attributes: ["id", "fullName", "email"],
+      attributes: {
+        exclude: ["password"], // Exclude the password field
+      },
       include: [
         {
           model: Post,

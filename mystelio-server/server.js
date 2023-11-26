@@ -27,10 +27,12 @@ sequelize.sync()
 // Routes
 const userRoutes = require('./routes/userurls');
 const apiroutes = require('./routes/api');
+const followRoutes = require('./routes/followurls');
 const postRoutes = require('./routes/posturls')
 
 app.use('/auth', userRoutes);
 app.use('/vaayu', apiroutes);
+app.use('/friend', followRoutes);
 app.use('/posts', postRoutes);
 
 app.get('/', (req, res) => {

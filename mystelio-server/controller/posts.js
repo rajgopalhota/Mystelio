@@ -55,13 +55,12 @@ exports.getLoggedInUserPosts = async (req, res) => {
     const userId = req.user.id;
     const userPosts = await Post.findAll({
       where: { userId: userId },
-      attributes: ["id", "title", "content", "createdAt", "likes"],
       include: [{ model: User, as: "user", attributes: ["id", "fullName", "email"] }],
     });
 
     const postsWithLikes = await fetchPostsWithInfo(userPosts);
 
-    res.status(200).json({ posts: postsWithLikes });
+    res.status(200).json({ posts: postsWithLikes.reverse() });
   } catch (error) {
     console.error("Error fetching user posts:", error);
     res.status(500).json({ message: "Error fetching user posts", error: error.message });
@@ -73,7 +72,6 @@ exports.getPostById = async (req, res) => {
   try {
     const postId = req.params.postId;
     const post = await Post.findByPk(postId, {
-      attributes: ["id", "title", "content", "createdAt", "likes"],
       include: [{ model: User, as: "user", attributes: ["id", "fullName", "email"] }],
     });
 
@@ -103,13 +101,12 @@ exports.getPostById = async (req, res) => {
 exports.getPosts = async (req, res) => {
   try {
     const allPosts = await Post.findAll({
-      attributes: ["id", "title", "content", "createdAt", "likes"],
       include: [{ model: User, as: "user", attributes: ["id", "fullName", "email"] }],
     });
 
     const postsWithLikes = await fetchPostsWithInfo(allPosts);
 
-    res.status(200).json({ posts: postsWithLikes });
+    res.status(200).json({ posts: postsWithLikes.reverse() });
   } catch (error) {
     console.error("Error fetching posts:", error);
     res.status(500).json({ message: "Error fetching posts", error: error.message });
