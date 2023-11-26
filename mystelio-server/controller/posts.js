@@ -1,12 +1,13 @@
 const Post = require("../models/postModel");
 const User = require("../models/userModel");
+const Comment = require("../models/commentModel");
 
 // Function to fetch likes with user information
 const fetchLikesWithUserInfo = async (likes) => {
   return Promise.all(
     (likes || []).map(async (userId) => {
       const likedUser = await User.findByPk(userId, {
-        attributes: ["id", "fullName", "email"],
+        attributes: ["id", "fullName", "email", "profileImagePath"],
       });
       return likedUser;
     })
@@ -28,7 +29,9 @@ exports.addPost = async (req, res) => {
     res.status(201).json({ message: "Post added successfully", post: newPost });
   } catch (error) {
     console.error("Error adding post:", error);
-    res.status(500).json({ message: "Error adding post", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error adding post", error: error.message });
   }
 };
 
@@ -44,6 +47,7 @@ const fetchPostsWithInfo = async (posts) => {
         createdAt: post.createdAt,
         likes: likesWithUserInfo,
         created_user: post.user,
+        comments: post.comments,
       };
     })
   );
@@ -55,7 +59,25 @@ exports.getLoggedInUserPosts = async (req, res) => {
     const userId = req.user.id;
     const userPosts = await Post.findAll({
       where: { userId: userId },
-      include: [{ model: User, as: "user", attributes: ["id", "fullName", "email"] }],
+      include: [
+        {
+          model: User,
+          as: "user",
+          attributes: ["id", "fullName", "email", "profileImagePath"],
+        },
+        {
+          model: Comment,
+          as: "comments",
+          attributes: ["id", "comment", "replies", "userId"],
+          include: [
+            {
+              model: User,
+              as: "user", // Match the alias used in the association
+              attributes: ["id", "fullName", "profileImagePath"],
+            },
+          ],
+        },
+      ],
     });
 
     const postsWithLikes = await fetchPostsWithInfo(userPosts);
@@ -63,7 +85,9 @@ exports.getLoggedInUserPosts = async (req, res) => {
     res.status(200).json({ posts: postsWithLikes.reverse() });
   } catch (error) {
     console.error("Error fetching user posts:", error);
-    res.status(500).json({ message: "Error fetching user posts", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error fetching user posts", error: error.message });
   }
 };
 
@@ -72,7 +96,25 @@ exports.getPostById = async (req, res) => {
   try {
     const postId = req.params.postId;
     const post = await Post.findByPk(postId, {
-      include: [{ model: User, as: "user", attributes: ["id", "fullName", "email"] }],
+      include: [
+        {
+          model: User,
+          as: "user",
+          attributes: ["id", "fullName", "email", "profileImagePath"],
+        },
+        {
+          model: Comment,
+          as: "comments",
+          attributes: ["id", "comment", "replies", "userId"],
+          include: [
+            {
+              model: User,
+              as: "user", // Match the alias used in the association
+              attributes: ["id", "fullName", "profileImagePath"],
+            },
+          ],
+        },
+      ],
     });
 
     if (!post) {
@@ -88,12 +130,15 @@ exports.getPostById = async (req, res) => {
       createdAt: post.createdAt,
       likes: likesWithUserInfo,
       created_user: post.user,
+      comments: post.comments,
     };
 
     res.status(200).json({ post: postWithLikes });
   } catch (error) {
     console.error("Error fetching post:", error);
-    res.status(500).json({ message: "Error fetching post", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error fetching post", error: error.message });
   }
 };
 
@@ -101,7 +146,25 @@ exports.getPostById = async (req, res) => {
 exports.getPosts = async (req, res) => {
   try {
     const allPosts = await Post.findAll({
-      include: [{ model: User, as: "user", attributes: ["id", "fullName", "email"] }],
+      include: [
+        {
+          model: User,
+          as: "user",
+          attributes: ["id", "fullName", "email", "profileImagePath"],
+        },
+        {
+          model: Comment,
+          as: "comments",
+          attributes: ["id", "comment", "replies", "userId"],
+          include: [
+            {
+              model: User,
+              as: "user", // Match the alias used in the association
+              attributes: ["id", "fullName", "profileImagePath"],
+            },
+          ],
+        },
+      ],
     });
 
     const postsWithLikes = await fetchPostsWithInfo(allPosts);
@@ -109,7 +172,9 @@ exports.getPosts = async (req, res) => {
     res.status(200).json({ posts: postsWithLikes.reverse() });
   } catch (error) {
     console.error("Error fetching posts:", error);
-    res.status(500).json({ message: "Error fetching posts", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error fetching posts", error: error.message });
   }
 };
 
@@ -138,11 +203,15 @@ exports.likePost = async (req, res) => {
       res.status(200).json({ message: "Post liked successfully", post: post });
     } catch (error) {
       console.error("Error saving post:", error);
-      res.status(500).json({ message: "Error saving post", error: error.message });
+      res
+        .status(500)
+        .json({ message: "Error saving post", error: error.message });
     }
   } catch (error) {
     console.error("Error liking post:", error);
-    res.status(500).json({ message: "Error liking post", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error liking post", error: error.message });
   }
 };
 
@@ -168,14 +237,20 @@ exports.unlikePost = async (req, res) => {
     try {
       await post.save();
       console.log("Post saved successfully");
-      res.status(200).json({ message: "Post unliked successfully", post: post });
+      res
+        .status(200)
+        .json({ message: "Post unliked successfully", post: post });
     } catch (error) {
       console.error("Error saving post:", error);
-      res.status(500).json({ message: "Error saving post", error: error.message });
+      res
+        .status(500)
+        .json({ message: "Error saving post", error: error.message });
     }
   } catch (error) {
     console.error("Error unliking post:", error);
-    res.status(500).json({ message: "Error unliking post", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error unliking post", error: error.message });
   }
 };
 
@@ -192,7 +267,9 @@ exports.deletePost = async (req, res) => {
     }
 
     if (post.userId !== userId) {
-      return res.status(403).json({ message: "Unauthorized to delete this post" });
+      return res
+        .status(403)
+        .json({ message: "Unauthorized to delete this post" });
     }
 
     await post.destroy();
@@ -200,7 +277,9 @@ exports.deletePost = async (req, res) => {
     res.status(200).json({ message: "Post deleted successfully" });
   } catch (error) {
     console.error("Error deleting post:", error);
-    res.status(500).json({ message: "Error deleting post", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error deleting post", error: error.message });
   }
 };
 
@@ -218,7 +297,9 @@ exports.updatePost = async (req, res) => {
     }
 
     if (post.userId !== userId) {
-      return res.status(403).json({ message: "Unauthorized to update this post" });
+      return res
+        .status(403)
+        .json({ message: "Unauthorized to update this post" });
     }
 
     post.title = title || post.title;
@@ -229,6 +310,8 @@ exports.updatePost = async (req, res) => {
     res.status(200).json({ message: "Post updated successfully", post: post });
   } catch (error) {
     console.error("Error updating post:", error);
-    res.status(500).json({ message: "Error updating post", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Error updating post", error: error.message });
   }
 };

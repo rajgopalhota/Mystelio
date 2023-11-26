@@ -28,15 +28,17 @@ sequelize.sync()
 const userRoutes = require('./routes/userurls');
 const apiroutes = require('./routes/api');
 const followRoutes = require('./routes/followurls');
-const postRoutes = require('./routes/posturls')
+const postRoutes = require('./routes/posturls');
+const commentRoutes = require('./routes/commenturls');
 
 app.use('/auth', userRoutes);
-app.use('/vaayu', apiroutes);
 app.use('/friend', followRoutes);
 app.use('/posts', postRoutes);
+app.use('/comment', commentRoutes);
 
 app.get('/', (req, res) => {
-  res.send('Welcome to Mystelio API');
+  const htmlPath = path.join(__dirname, 'home', 'index.html');
+  res.sendFile(htmlPath);
 });
 
 app.use((err, req, res, next) => {

@@ -1,6 +1,7 @@
 const { DataTypes } = require("sequelize");
 const db = require("../config/database");
 const Post = require("./postModel");
+const Comment = require("./commentModel");
 
 const User = db.define("User", {
   fullName: {
@@ -51,5 +52,8 @@ User.hasMany(Post, { foreignKey: "userId", as: "posts" });
 // onDelete cascade makes if user deletes his posts also gets deleted!
 // User.hasMany(Post, { foreignKey: "userId", as: "posts", onDelete: "CASCADE"});
 Post.belongsTo(User, { foreignKey: "userId", as: "user" });
+
+Comment.belongsTo(User, { foreignKey: "userId", as: "user" });
+User.hasMany(Comment, { foreignKey: "userId", as: "comments" });
 
 module.exports = User;

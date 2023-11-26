@@ -1,5 +1,6 @@
 const Post = require("../models/postModel");
 const User = require("../models/userModel");
+const Comment = require("../models/commentModel");
 
 // follow a person
 exports.follow = async (req, res) => {
@@ -184,6 +185,7 @@ const fetchPostsWithInfo = async (posts) => {
         createdAt: post.createdAt,
         likes: likesWithUserInfo,
         created_user: post.user,
+        comments: post.comments,
       };
     })
   );
@@ -209,6 +211,18 @@ exports.getFriendsPosts = async (req, res) => {
           model: User,
           as: "user",
           attributes: ["id", "fullName", "email"],
+        },
+        {
+          model: Comment,
+          as: "comments",
+          attributes: ["id", "comment", "replies", "userId"],
+          include: [
+            {
+              model: User,
+              as: "user", // Match the alias used in the association
+              attributes: ["id", "fullName", "profileImagePath"],
+            },
+          ],
         },
       ],
     });

@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const db = require("../config/database");
+const Comment = require("./commentModel");
 
 const Post = db.define("Post", {
   title: {
@@ -18,5 +19,8 @@ const Post = db.define("Post", {
     defaultValue: [],
   },
 });
+
+Post.hasMany(Comment, { foreignKey: "postId", as: "comments" });
+Comment.belongsTo(Post, { foreignKey: "postId", as: "post" });
 
 module.exports = Post;
