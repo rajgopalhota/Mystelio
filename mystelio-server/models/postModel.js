@@ -14,6 +14,10 @@ const Post = db.define("Post", {
   postImagePath: {
     type: DataTypes.STRING, // Store the path to the image file
   },
+  tags: {
+    type: DataTypes.JSON,
+    defaultValue: [],
+  },
   likes: {
     type: DataTypes.JSON,
     defaultValue: [],

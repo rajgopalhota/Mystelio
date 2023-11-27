@@ -1,6 +1,22 @@
 const Post = require("../models/postModel");
 const User = require("../models/userModel");
 const Comment = require("../models/commentModel");
+const path = require("path");
+const multer = require("multer");
+
+// Set up storage for multer
+const postsStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/posts/"); // Upload files to the 'uploads' folder
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    const ext = path.extname(file.originalname);
+    cb(null, file.fieldname + "-" + uniqueSuffix + ext);
+  },
+});
+
+exports.postPicUpload = multer({ storage: postsStorage });
 
 // Function to fetch likes with user information
 const fetchLikesWithUserInfo = async (likes) => {
@@ -17,13 +33,20 @@ const fetchLikesWithUserInfo = async (likes) => {
 // Create a new post
 exports.addPost = async (req, res) => {
   try {
-    const { title, content } = req.body;
     const userId = req.user.id;
 
+    let postImageUrl = null;
+
+    // Check if req.file exists before constructing the complete URL
+    if (req.file) {
+      postImageUrl = `${req.protocol}://${req.get("host")}/${req.file.path}`;
+    }
+
     const newPost = await Post.create({
-      title,
-      content,
-      userId,
+      title: req.body.title,
+      content: req.body.content,
+      postImagePath: postImageUrl,
+      tags: req.body.tags,
     });
 
     res.status(201).json({ message: "Post added successfully", post: newPost });

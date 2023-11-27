@@ -36,6 +36,7 @@ const Login = () => {
         token: response.data.token,
       };
       auth.login(user);
+      console.log(auth.user.token)
       // Handle the token as needed (e.g., store it in local storage or a state variable)
       toast.success("Login Successful");
 
