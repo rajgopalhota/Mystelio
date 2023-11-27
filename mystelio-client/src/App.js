@@ -27,7 +27,6 @@ const App = () => {
       />
       <Sidebar />
       <section className="content">
-        <h1>Mystelio App</h1>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />

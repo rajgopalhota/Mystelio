@@ -65,7 +65,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="login register">
+    <div className="formInputBox register">
       <div className="container">
         <div className="heading">
           <h1 className="title">
@@ -183,7 +183,7 @@ const Signup = () => {
             </label>
             <input type="file" accept="image/*" onChange={handleImageChange} />
           </div>
-          <button className="login-button" type="submit">
+          <button className="formInputBox-button" type="submit">
             Submit
           </button>
           <span className="agreement">

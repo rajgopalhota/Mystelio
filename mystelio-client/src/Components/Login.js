@@ -51,7 +51,7 @@ const Login = () => {
   };
 
   return (
-    <div className="login">
+    <div className="formInputBox">
       <div className="container">
         <div className="heading">
           <h1 className="title">
@@ -91,7 +91,7 @@ const Login = () => {
           <span className="forgot-password">
             <Link to="/">Forgot Password ?</Link>
           </span>
-          <input value="Sign In" type="submit" className="login-button" />
+          <input value="Sign In" type="submit" className="formInputBox-button" />
         </form>
 
         <span className="agreement">

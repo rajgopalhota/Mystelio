@@ -20,7 +20,7 @@
   background-color: var(--prussian-blue);
 }
 
-.login .container {
+.formInputBox .container {
   position: relative;
   margin: auto;
   max-width: 60%;
@@ -37,38 +37,38 @@
   box-shadow: var(--thistle) 0px 30px 30px -20px;
 }
 
-.login .heading {
+.formInputBox .heading {
   text-align: center;
   font-weight: 900;
   font-size: 1.7rem;
   color: var(--prussian-blue);
 }
 
-.login .form {
+.formInputBox .form {
   margin-top: 20px;
 }
 
-.login .form .input::-moz-placeholder {
+.formInputBox .form .input::-moz-placeholder {
   color: rgb(170, 170, 170);
 }
 
-.login .form .input::placeholder {
+.formInputBox .form .input::placeholder {
   color: rgb(170, 170, 170);
 }
 
-.login .form .forgot-password {
+.formInputBox .form .forgot-password {
   display: block;
   margin-top: 10px;
   margin-left: 10px;
 }
 
-.login .form .forgot-password a {
+.formInputBox .form .forgot-password a {
   font-size: 1.8rem;
   color: var(--prussian-blue);
   text-decoration: none;
 }
 
-.form .login-button {
+.form .formInputBox-button {
   font-size: 2rem;
   cursor: pointer;
   display: block;
@@ -88,23 +88,23 @@
   transition: all 0.2s ease-in-out;
 }
 
-.form .login-button:hover {
+.form .formInputBox-button:hover {
   transform: scale(1.03);
   box-shadow: var(--thistle) 0px 23px 10px -20px;
 }
 
-.form .login-button:active {
+.form .formInputBox-button:active {
   transform: scale(0.95);
   box-shadow: var(--thistle) 0px 15px 10px -10px;
 }
 
-.login .agreement {
+.formInputBox .agreement {
   display: block;
   text-align: center;
   margin-top: 15px;
 }
 
-.login .agreement a {
+.formInputBox .agreement a {
   text-decoration: none;
   color: var(--prussian-blue);
   font-size: 2rem;
@@ -116,13 +116,13 @@
   margin-top: 2.9rem;
 }
 
-.login .container .form {
+.formInputBox .container .form {
   margin-top: 15px;
 }
 input{
   text-transform: none !important;
 }
-.login .form .input-box {
+.formInputBox .form .input-box {
   width: 100%;
   background: white;
   border: none;
@@ -134,17 +134,17 @@ input{
   border-inline: 6px solid transparent;
 }
 
-.login .form .input-box:focus-within{
+.formInputBox .form .input-box:focus-within{
   outline: none;
   border-inline: 6px solid var(--prussian-blue);
 }
 
-.login .input-box label {
+.formInputBox .input-box label {
   color: #000;
   font-size: 1.9rem;
 }
 
-.login .form :where(.input-box input, .select-box) {
+.formInputBox .form :where(.input-box input, textarea, .select-box) {
   position: relative;
   height: 35px;
   width: 100%;
@@ -158,20 +158,20 @@ input{
   background: #eef4f5;
 }
 
-.login .input-box input:focus {
+.formInputBox .input-box input:focus, textarea:focus {
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
 }
 
-.login .form .column {
+.formInputBox .form .column {
   display: flex;
   column-gap: 15px;
 }
 
-.login .address :where(input, .select-box) {
+.formInputBox .address :where(input, textarea, .select-box) {
   margin-top: 10px;
 }
 
-.login .select-box select {
+.formInputBox .select-box select {
   height: 100%;
   width: 100%;
   outline: none;
@@ -198,16 +198,19 @@ input{
 input:focus-within{
   border: 2px solid var(--ut-orange) !important;
 }
+textarea:focus-within{
+  border: 2px solid var(--ut-orange) !important;
+}
 /* media queries */
 @media (max-width: 991px) {
-  .login .container {
+  .formInputBox .container {
     max-width: 98%;
     padding: 18px 2px;
   }
-  .login .form :where(.input-box input, .select-box) {
+  .formInputBox .form :where(.input-box input, .select-box) {
     font-size: 1.4rem;
   }
-  .login .form .column {
+  .formInputBox .form .column {
     flex-direction: column;
   }
 }

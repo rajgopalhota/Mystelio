@@ -5,12 +5,12 @@ const cookies = new Cookies();
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-
   const [user, setUser] = useState(null);
 
   const login = (userData) => {
     cookies.set("user", userData, {
       path: "/",
+      expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
     });
     setUser(userData);
   };
@@ -28,9 +28,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider
-      value={{ user, login, logout }}
-    >
+    <AuthContext.Provider value={{ user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

@@ -33,7 +33,10 @@ header {
   text-align: center;
   box-shadow: rgba(0, 0, 0, 0.759) 0px 22px 70px 4px;
   overflow-y: scroll;
-  background: var(--prussian-blue);
+  background-image: url(./../assets/images/header.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 header .logo {
