@@ -98,12 +98,19 @@ export default function AddPost() {
                 Tags
               </label>
               <div className="column">
-                <input
-                  type="file"
-                  accept="image/*"
-                  name="image"
-                  onChange={handleInputChange}
-                />
+                <div className="fileInputDiv">
+                  <label htmlFor="imageUpload">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>&nbsp;Upload Image
+                  </label>
+                  <input
+                    id="imageUpload"
+                    className="imageFile"
+                    type="file"
+                    accept="image/*"
+                    name="image"
+                    onChange={handleInputChange}
+                  />
+                </div>
                 <input
                   required=""
                   placeholder="Enter tags #mystelio"

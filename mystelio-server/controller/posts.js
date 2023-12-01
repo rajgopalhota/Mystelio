@@ -47,6 +47,7 @@ exports.addPost = async (req, res) => {
       content: req.body.content,
       postImagePath: postImageUrl,
       tags: req.body.tags,
+      userId
     });
 
     res.status(201).json({ message: "Post added successfully", post: newPost });
@@ -67,6 +68,8 @@ const fetchPostsWithInfo = async (posts) => {
         id: post.id,
         title: post.title,
         content: post.content,
+        postImagePath: post.postImagePath,
+        tags: post.tags,
         createdAt: post.createdAt,
         likes: likesWithUserInfo,
         created_user: post.user,
@@ -150,6 +153,8 @@ exports.getPostById = async (req, res) => {
       id: post.id,
       title: post.title,
       content: post.content,
+      postImagePath: post.postImagePath,
+      tags: post.tags,
       createdAt: post.createdAt,
       likes: likesWithUserInfo,
       created_user: post.user,

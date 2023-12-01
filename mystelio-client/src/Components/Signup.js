@@ -149,6 +149,31 @@ const Signup = () => {
           </div>
           <div className="input-box address">
             <label>
+              <i class="fa-solid fa-camera-retro"></i>&nbsp;More about you
+            </label>
+            <div className="column">
+              <div className="fileInputDiv">
+                <label htmlFor="imageUpload">
+                  <i class="fa-solid fa-cloud-arrow-up"></i>&nbsp;Upload Image
+                </label>
+                <input
+                  id="imageUpload"
+                  className="imageFile"
+                  type="file"
+                  accept="image/*"
+                  name="image"
+                  onChange={handleInputChange}
+                />
+              </div>
+              <input
+                required=""
+                placeholder="Enter preferred username"
+                type="text"
+              />
+            </div>
+          </div>
+          <div className="input-box address">
+            <label>
               <i className="fa-solid fa-folder-open"></i>&nbsp;Additional
               Details
             </label>
@@ -176,12 +201,6 @@ const Signup = () => {
                 onChange={handleInputChange}
               />
             </div>
-          </div>
-          <div className="input-box">
-            <label>
-              <i className="fa-solid fa-file-image"></i>&nbsp;Profile Image
-            </label>
-            <input type="file" accept="image/*" onChange={handleImageChange} />
           </div>
           <button className="formInputBox-button" type="submit">
             Submit
