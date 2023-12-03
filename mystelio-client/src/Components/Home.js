@@ -26,6 +26,9 @@ export default function Home() {
     <>
       <h1>Mystelio - Connect in Style</h1>
       <AddPost />
+      {/* <p>
+        {auth.user.token}
+      </p> */}
       <h1 className="postStart">Posts by Users</h1>
       <Posts posts={posts} />
     </>
