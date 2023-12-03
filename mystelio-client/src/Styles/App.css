@@ -4,7 +4,7 @@
   --thistle: #cdb4dbff;
   --fairy-tale: #ffc8ddff;
   --carnation-pink: #ffafccff;
-  --blue-green: #219ebcff;
+  --blue-green: rgb(108, 33, 188);
   --prussian-blue: #023047ff;
   --selective-yellow: #ffb703ff;
   --ut-orange: #fb8500ff;
@@ -39,7 +39,7 @@ html {
   overflow-x: hidden;
   scroll-behavior: smooth;
   color: var(--main-text-color);
-  background-image: linear-gradient(45deg, var(--hc1), var(--hc2));
+  background-image: url(./../assets/images/bg.jpg);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

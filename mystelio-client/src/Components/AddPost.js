@@ -53,6 +53,7 @@ export default function AddPost() {
         image: null,
         tags: "",
       });
+      toast.success("Post added!")
     } catch (error) {
       console.error("Post Submission Error:", error.message);
       toast.error("Post Failed");

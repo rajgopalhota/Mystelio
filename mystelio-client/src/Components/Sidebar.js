@@ -66,7 +66,7 @@ function Sidebar() {
           )}
           {auth.user && (
             <NavLink
-              to="/profile"
+              to="/users/{auth.user.}"
               onClick={handleClick}
               className="user-profile-link"
             >

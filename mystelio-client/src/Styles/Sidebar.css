@@ -83,10 +83,11 @@ header .navbar span{
 }
 header .navbar i{
   margin: 0 15px;
-  color: rgb(255, 217, 230);
-  text-shadow: 0 0 4px rgb(27, 46, 0);
+  color: rgb(231, 201, 162);
+  text-shadow: 0 0 4px rgb(27, 46, 0), 0 0 5px rgb(143, 106, 12), 0 0 15px rgb(237, 183, 46), 0 0 30px rgb(221, 196, 134);
   transform: scale(1.25);
 }
+
 header .navbar a:hover {
   transition: all 0.2s linear;
   background-color: var(--blue-green);

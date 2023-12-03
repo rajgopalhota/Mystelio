@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "./../UrlHelper";
 import { toast } from "react-toastify";
 import { useAuth } from "../AuthContext";
 
 const Login = () => {
-
+  const navigate = useNavigate();
   const auth = useAuth();
 
   const [formData, setFormData] = useState({
@@ -36,7 +36,7 @@ const Login = () => {
         token: response.data.token,
       };
       auth.login(user);
-      console.log(auth.user.token)
+      navigate("/")
       // Handle the token as needed (e.g., store it in local storage or a state variable)
       toast.success("Login Successful");
 

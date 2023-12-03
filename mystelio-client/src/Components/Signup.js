@@ -36,18 +36,31 @@ const Signup = () => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
     try {
-      const response = await axios.post("/auth/register", formData, {
+      // Create a FormData object to handle file uploads
+      const formDataToSend = new FormData();
+      formDataToSend.append("fullName", formData.fullName);
+      formDataToSend.append("phoneNumber", formData.phoneNumber);
+      formDataToSend.append("birthDate", formData.birthDate);
+      formDataToSend.append("password", formData.password);
+      formDataToSend.append("email", formData.email);
+      formDataToSend.append("country", formData.country);
+      formDataToSend.append("city", formData.city);
+      formDataToSend.append("profileImage", formData.profileImage);
+
+      // Make a POST request using Axios
+      const response = await axios.post("/auth/register", formDataToSend, {
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "multipart/form-data", // Important for file uploads
         },
       });
+
       toast.success(
         <>
           <i className="fa-solid fa-handshake"></i> {"Successfully Registered"}
         </>
       );
+
       // Clear form data after successful submission
       setFormData({
         fullName: "",
@@ -162,7 +175,7 @@ const Signup = () => {
                   type="file"
                   accept="image/*"
                   name="image"
-                  onChange={handleInputChange}
+                  onChange={handleImageChange}
                 />
               </div>
               <input
