@@ -5,7 +5,8 @@ const {
   profilePicsUpload,
   loginUser,
   getUserWithPosts,
-  getAllUsers
+  getAllUsers,
+  getSingleUser
 } = require("../controller/user");
 require("dotenv").config();
 const authMiddleware = require("../middleware/authMiddleware");
@@ -19,6 +20,8 @@ router.post(
 router.post("/login", loginUser);
 
 router.get("/user-with-posts",authMiddleware, getUserWithPosts);
+
+router.get("/user/:userId", getSingleUser);
 
 router.get("/allusers", getAllUsers);
 

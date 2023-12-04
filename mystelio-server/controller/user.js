@@ -43,11 +43,11 @@ exports.registerUser = async (req, res) => {
       return res.status(400).json({ error: error.details[0].message });
     }
     const em = req.body.email;
-    if(await User.findOne({ where: { email:em } })){
+    if (await User.findOne({ where: { email: em } })) {
       return res.status(400).json({ error: "Email already in use!" });
     }
     const ph = req.body.phoneNumber;
-    if(await User.findOne({ where: { phoneNumber:ph } })){
+    if (await User.findOne({ where: { phoneNumber: ph } })) {
       return res.status(400).json({ error: "Phone number already in use!" });
     }
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
@@ -194,6 +194,39 @@ exports.getAllUsers = async (req, res) => {
     console.error("Error fetching users with posts:", error);
     res.status(500).json({
       message: "Error fetching users with posts",
+      error: error.message,
+    });
+  }
+};
+
+exports.getSingleUser = async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+    // Find the user by ID along with their posts
+    const userWithPosts = await User.findOne({
+      where: { id: userId },
+      attributes: {
+        exclude: ["password"], // Exclude the password field
+      },
+      include: [
+        {
+          model: Post,
+          as: "posts",
+          attributes: ["id", "title", "content", "createdAt", "likes"],
+        },
+      ],
+    });
+
+    if (!userWithPosts) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({ user: userWithPosts });
+  } catch (error) {
+    console.error("Error fetching user with posts:", error);
+    res.status(500).json({
+      message: "Error fetching user with posts",
       error: error.message,
     });
   }

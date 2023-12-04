@@ -5,10 +5,12 @@ import Sidebar from "./Components/Sidebar";
 import Home from "./Components/Home";
 import "./Styles/App.css";
 import "./Styles/Sidebar.css";
+import "./Styles/ProfilePage.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Styles/UiVerse.css";
 import { Routes, Route } from "react-router-dom";
+import Profile from "./Components/Profile";
 
 const App = () => {
   return (
@@ -30,6 +32,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/users/:userId" element={<Profile />} />
           <Route path="/register" element={<Signup />} />
         </Routes>
       </section>

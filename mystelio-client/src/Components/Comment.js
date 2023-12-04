@@ -3,6 +3,7 @@ import { useAuth } from "../AuthContext";
 import axios from "../UrlHelper";
 import { toast } from "react-toastify";
 import Replies from "./Replies";
+import { Link } from "react-router-dom";
 
 function Comment({ postId, comments }) {
   const auth = useAuth();
@@ -105,9 +106,11 @@ function Comment({ postId, comments }) {
                       <i className="fa-regular fa-clock"></i>{" "}
                       {new Date(comment.createdAt).toLocaleString()}
                     </p>
+                    <Link to = {`/users/${comment.user.id}`} title={comment.user.fullName + "'s Profile"}>
                     <p>
                       <i class="fa-solid fa-user"></i> {comment.user.fullName}
                     </p>
+                    </Link>
                   </div>
                   {expandedReplies.includes(comment.id) && (
                     <Replies commentId={comment.id} replies={comment.replies} />

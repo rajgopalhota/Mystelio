@@ -296,6 +296,7 @@ textarea:focus {
 .formInputBox textarea:focus-within {
   border: 2px solid var(--ut-orange) !important;
 }
+
 /* media queries */
 @media (max-width: 991px) {
   .formInputBox .container {

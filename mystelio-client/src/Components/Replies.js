@@ -3,6 +3,7 @@ import React from "react";
 import { useAuth } from "../AuthContext";
 import axios from "../UrlHelper";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 export default function Replies({ commentId, replies }) {
   const auth = useAuth();
@@ -67,6 +68,7 @@ export default function Replies({ commentId, replies }) {
               <div>
                 {replies.map((r) => (
                   <div key={r.id} className="replyBox">
+                    <Link to = {`/users/${r.user.id}`} title={r.user.fullName + "'s Profile"}>
                     <p>
                       <img
                         src={r.user.profileImagePath}
@@ -74,6 +76,7 @@ export default function Replies({ commentId, replies }) {
                       />
                       {r.user.fullName}
                     </p>
+                    </Link>
                     <p>
                       <i class="fa-solid fa-comment-dots"></i>
                       {r.reply}

@@ -4,6 +4,7 @@ import logo from "./../assets/logo.jpg";
 import axios from "./../UrlHelper";
 import Comment from "./Comment";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const Posts = ({ posts }) => {
   const auth = useAuth();
@@ -63,10 +64,12 @@ const Posts = ({ posts }) => {
               src={post.created_user.profileImagePath || logo}
               alt={post.created_user.fullName}
             />
-            <p className="user-name">
-              {post.created_user.fullName} &nbsp;
-              <i className="fa-solid fa-feather"></i>
-            </p>
+            <Link to = {`/users/${post.created_user.id}`}>
+              <p className="user-name">
+                {post.created_user.fullName} &nbsp;
+                <i className="fa-solid fa-feather"></i>
+              </p>
+            </Link>
           </div>
           {post.postImagePath && (
             <img
