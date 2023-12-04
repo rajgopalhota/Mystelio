@@ -41,8 +41,8 @@ html {
   color: var(--main-text-color);
   background-image: url(./../assets/images/bg.jpg);
   background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background-position: center center fixed;
+  background-repeat: repeat;
 }
 
 body {
@@ -97,59 +97,6 @@ h1{
 }
 .imageFile{
   display: none;
-}
-/* post css */
-.posts {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 1.6rem;
-}
-
-.post {
-  width: 95%;
-  border: 1px solid var(--prussian-blue);
-  border-radius: 10px;
-  margin: 20px 0;
-  padding: 20px;
-  box-shadow: 0 2px 8px var(--blue-green);
-  overflow: hidden;
-  background-image: linear-gradient(45deg, var(--bg-2));
-  background-size: cover;
-}
-
-.post-header {
-  display: flex;
-  align-items: center;
-}
-
-.user-image {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-right: 10px;
-}
-
-.user-name {
-  font-weight: bold;
-  color: var(--prussian-blue) !important;
-}
-
-.post-image {
-  width: 100%;
-  height: auto;
-  margin: 20px 0;
-}
-
-.post h2 {
-  color: var(--prussian-blue);
-  
-}
-
-.post p {
-  color: var(--selective-yellow);
 }
 
 /* media queries  */

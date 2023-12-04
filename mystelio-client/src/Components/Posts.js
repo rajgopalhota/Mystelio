@@ -30,52 +30,99 @@ const Posts = ({ posts }) => {
       console.error("Error liking post:", error);
     }
   };
+  const [expandedPosts, setExpandedPosts] = useState([]);
+  const handleExpandPost = (postId) => {
+    setExpandedPosts((prevExpandedPosts) => [...prevExpandedPosts, postId]);
+  };
   return (
     <div className="posts">
       {posts.map((post) => (
         <div className="post" key={post.id}>
-          <div className="post-header">
+          <div className="post-header posstInfo">
             <img
               className="user-image"
               src={post.created_user.profileImagePath || logo}
               alt={post.created_user.fullName}
             />
-            <p className="user-name">{post.created_user.fullName}</p>
+            <p className="user-name">{post.created_user.fullName} &nbsp;<i class="fa-solid fa-feather"></i></p>
           </div>
+          {post.postImagePath && (
+            <img
+              className="post-image"
+              src={post.postImagePath}
+              alt={post.title}
+            />
+          )}
           <div className="post-container">
-            {post.postImagePath && (
-              <img
-                className="post-image"
-                src={post.postImagePath}
-                alt={post.title}
-              />
-            )}
-            <h2>{post.title}</h2>
-            <p>{post.content}</p>
-          </div>
-          <p>Created at: {new Date(post.createdAt).toLocaleString()}</p>
-          <p>Tags: {post.tags}</p>
-          <p>Likes: {post.likes.length}</p>
-          {auth.user.id &&
-          post.likes.some((user) => user.id === auth.user.id) ? (
-            // If the logged-in user's ID is in the likes array, show Dislike button
-            <button onClick={() => handleDislike(post.id)}>
-              <i className="fas fa-thumbs-down"></i> Dislike
-            </button>
-          ) : (
-            // If the logged-in user's ID is NOT in the likes array, show Like button
-            <button onClick={() => handleLike(post.id)}>
-              <i className="fas fa-thumbs-up"></i> Like
-            </button>
-          )}
-          {post.comments.length > 0 && (
-            <div>
-              <h3>Comments:</h3>
-              {post.comments.map((comment, index) => (
-                <p key={index}>{comment}</p>
-              ))}
+            <h2><i class="fa-solid fa-blog"></i>&nbsp;{post.title}</h2>
+            <div className="content">
+              {expandedPosts.includes(post.id) ? (
+                // If post is expanded, show full content
+                <p>{post.content}</p>
+              ) : (
+                // If post is not expanded, show only 2 lines and "Read more" link
+                <div>
+                  <p>
+                    {post.content.slice(0, 20)}......
+                    {post.content.length > 20 && (
+                      <span
+                        onClick={() => handleExpandPost(post.id)}
+                        className="read-more"
+                      >
+                        &nbsp;Read more{" "}
+                        <i class="fa-solid fa-angles-right fa-fade"></i>
+                      </span>
+                    )}
+                  </p>
+                </div>
+              )}
             </div>
-          )}
+          </div>
+          <div className="posstInfo">
+            <div className="hashtags">
+              <p>
+                <i className="fa-solid fa-tags"></i> {post.tags}
+              </p>
+            </div>
+            <div className="posstInfo-footer">
+              {auth.user.id &&
+              post.likes.some((user) => user.id === auth.user.id) ? (
+                // If the logged-in user's ID is in the likes array, show Dislike button
+                <button
+                  onClick={() => handleDislike(post.id)}
+                  className="likebutton"
+                >
+                  <i className="fa-solid fa-heart"></i>{" "}
+                  <p>{post.likes.length}</p>
+                </button>
+              ) : (
+                // If the logged-in user's ID is NOT in the likes array, show Like button
+                <button
+                  onClick={() => handleLike(post.id)}
+                  className="likebutton likebtn"
+                >
+                  <i className="fa-regular fa-heart"></i>{" "}
+                  <p>{post.likes.length}</p>
+                </button>
+              )}
+              <p className="comments">
+                <i className="fa-regular fa-comments"></i>&nbsp;
+                {post.comments.length}
+              </p>
+              {post.comments.length > 0 && (
+                <div>
+                  <h3>Comments:</h3>
+                  {post.comments.map((comment, index) => (
+                    <p key={index}>{comment}</p>
+                  ))}
+                </div>
+              )}
+              <p>
+                <i className="fa-regular fa-clock"></i>{" "}
+                {new Date(post.createdAt).toLocaleString()}
+              </p>
+            </div>
+          </div>
         </div>
       ))}
     </div>

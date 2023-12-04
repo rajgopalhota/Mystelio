@@ -119,7 +119,7 @@
 .formInputBox .container .form {
   margin-top: 15px;
 }
-input{
+input {
   text-transform: none !important;
 }
 .formInputBox .form .input-box {
@@ -134,7 +134,7 @@ input{
   border-inline: 6px solid transparent;
 }
 
-.formInputBox .form .input-box:focus-within{
+.formInputBox .form .input-box:focus-within {
   outline: none;
   border-inline: 6px solid var(--prussian-blue);
 }
@@ -158,7 +158,8 @@ input{
   background: #eef4f5;
 }
 
-.formInputBox .input-box input:focus, textarea:focus {
+.formInputBox .input-box input:focus,
+textarea:focus {
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
 }
 
@@ -180,7 +181,102 @@ input{
   font-size: 1.9rem;
   background: #eef4f5;
 }
+.posstInfo {
+  padding: 10px 0px;
+  background-color: var(--prussian-blue);
+  box-shadow: 0 7px 20px var(--prussian-blue);
+  color: var(--selective-yellow);
+}
+.posstInfo .hashtags{
+  margin-bottom: 10px;
+}
+.posstInfo-footer {
+  justify-content: space-around;
+  display: flex;
+  margin-top: 10px;
+}
+.posts p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
+.likebutton {
+  border: none;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  color: var(--selective-yellow);
+}
+
+.posstInfo i {
+  cursor: pointer;
+  font-size: 2.2rem;
+  color: rgb(242, 64, 64);
+  margin-right: 13px;
+  text-shadow: 0 0 2px rgb(27, 46, 0), 0 0 2px var(--prussian-blue);
+}
+
+.likebtn:hover i {
+  animation: pulse 0.5s;
+}
+
+/* post css */
+.posts {
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.6rem;
+}
+
+.post {
+  width: 95%;
+  border: 1px solid var(--prussian-blue);
+  border-radius: 10px;
+  margin: 20px 0;
+  box-shadow: 0 2px 8px var(--blue-green);
+  overflow: hidden;
+  background-image: linear-gradient(45deg, var(--bg-2));
+  background-size: cover;
+  backdrop-filter: blur(12px);
+  background-color: rgba(240, 248, 255, 0.2);
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  font-size: 2rem;
+}
+
+.user-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 20px;
+  padding: 2px;
+  background-image: linear-gradient(aliceblue, rgb(255, 34, 71), yellow, red, purple, green);
+}
+
+.post-container{
+  margin: 10px;
+}
+.post-container .read-more{
+  cursor: pointer;
+  color: red;
+}
+.post-image {
+  width: 100%;
+  height: auto;
+  margin: 0;
+}
+
+.post h2 {
+  color: var(--prussian-blue);
+  
+}
 
 
 @keyframes pulse {
@@ -195,10 +291,10 @@ input{
   }
 }
 
-input:focus-within{
+input:focus-within {
   border: 2px solid var(--ut-orange) !important;
 }
-textarea:focus-within{
+textarea:focus-within {
   border: 2px solid var(--ut-orange) !important;
 }
 /* media queries */
