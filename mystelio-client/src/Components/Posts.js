@@ -112,7 +112,7 @@ const Posts = ({ posts }) => {
               </p>
             </div>
             <div className="posstInfo-footer">
-              {auth.user.id &&
+              {auth.user && auth.user.id &&
               post.likes.some((user) => user.id === auth.user.id) ? (
                 // If the logged-in user's ID is in the likes array, show Dislike button
                 <button
