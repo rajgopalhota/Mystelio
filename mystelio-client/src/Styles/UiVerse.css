@@ -269,9 +269,10 @@ textarea:focus {
 }
 .post-image {
   width: 100%;
-  height: auto;
+  overflow: hidden;
   margin: 0;
 }
+
 
 .post h2 {
   color: var(--prussian-blue);
@@ -291,10 +292,10 @@ textarea:focus {
   }
 }
 
-input:focus-within {
+.formInputBox input:focus-within {
   border: 2px solid var(--ut-orange) !important;
 }
-textarea:focus-within {
+.formInputBox textarea:focus-within {
   border: 2px solid var(--ut-orange) !important;
 }
 /* media queries */

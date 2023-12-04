@@ -94,7 +94,6 @@ exports.getLoggedInUserPosts = async (req, res) => {
         {
           model: Comment,
           as: "comments",
-          attributes: ["id", "comment", "replies", "userId"],
           include: [
             {
               model: User,
@@ -131,7 +130,6 @@ exports.getPostById = async (req, res) => {
         {
           model: Comment,
           as: "comments",
-          attributes: ["id", "comment", "replies", "userId"],
           include: [
             {
               model: User,
@@ -183,7 +181,6 @@ exports.getPosts = async (req, res) => {
         {
           model: Comment,
           as: "comments",
-          attributes: ["id", "comment", "replies", "userId"],
           include: [
             {
               model: User,

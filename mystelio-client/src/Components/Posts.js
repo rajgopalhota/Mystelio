@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useAuth } from "../AuthContext";
 import logo from "./../assets/logo.jpg";
 import axios from "./../UrlHelper";
+import Comment from "./Comment";
+import { toast } from "react-toastify";
 
 const Posts = ({ posts }) => {
   const auth = useAuth();
@@ -14,26 +16,43 @@ const Posts = ({ posts }) => {
           Authorization: authToken,
         },
       });
+      toast.success(response.message);
     } catch (error) {
       console.error("Error liking post:", error);
     }
   };
+
   const handleDislike = async (postId) => {
     try {
       const authToken = auth.user.token;
-      const response = await axios.get(`/posts/unlike/${postId}`, {
+      await axios.get(`/posts/unlike/${postId}`, {
         headers: {
           Authorization: authToken,
         },
       });
     } catch (error) {
-      console.error("Error liking post:", error);
+      console.error("Error disliking post:", error);
     }
   };
+
   const [expandedPosts, setExpandedPosts] = useState([]);
+  const [expandedComments, setExpandedComments] = useState([]);
+
   const handleExpandPost = (postId) => {
     setExpandedPosts((prevExpandedPosts) => [...prevExpandedPosts, postId]);
   };
+
+  const handleExpandComments = (postId) => {
+    setExpandedComments((prevExpandedComments) => {
+      // If the postId is already in the state, remove it; otherwise, add it
+      if (prevExpandedComments.includes(postId)) {
+        return prevExpandedComments.filter((id) => id !== postId);
+      } else {
+        return [...prevExpandedComments, postId];
+      }
+    });
+  };
+
   return (
     <div className="posts">
       {posts.map((post) => (
@@ -44,7 +63,10 @@ const Posts = ({ posts }) => {
               src={post.created_user.profileImagePath || logo}
               alt={post.created_user.fullName}
             />
-            <p className="user-name">{post.created_user.fullName} &nbsp;<i class="fa-solid fa-feather"></i></p>
+            <p className="user-name">
+              {post.created_user.fullName} &nbsp;
+              <i className="fa-solid fa-feather"></i>
+            </p>
           </div>
           {post.postImagePath && (
             <img
@@ -54,7 +76,9 @@ const Posts = ({ posts }) => {
             />
           )}
           <div className="post-container">
-            <h2><i class="fa-solid fa-blog"></i>&nbsp;{post.title}</h2>
+            <h2>
+              <i className="fa-solid fa-blog"></i>&nbsp;{post.title}
+            </h2>
             <div className="content">
               {expandedPosts.includes(post.id) ? (
                 // If post is expanded, show full content
@@ -63,14 +87,14 @@ const Posts = ({ posts }) => {
                 // If post is not expanded, show only 2 lines and "Read more" link
                 <div>
                   <p>
-                    {post.content.slice(0, 20)}......
-                    {post.content.length > 20 && (
+                    {post.content.slice(0, 200)}......
+                    {post.content.length > 200 && (
                       <span
                         onClick={() => handleExpandPost(post.id)}
                         className="read-more"
                       >
                         &nbsp;Read more{" "}
-                        <i class="fa-solid fa-angles-right fa-fade"></i>
+                        <i className="fa-solid fa-angles-right fa-fade"></i>
                       </span>
                     )}
                   </p>
@@ -105,23 +129,21 @@ const Posts = ({ posts }) => {
                   <p>{post.likes.length}</p>
                 </button>
               )}
-              <p className="comments">
+              <p
+                className="comments"
+                onClick={() => handleExpandComments(post.id)}
+              >
                 <i className="fa-regular fa-comments"></i>&nbsp;
                 {post.comments.length}
               </p>
-              {post.comments.length > 0 && (
-                <div>
-                  <h3>Comments:</h3>
-                  {post.comments.map((comment, index) => (
-                    <p key={index}>{comment}</p>
-                  ))}
-                </div>
-              )}
               <p>
                 <i className="fa-regular fa-clock"></i>{" "}
                 {new Date(post.createdAt).toLocaleString()}
               </p>
             </div>
+            {expandedComments.includes(post.id) && (
+              <Comment postId={post.id} comments={post.comments} />
+            )}
           </div>
         </div>
       ))}

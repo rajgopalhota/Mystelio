@@ -36,7 +36,7 @@ function Sidebar() {
           </NavLink>
           <NavLink to="/friends" onClick={handleClick}>
             <span>
-            <i class="fa-solid fa-people-robbery"></i>friends
+              <i class="fa-solid fa-people-robbery"></i>friends
             </span>
           </NavLink>
           <NavLink to="/explore" onClick={handleClick}>
@@ -66,7 +66,7 @@ function Sidebar() {
           )}
           {auth.user && (
             <NavLink
-              to="/users/{auth.user.}"
+              to={`/users/${auth.user.id}`}
               onClick={handleClick}
               className="user-profile-link"
             >
