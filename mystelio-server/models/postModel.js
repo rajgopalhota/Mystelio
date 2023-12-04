@@ -24,7 +24,11 @@ const Post = db.define("Post", {
   },
 });
 
-Post.hasMany(Comment, { foreignKey: "postId", as: "comments" });
+Post.hasMany(Comment, {
+  foreignKey: "postId",
+  as: "comments",
+  onDelete: "CASCADE",
+});
 Comment.belongsTo(Post, { foreignKey: "postId", as: "post" });
 
 module.exports = Post;
