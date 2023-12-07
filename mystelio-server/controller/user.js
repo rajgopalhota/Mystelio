@@ -56,7 +56,7 @@ exports.registerUser = async (req, res) => {
 
     // Check if req.file exists before constructing the complete URL
     if (req.file) {
-      profileImageUrl = `${req.protocol}://${req.get("host")}/${req.file.path}`;
+      profileImageUrl = req.file.path;
     }
 
     // Create a new user in the database

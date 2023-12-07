@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "../AuthContext";
-import axios from "../UrlHelper";
+import axios, {serverUrl} from "../UrlHelper";
 import { toast } from "react-toastify";
 import Replies from "./Replies";
 import { Link } from "react-router-dom";
@@ -59,7 +59,7 @@ function Comment({ postId, comments }) {
           <>
             <div className="user-comment-box">
               <img
-                src={auth.user.profileImage}
+                src={`${serverUrl}/${auth.user.profileImage}`}
                 className="user-image"
                 alt="User"
               />
@@ -88,7 +88,7 @@ function Comment({ postId, comments }) {
                   <div className="comment-body">
                     <img
                       className="user-image"
-                      src={comment.user.profileImagePath}
+                      src={`${serverUrl}/${comment.user.profileImagePath}`}
                       alt="User"
                     />
                     <p>{comment.comment}</p>

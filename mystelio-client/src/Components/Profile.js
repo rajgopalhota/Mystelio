@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import axios from "../UrlHelper";
+import axios, { serverUrl } from "../UrlHelper";
 
 export default function Profile() {
   const [user, setUser] = useState(null);
@@ -23,7 +23,7 @@ export default function Profile() {
     <>
       {user && (
         <div className="profilePage">
-          <img className="userImg" src={user.profileImagePath} alt="User" />
+          <img className="userImg" src={`${serverUrl}/${user.profileImagePath}`} alt="User" />
           <div className="userContainer">
             <div className="formInputBox register">
               <div className="container">

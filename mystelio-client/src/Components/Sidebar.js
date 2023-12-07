@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import logo from "./../assets/logo.jpg";
 import { NavLink, Link } from "react-router-dom";
 import { useAuth } from "../AuthContext";
+import {serverUrl} from "./../UrlHelper"
 
 function Sidebar() {
   const auth = useAuth();
@@ -10,7 +11,6 @@ function Sidebar() {
   const handleClick = () => {
     setMenu(!menu);
   };
-
   return (
     <div>
       <i
@@ -72,7 +72,7 @@ function Sidebar() {
             >
               <span className="user-profile-content">
                 <img
-                  src={auth.user.profileImage}
+                  src={`${serverUrl}/${auth.user.profileImage}`}
                   alt="Profile"
                   className="profile-image"
                 />

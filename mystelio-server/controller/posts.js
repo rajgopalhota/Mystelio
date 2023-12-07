@@ -39,7 +39,7 @@ exports.addPost = async (req, res) => {
 
     // Check if req.file exists before constructing the complete URL
     if (req.file) {
-      postImageUrl = `${req.protocol}://${req.get("host")}/${req.file.path}`;
+      postImageUrl = req.file.path;
     }
 
     const newPost = await Post.create({

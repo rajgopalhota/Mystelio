@@ -1,7 +1,7 @@
 import { useState } from "react";
 import React from "react";
 import { useAuth } from "../AuthContext";
-import axios from "../UrlHelper";
+import axios, { serverUrl } from "../UrlHelper";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 
@@ -71,7 +71,7 @@ export default function Replies({ commentId, replies }) {
                     <Link to = {`/users/${r.user.id}`} title={r.user.fullName + "'s Profile"}>
                     <p>
                       <img
-                        src={r.user.profileImagePath}
+                        src={`${serverUrl}/${r.user.profileImagePath}`}
                         className="user-image replyimgusr"
                       />
                       {r.user.fullName}
