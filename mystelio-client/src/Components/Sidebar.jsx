@@ -14,13 +14,13 @@ function Sidebar() {
   return (
     <div>
       <i
-        className={menu ? "fas fa-times" : "fas fa-bars"}
+        className={menu ? "fa-brands fa-square-x-twitter cross" : "fas fa-bars"}
         id="menu-bars"
         onClick={handleClick}
       ></i>
       <header className={`${menu ? "smallact" : ""}`}>
         <Link to="/" className="logo" onClick={handleClick}>
-          <img src={logo} alt="Logo" className="logo-image" />
+          <img src={auth.user&&`${serverUrl}/${auth.user.profileImage}`||logo} alt="Logo" className="logo-image" />
           <div className="quote">
             <p>
               <i className="fa-brands fa-tiktok fa-fade"></i>&nbsp;Mystelio -

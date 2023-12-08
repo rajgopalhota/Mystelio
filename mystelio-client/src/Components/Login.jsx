@@ -36,7 +36,7 @@ const Login = () => {
         token: response.data.token,
       };
       auth.login(user);
-      navigate("/")
+      navigate("/");
       // Handle the token as needed (e.g., store it in local storage or a state variable)
       toast.success("Login Successful");
 
@@ -92,7 +92,11 @@ const Login = () => {
           <span className="forgot-password">
             <Link to="/">Forgot Password ?</Link>
           </span>
-          <input value="Sign In" type="submit" className="formInputBox-button" />
+          <input
+            value="Sign In"
+            type="submit"
+            className="formInputBox-button"
+          />
         </form>
 
         <span className="agreement">

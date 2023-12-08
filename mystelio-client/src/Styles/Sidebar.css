@@ -50,13 +50,16 @@ header .quote{
 header .logo img {
   width: 100px;
   border-radius: 50%;
-  filter: saturate(2.5);
   border: 4px solid var(--bg-2);
   padding: 4px;
+  filter: saturate(1.1);
+}
+.cross{
+  color: white;
 }
 header .logo img:hover {
   padding: 0;
-  filter: brightness(1.2) saturate(1.5);
+  filter: brightness(1.1);
 }
 
 .navbar{

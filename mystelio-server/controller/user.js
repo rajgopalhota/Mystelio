@@ -150,17 +150,20 @@ exports.fetchUserByToken = async (req, res) => {
   try {
     // Return user data (excluding password)
     res.status(200).json({
-      id: req.user.id,
-      fullName: req.user.fullName,
-      username: user.username,
-      phoneNumber: req.user.phoneNumber,
-      birthDate: req.user.birthDate,
-      email: req.user.email,
-      country: req.user.country,
-      city: req.user.city,
-      creted_at: req.user.createdAt,
-      updated_at: req.user.updatedAt,
-      profileImage: req.user.profileImagePath,
+      success: "true",
+      user: {
+        id: req.user.id,
+        fullName: req.user.fullName,
+        username: req.user.username,
+        phoneNumber: req.user.phoneNumber,
+        birthDate: req.user.birthDate,
+        email: req.user.email,
+        country: req.user.country,
+        city: req.user.city,
+        creted_at: req.user.createdAt,
+        updated_at: req.user.updatedAt,
+        profileImage: req.user.profileImagePath,
+      },
     });
   } catch (error) {
     console.error("Error fetching user:", error);

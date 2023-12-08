@@ -6,7 +6,8 @@ const {
   loginUser,
   getUserWithPosts,
   getAllUsers,
-  getSingleUser
+  getSingleUser,
+  fetchUserByToken
 } = require("../controller/user");
 require("dotenv").config();
 const authMiddleware = require("../middleware/authMiddleware");
@@ -21,7 +22,7 @@ router.post("/login", loginUser);
 
 router.get("/user-with-posts",authMiddleware, getUserWithPosts);
 
-router.get("/fetch-user", authMiddleware, )
+router.get("/fetch-user", authMiddleware, fetchUserByToken);
 
 router.get("/user/:userId", getSingleUser);
 

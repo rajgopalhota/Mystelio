@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../Context/AuthContext";
 import logo from "./../assets/logo.jpg";
-import axios, {serverUrl} from "../UrlHelper";
+import axios, { serverUrl } from "../UrlHelper";
 import Comment from "./Comment";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
@@ -61,8 +61,11 @@ const Posts = ({ posts }) => {
           <div className="post-header posstInfo">
             <img
               className="user-image"
-              // src={post.created_user.profileImagePath || logo}
-              src={`${serverUrl}/${auth.user.profileImage}` || logo}
+              src={
+                (post.created_user.profileImagePath &&
+                  `${serverUrl}/${post.created_user.profileImagePath}`) ||
+                logo
+              }
               alt={post.created_user.fullName}
             />
             <Link to={`/users/${post.created_user.id}`}>
@@ -91,8 +94,8 @@ const Posts = ({ posts }) => {
                 // If post is not expanded, show only 2 lines and "Read more" link
                 <div>
                   <p>
-                    {post.content.slice(0, 200)}......
-                    {post.content.length > 200 && (
+                    {post.content.slice(0, 300)}......
+                    {post.content.length > 300 && (
                       <span
                         onClick={() => handleExpandPost(post.id)}
                         className="read-more"

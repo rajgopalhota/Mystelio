@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios, { serverUrl } from "../UrlHelper";
+import logo from "./../assets/logo.jpg";
+
 
 export default function Profile() {
   const [user, setUser] = useState(null);
@@ -23,7 +25,15 @@ export default function Profile() {
     <>
       {user && (
         <div className="profilePage">
-          <img className="userImg" src={`${serverUrl}/${user.profileImagePath}`} alt="User" />
+          <img
+            className="userImg"
+            src={
+              (user.profileImagePath &&
+                `${serverUrl}/${user.profileImagePath}`) ||
+              logo
+            }
+            alt="User"
+          />
           <div className="userContainer">
             <div className="formInputBox register">
               <div className="container">
@@ -87,18 +97,22 @@ export default function Profile() {
                     </div>
                     <div className="input-box">
                       <label>
-                      <i class="fa-solid fa-user-group"></i>&nbsp;Followers
+                        <i class="fa-solid fa-user-group"></i>&nbsp;Followers
                       </label>
                       <input
                         required=""
                         placeholder="Enter birth date"
                         type="text"
                         name="birthDate"
-                        value={"Followers: " + user.followers.length + "\tFollowing: "+user.following.length}
+                        value={
+                          "Followers: " +
+                          user.followers.length +
+                          "\tFollowing: " +
+                          user.following.length
+                        }
                         readOnly
                       />
                     </div>
-                    
                   </div>
                   <div className="column">
                     <div className="input-box address">
