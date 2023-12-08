@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "./../UrlHelper";
+import axios from "../UrlHelper";
 import { toast } from "react-toastify";
 
 // Countries data in JSON format
@@ -16,6 +16,7 @@ const Signup = () => {
   const [formData, setFormData] = useState({
     fullName: "",
     phoneNumber: "",
+    username: "",
     birthDate: "",
     password: "",
     email: "",
@@ -40,6 +41,7 @@ const Signup = () => {
       // Create a FormData object to handle file uploads
       const formDataToSend = new FormData();
       formDataToSend.append("fullName", formData.fullName);
+      formDataToSend.append("userName", formData.username);
       formDataToSend.append("phoneNumber", formData.phoneNumber);
       formDataToSend.append("birthDate", formData.birthDate);
       formDataToSend.append("password", formData.password);
@@ -65,6 +67,7 @@ const Signup = () => {
       setFormData({
         fullName: "",
         phoneNumber: "",
+        username: "",
         birthDate: "",
         password: "",
         email: "",
@@ -182,6 +185,9 @@ const Signup = () => {
                 required=""
                 placeholder="Enter preferred username"
                 type="text"
+                name="username"
+                value={formData.username}
+                onChange={handleInputChange}
               />
             </div>
           </div>

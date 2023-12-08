@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../AuthContext";
+import { useAuth } from "../Context/AuthContext";
 import AddPost from "./AddPost";
-import axios from "./../UrlHelper";
+import axios from "../UrlHelper";
 import Posts from "./Posts";
 
 export default function Home() {

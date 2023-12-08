@@ -23,7 +23,7 @@ const fetchLikesWithUserInfo = async (likes) => {
   return Promise.all(
     (likes || []).map(async (userId) => {
       const likedUser = await User.findByPk(userId, {
-        attributes: ["id", "fullName", "email", "profileImagePath"],
+        attributes: ["id", "fullName", "username", "email", "profileImagePath"],
       });
       return likedUser;
     })
@@ -89,7 +89,7 @@ exports.getLoggedInUserPosts = async (req, res) => {
         {
           model: User,
           as: "user",
-          attributes: ["id", "fullName", "email", "profileImagePath"],
+          attributes: ["id", "fullName", "username", "email", "profileImagePath"],
         },
         {
           model: Comment,
@@ -98,7 +98,7 @@ exports.getLoggedInUserPosts = async (req, res) => {
             {
               model: User,
               as: "user", // Match the alias used in the association
-              attributes: ["id", "fullName", "profileImagePath"],
+              attributes: ["id", "fullName", "username", "profileImagePath"],
             },
           ],
         },
@@ -125,7 +125,7 @@ exports.getPostById = async (req, res) => {
         {
           model: User,
           as: "user",
-          attributes: ["id", "fullName", "email", "profileImagePath"],
+          attributes: ["id", "fullName", "username", "email", "profileImagePath"],
         },
         {
           model: Comment,
@@ -134,7 +134,7 @@ exports.getPostById = async (req, res) => {
             {
               model: User,
               as: "user", // Match the alias used in the association
-              attributes: ["id", "fullName", "profileImagePath"],
+              attributes: ["id", "fullName", "username", "profileImagePath"],
             },
           ],
         },
@@ -176,7 +176,7 @@ exports.getPosts = async (req, res) => {
         {
           model: User,
           as: "user",
-          attributes: ["id", "fullName", "email", "profileImagePath"],
+          attributes: ["id", "fullName", "username", "email", "profileImagePath"],
         },
         {
           model: Comment,
@@ -185,7 +185,7 @@ exports.getPosts = async (req, res) => {
             {
               model: User,
               as: "user", // Match the alias used in the association
-              attributes: ["id", "fullName", "profileImagePath"],
+              attributes: ["id", "fullName", "username", "profileImagePath"],
             },
           ],
         },
@@ -224,7 +224,6 @@ exports.likePost = async (req, res) => {
 
     try {
       await post.save();
-      console.log("Post saved successfully");
       res.status(200).json({ message: "Post liked successfully", post: post });
     } catch (error) {
       console.error("Error saving post:", error);
@@ -261,7 +260,6 @@ exports.unlikePost = async (req, res) => {
 
     try {
       await post.save();
-      console.log("Post saved successfully");
       res
         .status(200)
         .json({ message: "Post unliked successfully", post: post });

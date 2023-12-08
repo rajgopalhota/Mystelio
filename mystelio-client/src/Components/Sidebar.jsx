@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import logo from "./../assets/logo.jpg";
 import { NavLink, Link } from "react-router-dom";
-import { useAuth } from "../AuthContext";
-import {serverUrl} from "./../UrlHelper"
+import { useAuth } from "../Context/AuthContext";
+import {serverUrl} from "../UrlHelper"
 
 function Sidebar() {
   const auth = useAuth();

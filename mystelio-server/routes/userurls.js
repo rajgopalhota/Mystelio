@@ -21,6 +21,8 @@ router.post("/login", loginUser);
 
 router.get("/user-with-posts",authMiddleware, getUserWithPosts);
 
+router.get("/fetch-user", authMiddleware, )
+
 router.get("/user/:userId", getSingleUser);
 
 router.get("/allusers", getAllUsers);

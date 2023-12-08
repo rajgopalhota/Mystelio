@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { useAuth } from "../AuthContext";
+import { useAuth } from "../Context/AuthContext";
 import logo from "./../assets/logo.jpg";
-import axios, {serverUrl} from "./../UrlHelper";
+import axios, {serverUrl} from "../UrlHelper";
 import Comment from "./Comment";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";

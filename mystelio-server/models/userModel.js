@@ -8,6 +8,10 @@ const User = db.define("User", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  username: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   phoneNumber: {
     type: DataTypes.STRING,
     allowNull: false,

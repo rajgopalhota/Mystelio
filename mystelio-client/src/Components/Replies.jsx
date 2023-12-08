@@ -1,6 +1,6 @@
 import { useState } from "react";
 import React from "react";
-import { useAuth } from "../AuthContext";
+import { useAuth } from "../Context/AuthContext";
 import axios, { serverUrl } from "../UrlHelper";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
