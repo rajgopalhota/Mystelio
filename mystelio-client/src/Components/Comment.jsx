@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { useAuth } from "../Context/AuthContext";
-import axios, {serverUrl} from "../UrlHelper";
+import axios, { serverUrl } from "../UrlHelper";
 import { toast } from "react-toastify";
 import Replies from "./Replies";
 import { Link } from "react-router-dom";
+import { usePost } from "../Context/PostContext";
 
 function Comment({ postId, comments }) {
   const auth = useAuth();
+  const postContext = usePost();
   const [newComment, setNewComment] = useState("");
 
   const [expandedReplies, setExpandedReplies] = useState([]);
@@ -24,31 +26,15 @@ function Comment({ postId, comments }) {
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
-    try {
-      if (newComment === "") {
-        toast(
-          <>
-            <i class="fa-solid fa-heart-crack"></i> {"Write something..."}
-          </>
-        );
-      } else {
-        const authToken = auth.user.token;
-        await axios.post(
-          `/comment/add/${postId}`,
-          {
-            comment: newComment,
-          },
-          {
-            headers: {
-              Authorization: authToken, // Add the authentication token
-            },
-          }
-        );
-        setNewComment("");
-        toast.success("Comment posted!");
-      }
-    } catch (error) {
-      console.error("Error adding comment:", error);
+    if (newComment === "") {
+      toast(
+        <>
+          <i class="fa-solid fa-heart-crack"></i> {"Write something..."}
+        </>
+      );
+    } else {
+      postContext.addComment(postId, newComment);
+      setNewComment("");
     }
   };
 
@@ -91,7 +77,7 @@ function Comment({ postId, comments }) {
                       src={`${serverUrl}/${comment.user.profileImagePath}`}
                       alt="User"
                     />
-                    <p>{comment.comment}</p>
+                    <p className="center-content">{comment.comment}</p>
                   </div>
                   <div className="comment-footer">
                     <p onClick={() => handleExpandReplies(comment.id)}>
@@ -106,10 +92,13 @@ function Comment({ postId, comments }) {
                       <i className="fa-regular fa-clock"></i>{" "}
                       {new Date(comment.createdAt).toLocaleString()}
                     </p>
-                    <Link to = {`/users/${comment.user.id}`} title={comment.user.fullName + "'s Profile"}>
-                    <p>
-                      <i class="fa-solid fa-user"></i> {comment.user.fullName}
-                    </p>
+                    <Link
+                      to={`/users/${comment.user.id}`}
+                      title={comment.user.fullName + "'s Profile"}
+                    >
+                      <p>
+                        <i class="fa-solid fa-user"></i> {comment.user.fullName}
+                      </p>
                     </Link>
                   </div>
                   {expandedReplies.includes(comment.id) && (

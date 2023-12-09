@@ -1,40 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../Context/AuthContext";
 import logo from "./../assets/logo.jpg";
 import axios, { serverUrl } from "../UrlHelper";
 import Comment from "./Comment";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import { usePost } from "../Context/PostContext";
 
-const Posts = ({ posts }) => {
+const Posts = () => {
   const auth = useAuth();
 
-  const handleLike = async (postId) => {
-    try {
-      const authToken = auth.user.token;
-      const response = await axios.get(`/posts/like/${postId}`, {
-        headers: {
-          Authorization: authToken,
-        },
-      });
-      toast.success(response.message);
-    } catch (error) {
-      console.error("Error liking post:", error);
-    }
-  };
+  const postContext = usePost();
 
-  const handleDislike = async (postId) => {
-    try {
-      const authToken = auth.user.token;
-      await axios.get(`/posts/unlike/${postId}`, {
-        headers: {
-          Authorization: authToken,
-        },
-      });
-    } catch (error) {
-      console.error("Error disliking post:", error);
-    }
-  };
+  useEffect(() => {
+    postContext.fetchPosts();
+  }, [postContext]);
 
   const [expandedPosts, setExpandedPosts] = useState([]);
   const [expandedComments, setExpandedComments] = useState([]);
@@ -56,7 +36,7 @@ const Posts = ({ posts }) => {
 
   return (
     <div className="posts">
-      {posts.map((post) => (
+      {postContext.posts.map((post) => (
         <div className="post" key={post.id}>
           <div className="post-header posstInfo">
             <img
@@ -110,7 +90,7 @@ const Posts = ({ posts }) => {
             </div>
           </div>
           <div className="posstInfo">
-            <div className="hashtags">
+            <div className="center-content">
               <p>
                 <i className="fa-solid fa-tags"></i> {post.tags}
               </p>
@@ -121,7 +101,7 @@ const Posts = ({ posts }) => {
               post.likes.some((user) => user.id === auth.user.id) ? (
                 // If the logged-in user's ID is in the likes array, show Dislike button
                 <button
-                  onClick={() => handleDislike(post.id)}
+                  onClick={() => postContext.unlikePost(post.id)}
                   className="likebutton"
                 >
                   <i className="fa-solid fa-heart"></i>{" "}
@@ -130,7 +110,7 @@ const Posts = ({ posts }) => {
               ) : (
                 // If the logged-in user's ID is NOT in the likes array, show Like button
                 <button
-                  onClick={() => handleLike(post.id)}
+                  onClick={() => postContext.likePost(post.id)}
                   className="likebutton likebtn"
                 >
                   <i className="fa-regular fa-heart"></i>{" "}

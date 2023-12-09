@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import { useAuth } from "../Context/AuthContext";
 import { toast } from "react-toastify";
 import axios from "./../UrlHelper";
+import { usePost } from "../Context/PostContext";
 
 export default function AddPost() {
   const auth = useAuth();
+  const postContext = usePost();
+
   const [formData, setFormData] = useState({
     title: "",
     postContent: "",
@@ -23,41 +26,24 @@ export default function AddPost() {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const tagsArray = formData.tags.match(/#(\w+)/g) || [];
-      const tagsJSON = JSON.stringify(tagsArray);
+    const tagsArray = formData.tags.match(/#(\w+)/g) || [];
+    const tagsJSON = JSON.stringify(tagsArray);
 
-      // Create a FormData object to handle file uploads
-      const formDataToSend = new FormData();
-      formDataToSend.append("title", formData.title);
-      formDataToSend.append("content", formData.postContent);
-      formDataToSend.append("tags", tagsJSON);
-      formDataToSend.append("image", formData.image);
+    // Create a FormData object to handle file uploads
+    const formDataToSend = new FormData();
+    formDataToSend.append("title", formData.title);
+    formDataToSend.append("content", formData.postContent);
+    formDataToSend.append("tags", tagsJSON);
+    formDataToSend.append("image", formData.image);
 
-      const authToken = auth.user.token;
-      // Make a POST request using Axios
-      const response = await axios.post("/posts/add", formDataToSend, {
-        headers: {
-          "Content-Type": "multipart/form-data", // Important for file uploads
-          Authorization: authToken, // Add the authentication token
-        },
-      });
+    postContext.addPost(formDataToSend);
 
-      // Log the response from the server
-      console.log("Server Response:", response.data);
-
-      // Clear the form fields
-      setFormData({
-        title: "",
-        postContent: "",
-        image: null,
-        tags: "",
-      });
-      toast.success("Post added!")
-    } catch (error) {
-      console.error("Post Submission Error:", error.message);
-      toast.error("Post Failed");
-    }
+    setFormData({
+      title: "",
+      postContent: "",
+      image: null,
+      tags: "",
+    });
   };
 
   return (

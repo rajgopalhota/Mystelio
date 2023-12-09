@@ -195,7 +195,7 @@ textarea:focus {
   display: flex;
   margin-top: 10px;
 }
-.posts .hashtags {
+.posts .center-content {
   display: flex;
   align-items: center;
   justify-content: center;

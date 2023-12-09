@@ -4,9 +4,11 @@ import { useAuth } from "../Context/AuthContext";
 import axios, { serverUrl } from "../UrlHelper";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import { usePost } from "../Context/PostContext";
 
 export default function Replies({ commentId, replies }) {
   const auth = useAuth();
+  const postContext = usePost();
   const [reply, setReply] = useState("");
 
   const handleCommentSubmit = async (e) => {
@@ -19,20 +21,8 @@ export default function Replies({ commentId, replies }) {
           </>
         );
       } else {
-        const authToken = auth.user.token;
-        await axios.post(
-          `/comment/reply/${commentId}`,
-          {
-            reply: reply,
-          },
-          {
-            headers: {
-              Authorization: authToken, // Add the authentication token
-            },
-          }
-        );
+        postContext.addReply(commentId, reply);
         setReply("");
-        toast.success("Reply posted!");
       }
     } catch (error) {
       console.error("Error adding comment:", error);
@@ -68,14 +58,17 @@ export default function Replies({ commentId, replies }) {
               <div>
                 {replies.map((r) => (
                   <div key={r.id} className="replyBox">
-                    <Link to = {`/users/${r.user.id}`} title={r.user.fullName + "'s Profile"}>
-                    <p>
-                      <img
-                        src={`${serverUrl}/${r.user.profileImagePath}`}
-                        className="user-image replyimgusr"
-                      />
-                      {r.user.fullName}
-                    </p>
+                    <Link
+                      to={`/users/${r.user.id}`}
+                      title={r.user.fullName + "'s Profile"}
+                    >
+                      <p className="center-content">
+                        <img
+                          src={`${serverUrl}/${r.user.profileImagePath}`}
+                          className="user-image replyimgusr"
+                        />
+                        {r.user.fullName}
+                      </p>
                     </Link>
                     <p>
                       <i class="fa-solid fa-comment-dots"></i>

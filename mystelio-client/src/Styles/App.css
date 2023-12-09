@@ -243,6 +243,7 @@ h1 {
 .replyBox{
   margin-top: 10px;
   display: flex;
+  align-items: center;
   gap: 20px;
 }
 a{
