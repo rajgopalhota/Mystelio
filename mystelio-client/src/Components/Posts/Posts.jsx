@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useAuth } from "../Context/AuthContext";
-import logo from "./../assets/logo.jpg";
-import axios, { serverUrl } from "../UrlHelper";
+import { useAuth } from "../../Context/AuthContext";
+import logo from "./../../assets/logo.jpg";
+import axios, { serverUrl } from "../../UrlHelper";
 import Comment from "./Comment";
-import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
-import { usePost } from "../Context/PostContext";
+import { usePost } from "../../Context/PostContext";
 
 const Posts = () => {
   const auth = useAuth();

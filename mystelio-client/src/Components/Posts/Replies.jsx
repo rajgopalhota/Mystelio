@@ -1,10 +1,10 @@
 import { useState } from "react";
 import React from "react";
-import { useAuth } from "../Context/AuthContext";
-import axios, { serverUrl } from "../UrlHelper";
+import { useAuth } from "../../Context/AuthContext";
+import { serverUrl } from "../../UrlHelper";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
-import { usePost } from "../Context/PostContext";
+import { usePost } from "../../Context/PostContext";
 
 export default function Replies({ commentId, replies }) {
   const auth = useAuth();

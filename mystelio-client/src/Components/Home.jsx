@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import AddPost from "./AddPost";
-import Posts from "./Posts";
-import { usePost } from "../Context/PostContext";
+import AddPost from "./Posts/AddPost";
+import Posts from "./Posts/Posts";
 
 export default function Home() {
 

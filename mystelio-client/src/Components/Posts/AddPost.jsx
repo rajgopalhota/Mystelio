@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import { useAuth } from "../Context/AuthContext";
-import { toast } from "react-toastify";
-import axios from "./../UrlHelper";
-import { usePost } from "../Context/PostContext";
+import { useAuth } from "../../Context/AuthContext";
+import { usePost } from "../../Context/PostContext";
 
 export default function AddPost() {
   const auth = useAuth();
