@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./Styles/UiVerse.css";
 import { Routes, Route } from "react-router-dom";
 import Profile from "./Components/Profile";
+import ChatApp from "./Components/Chats/ChatApp";
 
 const App = () => {
   return (
@@ -31,6 +32,7 @@ const App = () => {
       <section className="content">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/messages" element={<ChatApp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/users/:userId" element={<Profile />} />
           <Route path="/register" element={<Signup />} />

@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios, { serverUrl } from "../UrlHelper";
 import logo from "./../assets/logo.jpg";
-
+import { useAuth } from "../Context/AuthContext";
+import { toast } from "react-toastify";
 
 export default function Profile() {
+  const auth = useAuth();
+  const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const { userId } = useParams();
 
@@ -25,6 +28,18 @@ export default function Profile() {
     <>
       {user && (
         <div className="profilePage">
+          {auth.user && auth.user.id === user.id && (
+            <div
+              className="logout"
+              onClick={() => {
+                auth.logout();
+                toast.success("Logged out!");
+                navigate("/");
+              }}
+            >
+              <i class="fa-solid fa-right-from-bracket"></i>
+            </div>
+          )}
           <img
             className="userImg"
             src={
