@@ -2,6 +2,8 @@ const { DataTypes } = require("sequelize");
 const db = require("../config/database");
 const Post = require("./postModel");
 const Comment = require("./commentModel");
+const Message = require("./messageModel");
+const Conversation = require("./conversationModel");
 
 const User = db.define("User", {
   fullName: {
@@ -59,5 +61,19 @@ Post.belongsTo(User, { foreignKey: "userId", as: "user" });
 
 Comment.belongsTo(User, { foreignKey: "userId", as: "user" });
 User.hasMany(Comment, { foreignKey: "userId", as: "comments" });
+
+Message.belongsTo(User, { foreignKey: "to", as: "toUser" });
+Message.belongsTo(User, { foreignKey: "from", as: "fromUser" });
+Message.belongsTo(Conversation, {
+  foreignKey: "conversationId",
+  as: "conversation",
+});
+
+// Define the many-to-many association with Users
+Conversation.belongsToMany(User, { through: "UserConversation", as: "Users" });
+User.belongsToMany(Conversation, {
+  through: "UserConversation",
+  as: "Conversations",
+});
 
 module.exports = User;

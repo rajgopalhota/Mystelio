@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    const fetchPosts = async () => {
+    const fetchUser = async () => {
       const token = cookies.get("frontendUser");
       console.log(token);
       try {
@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }) => {
         toast.error("Please re login", error.message);
       }
     };
-    fetchPosts();
+    fetchUser();
   }, []);
 
   return (

@@ -170,7 +170,8 @@ const Signup = () => {
             <div className="column">
               <div className="fileInputDiv">
                 <label htmlFor="imageUpload">
-                  <i class="fa-solid fa-cloud-arrow-up"></i>&nbsp;Upload Image
+                  <i class="fa-solid fa-cloud-arrow-up"></i>&nbsp;Upload Image{" "}
+                  {formData.profileImage && formData.profileImage.name}
                 </label>
                 <input
                   id="imageUpload"

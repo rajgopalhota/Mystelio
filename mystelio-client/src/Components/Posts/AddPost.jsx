@@ -33,7 +33,7 @@ export default function AddPost() {
     formDataToSend.append("content", formData.postContent);
     formDataToSend.append("tags", tagsJSON);
     formDataToSend.append("image", formData.image);
-
+    console.log(formData)
     postContext.addPost(formDataToSend);
 
     setFormData({
@@ -85,7 +85,7 @@ export default function AddPost() {
               <div className="column">
                 <div className="fileInputDiv">
                   <label htmlFor="imageUpload">
-                    <i class="fa-solid fa-cloud-arrow-up"></i>&nbsp;Upload Image
+                    <i class="fa-solid fa-cloud-arrow-up"></i>&nbsp;Upload Image {formData.image && formData.image.name}
                   </label>
                   <input
                     id="imageUpload"
