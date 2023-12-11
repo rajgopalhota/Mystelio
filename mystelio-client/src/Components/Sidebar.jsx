@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import logo from "./../assets/logo.jpg";
+import userIcon from "./../assets/profile.png"
 import { NavLink, Link } from "react-router-dom";
 import { useAuth } from "../Context/AuthContext";
 import {serverUrl} from "../UrlHelper"
@@ -20,7 +21,7 @@ function Sidebar() {
       ></i>
       <header className={`${menu ? "smallact" : ""}`}>
         <Link to="/" className="logo" onClick={handleClick}>
-          <img src={auth.user&&`${serverUrl}/${auth.user.profileImage}`||logo} alt="Logo" className="logo-image" />
+          <img src={auth.user && auth.user.profileImage &&`${serverUrl}/${auth.user.profileImage}`||logo} alt="Logo" className="logo-image" />
           <div className="quote">
             <p>
               <i className="fa-brands fa-tiktok fa-fade"></i>&nbsp;Mystelio -
@@ -72,7 +73,7 @@ function Sidebar() {
             >
               <span className="user-profile-content">
                 <img
-                  src={`${serverUrl}/${auth.user.profileImage}`}
+                  src={auth.user && auth.user.profileImage &&`${serverUrl}/${auth.user.profileImage}`||userIcon}
                   alt="Profile"
                   className="profile-image"
                 />

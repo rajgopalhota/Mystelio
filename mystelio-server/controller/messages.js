@@ -1,6 +1,5 @@
 // messages.js (controller)
 
-const { sequelize } = require("./../config/database");
 const { Op } = require("sequelize");
 const Message = require("../models/messageModel");
 const Conversation = require("../models/conversationModel");
@@ -10,20 +9,18 @@ const User = require("../models/userModel");
 exports.getConversations = async (req, res) => {
   try {
     const userId = req.user.id;
-
+    console.log(userId);
     const conversations = await Conversation.findAll({
+      where: { id: userId },
       include: [
         {
           model: User,
-          as: "Users", // Use the correct alias here
-          attributes: ["id", "username", "fullName"],
+          as: "Users",
           through: { attributes: [] },
-          where: { id: userId },
         },
       ],
     });
-
-    res.json({ conversations });
+    res.json(conversations);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: error.message });
@@ -38,8 +35,7 @@ exports.getSpecific = async (req, res) => {
 
     const messages = await Message.findAll({
       where: {
-        conversationId,
-        [sequelize.or]: [{ from: userId }, { to: userId }],
+        [Op.or]: [{ from: userId }, { to: userId }],
       },
       order: [["createdAt", "ASC"]],
       include: [
@@ -54,6 +50,7 @@ exports.getSpecific = async (req, res) => {
           attributes: ["id", "username", "fullName"],
         },
       ],
+      logging: console.log, // Log the SQL query
     });
 
     res.json({ messages });
@@ -73,13 +70,13 @@ exports.sendPvtMsg = async (req, res) => {
     // Find or create a conversation between the two users
     const [conversation] = await Conversation.findOrCreate({
       where: {
-        '$id$': { [Op.in]: [fromUserId, toUserId] }
+        $id$: { [Op.in]: [fromUserId, toUserId] },
       },
       include: [
         {
           model: User,
-          as: 'Users',
-          attributes: ['id', 'username', 'fullName'],
+          as: "Users",
+          attributes: ["id", "username", "fullName"],
         },
       ],
     });

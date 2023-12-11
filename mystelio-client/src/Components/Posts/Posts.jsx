@@ -35,7 +35,7 @@ const Posts = () => {
 
   return (
     <div className="posts">
-      {postContext.posts.map((post) => (
+      {postContext.posts && postContext.posts.map((post) => (
         <div className="post" key={post.id}>
           <div className="post-header posstInfo">
             <img

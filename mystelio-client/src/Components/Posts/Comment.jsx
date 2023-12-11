@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useAuth } from "../../Context/AuthContext";
-import axios, { serverUrl } from "../../UrlHelper";
+import { serverUrl } from "../../UrlHelper";
 import { toast } from "react-toastify";
 import Replies from "./Replies";
 import { Link } from "react-router-dom";
 import { usePost } from "../../Context/PostContext";
+import userIcon from "./../../assets/profile.png"
 
 function Comment({ postId, comments }) {
   const auth = useAuth();
@@ -45,7 +46,7 @@ function Comment({ postId, comments }) {
           <>
             <div className="user-comment-box">
               <img
-                src={`${serverUrl}/${auth.user.profileImage}`}
+                src={auth.user && auth.user.profileImage &&`${serverUrl}/${auth.user.profileImage}`||userIcon}
                 className="user-image"
                 alt="User"
               />

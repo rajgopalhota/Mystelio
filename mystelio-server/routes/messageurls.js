@@ -12,7 +12,7 @@ router.get("/conversations", isAuthenticated, getConversations);
 
 // Get messages from a specific conversation
 router.get(
-  "/conversations/:conversationId/messages",
+  "/:conversationId/messages",
   isAuthenticated,
   getSpecific
 );

@@ -70,10 +70,7 @@ Message.belongsTo(Conversation, {
 });
 
 // Define the many-to-many association with Users
-Conversation.belongsToMany(User, { through: "UserConversation", as: "Users" });
-User.belongsToMany(Conversation, {
-  through: "UserConversation",
-  as: "Conversations",
-});
+Conversation.belongsToMany(User, { as: 'Users', through: 'conversation_user' });
+User.belongsToMany(Conversation, { as: 'Conversations', through: 'conversation_user' });
 
 module.exports = User;
