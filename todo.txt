@@ -1,3 +1,3 @@
-1. Make a drive
+1. Make a drive - Pending!
 2. Make it collaborative with followers or friends
-3. Make every route in a context API pov
+3. Make every route in a context API pov - Done
