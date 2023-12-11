@@ -4,12 +4,23 @@ const db = require("../config/database");
 
 const Message = db.define("Message", {
   body: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: false,
   },
-  date: {
-    type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW,
+  fromUserId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  toUserId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  conversationId: {
+    type: DataTypes.INTEGER,
+  },
+  isConversationStart: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
   },
 });
 

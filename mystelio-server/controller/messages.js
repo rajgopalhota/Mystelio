@@ -2,25 +2,48 @@
 
 const { Op } = require("sequelize");
 const Message = require("../models/messageModel");
-const Conversation = require("../models/conversationModel");
 const User = require("../models/userModel");
 
 // Get conversations for the authenticated user
 exports.getConversations = async (req, res) => {
   try {
     const userId = req.user.id;
-    console.log(userId);
-    const conversations = await Conversation.findAll({
-      where: { id: userId },
+
+    // Find all messages involving the authenticated user
+    const messages = await Message.findAll({
+      where: {
+        [Op.or]: [{ fromUserId: userId }, { toUserId: userId }],
+      },
       include: [
         {
           model: User,
-          as: "Users",
-          through: { attributes: [] },
+          as: "fromUser",
+          attributes: ["id", "username", "fullName"],
+        },
+        {
+          model: User,
+          as: "toUser",
+          attributes: ["id", "username", "fullName"],
         },
       ],
+      order: [["createdAt", "DESC"]],
     });
-    res.json(conversations);
+
+    // Group messages by conversation
+    const conversations = {};
+    messages.forEach((message) => {
+      const conversationId = message.conversationId;
+      if (!conversations[conversationId]) {
+        conversations[conversationId] = message;
+      } else if (message.createdAt > conversations[conversationId].createdAt) {
+        conversations[conversationId] = message;
+      }
+    });
+
+    // Convert conversations object to array
+    const conversationsArray = Object.values(conversations);
+
+    res.json(conversationsArray);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: error.message });
@@ -35,9 +58,11 @@ exports.getSpecific = async (req, res) => {
 
     const messages = await Message.findAll({
       where: {
-        [Op.or]: [{ from: userId }, { to: userId }],
+        [Op.or]: [
+          { fromUserId: userId, toUserId: conversationId },
+          { fromUserId: conversationId, toUserId: userId },
+        ],
       },
-      order: [["createdAt", "ASC"]],
       include: [
         {
           model: User,
@@ -50,7 +75,7 @@ exports.getSpecific = async (req, res) => {
           attributes: ["id", "username", "fullName"],
         },
       ],
-      logging: console.log, // Log the SQL query
+      order: [["createdAt", "ASC"]],
     });
 
     res.json({ messages });
@@ -67,37 +92,53 @@ exports.sendPvtMsg = async (req, res) => {
     const toUserId = req.params.toUserId;
     const { body } = req.body;
 
-    // Find or create a conversation between the two users
-    const [conversation] = await Conversation.findOrCreate({
+    let message; // Declare message here
+
+    // Check if a conversation already exists
+    const existingConversation = await Message.findOne({
       where: {
-        $id$: { [Op.in]: [fromUserId, toUserId] },
+        [Op.or]: [
+          { fromUserId: fromUserId, toUserId: toUserId },
+          { fromUserId: toUserId, toUserId: fromUserId },
+        ],
+        isConversationStart: true,
       },
-      include: [
-        {
-          model: User,
-          as: "Users",
-          attributes: ["id", "username", "fullName"],
-        },
-      ],
     });
 
-    // Create a message in the conversation
-    const message = await Message.create({
-      conversationId: conversation.id,
-      from: fromUserId,
-      to: toUserId,
-      body,
-    });
+    if (existingConversation) {
+      // Conversation already exists, add a new message to it
+      message = await Message.create({
+        // Assign message here
+        fromUserId,
+        toUserId,
+        body,
+        conversationId: existingConversation.id,
+      });
 
-    // Update the lastMessage field in the Conversation model
-    await conversation.update({ lastMessage: body });
+      res.json({
+        message: "Message sent successfully",
+        conversationId: existingConversation.id,
+        message,
+      });
+    } else {
+      // Conversation doesn't exist, create a new conversation and add the message
+      const newConversation = await Message.create({
+        fromUserId,
+        toUserId,
+        body,
+        isConversationStart: true,
+      });
 
-    // Emit WebSocket event to notify the recipient about the new message
-    // req.io
-    //   .to(toUserId)
-    //   .emit("newMessage", { conversationId: conversation.id, message });
+      // Set the conversationId to the id of the new message
+      newConversation.conversationId = newConversation.id;
+      await newConversation.save();
 
-    res.json({ message: "Message sent successfully", conversation, message });
+      res.json({
+        message: "Message sent successfully",
+        conversationId: newConversation.id,
+        message: newConversation,
+      });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: error.message });

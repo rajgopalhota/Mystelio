@@ -3,7 +3,6 @@ const db = require("../config/database");
 const Post = require("./postModel");
 const Comment = require("./commentModel");
 const Message = require("./messageModel");
-const Conversation = require("./conversationModel");
 
 const User = db.define("User", {
   fullName: {
@@ -62,15 +61,7 @@ Post.belongsTo(User, { foreignKey: "userId", as: "user" });
 Comment.belongsTo(User, { foreignKey: "userId", as: "user" });
 User.hasMany(Comment, { foreignKey: "userId", as: "comments" });
 
-Message.belongsTo(User, { foreignKey: "to", as: "toUser" });
-Message.belongsTo(User, { foreignKey: "from", as: "fromUser" });
-Message.belongsTo(Conversation, {
-  foreignKey: "conversationId",
-  as: "conversation",
-});
-
-// Define the many-to-many association with Users
-Conversation.belongsToMany(User, { as: 'Users', through: 'conversation_user' });
-User.belongsToMany(Conversation, { as: 'Conversations', through: 'conversation_user' });
+Message.belongsTo(User, { foreignKey: "fromUserId", as: "fromUser" });
+Message.belongsTo(User, { foreignKey: "toUserId", as: "toUser" });
 
 module.exports = User;

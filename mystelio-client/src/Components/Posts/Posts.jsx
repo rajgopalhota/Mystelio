@@ -41,15 +41,15 @@ const Posts = () => {
             <img
               className="user-image"
               src={
-                (post.created_user.profileImagePath &&
+                (post.created_user && post.created_user.profileImagePath &&
                   `${serverUrl}/${post.created_user.profileImagePath}`) ||
                 logo
               }
-              alt={post.created_user.fullName}
+              alt={post.created_user && post.created_user.fullName}
             />
-            <Link to={`/users/${post.created_user.id}`}>
+            <Link to={post.created_user && `/users/${post.created_user.id}`}>
               <p className="user-name">
-                {post.created_user.fullName} &nbsp;
+                {post.created_user && post.created_user.fullName} &nbsp;
                 <i className="fa-solid fa-feather"></i>
               </p>
             </Link>
