@@ -8,8 +8,9 @@ export const MessageProvider = ({ children }) => {
   const auth = useAuth();
   const [conversations, setConversations] = useState([]);
   const [selectedConversation, setSelectedConversation] = useState();
-  const [selectedUserMsg, setSelectedUserMsg] = useState();
   const [messages, setMessages] = useState([]);
+  const [messageText, setMessageText] = useState("");
+  const [newMessageUserId, setNewMessageUserId] = useState("");
 
   useEffect(() => {
     const fetchConversations = async () => {
@@ -26,28 +27,29 @@ export const MessageProvider = ({ children }) => {
     };
 
     fetchConversations();
-  }, [auth.user]);
+  }, [auth.user, conversations]);
 
   // Function to send a message
-  const sendMessage = async (toUserId, body) => {
+  const sendMessage = async (toUserId) => {
     try {
       // Send the message to the server
       await axios.post(
         `/dm/${toUserId}`,
-        { body },
+        { body: messageText },
         {
           headers: {
             Authorization: auth.user.token,
           },
         }
       );
+      setMessageText("");
     } catch (error) {
       console.error("Error sending message:", error.message);
     }
   };
 
   // Function to select a conversation and fetch messages
-  const selectConversation = async (conversationId, toUser) => {
+  const selectConversation = async (conversationId, fromUserId, toUserId) => {
     try {
       const response = await axios.get(`/dm/${conversationId}/messages`, {
         headers: {
@@ -55,7 +57,9 @@ export const MessageProvider = ({ children }) => {
         },
       });
       setMessages(response.data.messages);
-      setSelectedConversation(toUser);
+      setSelectedConversation(
+        auth.user.id === fromUserId ? toUserId : fromUserId
+      );
     } catch (error) {
       console.error("Error fetching messages:", error.message);
     }
@@ -67,6 +71,10 @@ export const MessageProvider = ({ children }) => {
     messages,
     sendMessage,
     selectConversation,
+    messageText,
+    setMessageText,
+    newMessageUserId,
+    setNewMessageUserId,
   };
 
   return (

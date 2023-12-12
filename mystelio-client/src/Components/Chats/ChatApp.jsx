@@ -1,15 +1,18 @@
 import React, { useState } from "react";
-import { useAuth } from "./../../Context/AuthContext";
 import { useMessage } from "./../../Context/MessageContext";
+import { useAuth } from "../../Context/AuthContext";
 export default function ChatApp() {
-  const [messageText, setMessageText] = useState("");
-  const [newMessageUserId, setNewMessageUserId] = useState("");
+  const auth = useAuth();
   const {
     conversations,
     selectedConversation,
     messages,
     sendMessage,
     selectConversation,
+    messageText,
+    setMessageText,
+    newMessageUserId,
+    setNewMessageUserId,
   } = useMessage();
 
   return (
@@ -35,11 +38,23 @@ export default function ChatApp() {
                 onClick={() =>
                   selectConversation(
                     conversation.conversationId,
-                    conversation.toUser.id
+                    conversation.toUser.id,
+                    conversation.fromUser.id
                   )
                 }
               >
-                {conversation.fromUser.id}, {conversation.toUser.id}
+                {auth.user.id === conversation.fromUser.id ? (
+                  // Display toUser if logged-in user is the sender (fromUser)
+                  <>
+                    To: {conversation.toUser.id}, {conversation.toUser.username}
+                  </>
+                ) : (
+                  // Display fromUser if logged-in user is the recipient (toUser)
+                  <>
+                    From: {conversation.fromUser.id},{" "}
+                    {conversation.fromUser.username}
+                  </>
+                )}
               </li>
             ))}
           </ul>
@@ -69,7 +84,7 @@ export default function ChatApp() {
             {/* Button to send new message */}
             <button
               onClick={() => {
-                sendMessage(newMessageUserId, messageText);
+                sendMessage(newMessageUserId);
               }}
             >
               Send New Message
@@ -88,9 +103,7 @@ export default function ChatApp() {
             value={messageText}
             onChange={(e) => setMessageText(e.target.value)}
           />
-          <button
-            onClick={() => sendMessage(selectedConversation, messageText)}
-          >
+          <button onClick={() => sendMessage(selectedConversation)}>
             Send Message
           </button>
         </div>
