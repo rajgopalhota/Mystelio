@@ -45,7 +45,7 @@ app.use("/auth", userRoutes);
 app.use("/friend", followRoutes);
 app.use("/posts", postRoutes);
 app.use("/comment", commentRoutes);
-app.use("/messages", messageRoutes);
+app.use("/dm", messageRoutes);
 
 // Socket.io setup
 io.on("connection", (socket) => {
