@@ -17,12 +17,12 @@ export default function ChatApp() {
 
   return (
     <div>
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex", fontSize:"1.4rem" }}>
         <div
           style={{
-            width: "30%",
+            width: "20%",
             borderRight: "1px solid #ccc",
-            padding: "10px",
+            padding: "2px",
           }}
         >
           <h2>Conversations</h2>
@@ -32,8 +32,13 @@ export default function ChatApp() {
                 key={conversation.id}
                 style={{
                   padding: "10px",
-                  backgroundColor: "red",
+                  backgroundColor: "skyblue",
+                  border:"2px solid red",
+                  boxShadow:"0 0px 12px 1px red",
+                  margin:"4px",
                   cursor: "pointer",
+                  listStyle: "none",
+                  borderRadius: "40px"
                 }}
                 onClick={() =>
                   selectConversation(
