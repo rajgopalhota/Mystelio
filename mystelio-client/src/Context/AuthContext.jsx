@@ -25,14 +25,12 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const fetchUser = async () => {
       const token = cookies.get("frontendUser");
-      console.log(token);
       try {
         const response = await axios.get("/auth/fetch-user", {
           headers: {
             Authorization: token, // Add the authentication token
           },
         });
-        console.log("auth", response);
         if (response.data.success) {
           response.data.user.token = token;
           setUser(response.data.user);

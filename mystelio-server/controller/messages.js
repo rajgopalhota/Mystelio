@@ -58,10 +58,7 @@ exports.getSpecific = async (req, res) => {
 
     const messages = await Message.findAll({
       where: {
-        [Op.or]: [
-          { fromUserId: userId, toUserId: conversationId },
-          { fromUserId: conversationId, toUserId: userId },
-        ],
+        [Op.or]: [{ fromUserId: userId }, { toUserId: userId }],
       },
       include: [
         {
@@ -108,17 +105,10 @@ exports.sendPvtMsg = async (req, res) => {
     if (existingConversation) {
       // Conversation already exists, add a new message to it
       message = await Message.create({
-        // Assign message here
         fromUserId,
         toUserId,
         body,
-        conversationId: existingConversation.id,
-      });
-
-      res.json({
-        message: "Message sent successfully",
-        conversationId: existingConversation.id,
-        message,
+        conversationId: existingConversation.conversationId, // Use the existing conversationId
       });
     } else {
       // Conversation doesn't exist, create a new conversation and add the message
@@ -133,12 +123,14 @@ exports.sendPvtMsg = async (req, res) => {
       newConversation.conversationId = newConversation.id;
       await newConversation.save();
 
-      res.json({
-        message: "Message sent successfully",
-        conversationId: newConversation.id,
-        message: newConversation,
-      });
+      message = newConversation; // Assign the newConversation to message
     }
+
+    res.json({
+      message: "Message sent successfully",
+      conversationId: message.conversationId, // Use the conversationId from the message
+      message,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: error.message });
