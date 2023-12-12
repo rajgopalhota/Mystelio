@@ -7,7 +7,8 @@ const MessageContext = createContext();
 export const MessageProvider = ({ children }) => {
   const auth = useAuth();
   const [conversations, setConversations] = useState([]);
-  const [selectedConversation, setSelectedConversation] = useState(null);
+  const [selectedConversation, setSelectedConversation] = useState();
+  const [selectedUserMsg, setSelectedUserMsg] = useState();
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
@@ -46,7 +47,7 @@ export const MessageProvider = ({ children }) => {
   };
 
   // Function to select a conversation and fetch messages
-  const selectConversation = async (conversationId) => {
+  const selectConversation = async (conversationId, toUser) => {
     try {
       const response = await axios.get(`/dm/${conversationId}/messages`, {
         headers: {
@@ -54,7 +55,7 @@ export const MessageProvider = ({ children }) => {
         },
       });
       setMessages(response.data.messages);
-      setSelectedConversation(conversationId);
+      setSelectedConversation(toUser);
     } catch (error) {
       console.error("Error fetching messages:", error.message);
     }

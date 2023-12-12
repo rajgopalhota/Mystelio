@@ -59,6 +59,7 @@ exports.getSpecific = async (req, res) => {
     const messages = await Message.findAll({
       where: {
         [Op.or]: [{ fromUserId: userId }, { toUserId: userId }],
+        conversationId
       },
       include: [
         {
