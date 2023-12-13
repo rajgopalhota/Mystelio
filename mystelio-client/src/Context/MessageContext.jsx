@@ -2,13 +2,13 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import axios, { serverUrl } from "./../UrlHelper"; // Update the path
 import { useAuth } from "./AuthContext";
 import io from "socket.io-client";
+import { toast } from "react-toastify";
 
 const MessageContext = createContext();
 
 export const MessageProvider = ({ children }) => {
   const auth = useAuth();
   const [conversations, setConversations] = useState([]);
-  const [selectedConversation, setSelectedConversation] = useState();
   const [messages, setMessages] = useState([]);
   const [messageText, setMessageText] = useState("");
   const [newMessageUserId, setNewMessageUserId] = useState("");
@@ -17,7 +17,6 @@ export const MessageProvider = ({ children }) => {
   useEffect(() => {
     // Establish a WebSocket connection
     const newSocket = io(serverUrl);
-
     newSocket.on("connect", () => {
       console.log("Socket connected:", newSocket.connected);
     });
@@ -49,8 +48,8 @@ export const MessageProvider = ({ children }) => {
     return () => {
       socket.off("newMessage");
     };
-  }, [socket]);
-  
+  }, [socket, conversations]);
+
   useEffect(() => {
     // Fetch conversations when the user or conversations list changes
     const fetchConversations = async () => {
@@ -73,8 +72,15 @@ export const MessageProvider = ({ children }) => {
   }, [auth.user]);
 
   // Function to send a message
+  // Function to send a message
   const sendMessage = async (toUserId) => {
     try {
+      console.log(toUserId);
+      if (auth.user.id == toUserId) {
+        toast.error("Cannot send a message to yourself.");
+        return;
+      }
+
       // Send the message to the server
       await axios.post(
         `/dm/${toUserId}`,
@@ -100,9 +106,6 @@ export const MessageProvider = ({ children }) => {
         },
       });
       setMessages(response.data.messages);
-      setSelectedConversation(
-        auth.user.id === fromUserId ? toUserId : fromUserId
-      );
     } catch (error) {
       console.error("Error fetching messages:", error.message);
     }
@@ -110,7 +113,6 @@ export const MessageProvider = ({ children }) => {
 
   const value = {
     conversations,
-    selectedConversation,
     messages,
     sendMessage,
     selectConversation,

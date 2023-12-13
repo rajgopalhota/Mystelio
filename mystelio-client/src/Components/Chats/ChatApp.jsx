@@ -1,10 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useMessage } from "./../../Context/MessageContext";
+import { useAuth } from "../../Context/AuthContext";
 
 const ChatApp = () => {
   const { conversations, selectConversation } = useMessage();
-
+  const auth = useAuth();
   return (
     <div>
       <h2>Conversations</h2>
@@ -33,7 +34,7 @@ const ChatApp = () => {
                 )
               }
             >
-              {conversation.toUser.id === conversation.fromUser.id ? (
+              {auth.user.id === conversation.fromUser.id ? (
                 // Display toUser if logged-in user is the sender (fromUser)
                 <>
                   To: {conversation.toUser.id}, {conversation.toUser.username}

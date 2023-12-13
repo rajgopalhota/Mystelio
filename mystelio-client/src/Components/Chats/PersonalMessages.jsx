@@ -1,10 +1,12 @@
 // PersonalMessages.js
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useMessage } from "./../../Context/MessageContext";
+import { useAuth } from "../../Context/AuthContext";
 
 const PersonalMessages = () => {
   const { conversationId, toUserId, fromUserId } = useParams();
+  const auth = useAuth();
   const {
     messages,
     sendMessage,
@@ -31,7 +33,13 @@ const PersonalMessages = () => {
         value={messageText}
         onChange={(e) => setMessageText(e.target.value)}
       />
-      <button onClick={() => sendMessage(toUserId)}>Send Message</button>
+      <button
+        onClick={() =>
+          sendMessage(auth.user.id == toUserId ? fromUserId : toUserId)
+        }
+      >
+        Send Message
+      </button>
     </div>
   );
 };
