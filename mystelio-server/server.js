@@ -11,15 +11,16 @@ const PORT = 5000;
 
 // Create a new HTTP server and pass it to socket.io
 const server = http.createServer(app);
-const io = socketIo(server);
+const io = socketIo(server, {
+  cors: {
+    origin: "http://localhost:3000",
+  }
+});
 
 // Middleware
 app.use(cors());
-app.use(express.json({ limit: "50mb" }));
+app.use(express.json());
 app.use(cookieParser());
-app.use(
-  express.urlencoded({ limit: "50mb", extended: true, parameterLimit: 50000 })
-);
 
 // Serve static files from the "uploads" directory
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
@@ -34,6 +35,21 @@ sequelize
     console.error("Error syncing database:", error);
   });
 
+// Socket.io setup
+io.on('connection', (socket) => {
+  console.log("User connected to socket")
+  socket.on('error', (error) => {
+    console.error('Socket error:', error);
+  });
+});
+
+
+// Send io object to routes to use it for emitting events
+app.use((req, res, next) => {
+  req.io = io;
+  next();
+});
+
 // Routes
 const userRoutes = require("./routes/userurls");
 const messageRoutes = require("./routes/messageurls");
@@ -46,24 +62,6 @@ app.use("/friend", followRoutes);
 app.use("/posts", postRoutes);
 app.use("/comment", commentRoutes);
 app.use("/dm", messageRoutes);
-
-// Socket.io setup
-io.on("connection", (socket) => {
-  console.log("A user connected");
-
-  // You can add more socket event handling here
-  // For example, handling messages, notifications, etc.
-
-  socket.on("disconnect", () => {
-    console.log("User disconnected");
-  });
-});
-
-// Send io object to routes to use it for emitting events
-app.use((req, res, next) => {
-  req.io = io;
-  next();
-});
 
 // Serve your HTML file
 app.get("/", (req, res) => {

@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import axios from "./../UrlHelper"; // Update the path
+import axios, { serverUrl } from "./../UrlHelper"; // Update the path
 import { useAuth } from "./AuthContext";
+import io from "socket.io-client";
 
 const MessageContext = createContext();
 
@@ -11,8 +12,53 @@ export const MessageProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
   const [messageText, setMessageText] = useState("");
   const [newMessageUserId, setNewMessageUserId] = useState("");
+  const [socket, setSocket] = useState(null);
 
   useEffect(() => {
+    // Establish a WebSocket connection
+    const newSocket = io(serverUrl);
+
+    newSocket.on("connect", () => {
+      console.log("Socket connected:", newSocket.connected);
+    });
+
+    newSocket.on("disconnect", () => {
+      console.log("Socket disconnected");
+    });
+
+    setSocket(newSocket);
+    return () => {
+      newSocket.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on("newMessage", (data) => {
+      console.log("Received data:", data); // Log the received data
+      // setMessages((prevMessages) => [...prevMessages, data.message]);
+
+      // // Update the corresponding conversation
+      // setConversations((prevConversations) => {
+      //   console.log("Previous conversations:", prevConversations); // Log the previous conversations
+      //   return prevConversations.map((conversation) => {
+      //     if (conversation && data && conversation.id === data.conversationId) {
+      //       return { ...conversation, lastMessage: data.message };
+      //     } else {
+      //       return conversation;
+      //     }
+      //   });
+      // });
+    });
+
+    return () => {
+      socket.off("newMessage");
+    };
+  }, [socket]);
+
+  useEffect(() => {
+    // Fetch conversations when the user or conversations list changes
     const fetchConversations = async () => {
       try {
         const response = await axios.get("/dm/conversations", {
@@ -26,8 +72,10 @@ export const MessageProvider = ({ children }) => {
       }
     };
 
-    fetchConversations();
-  }, [auth.user, conversations]);
+    if (auth.user) {
+      fetchConversations();
+    }
+  }, [auth.user, socket]);
 
   // Function to send a message
   const sendMessage = async (toUserId) => {

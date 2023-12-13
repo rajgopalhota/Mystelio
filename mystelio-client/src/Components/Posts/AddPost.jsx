@@ -50,13 +50,13 @@ export default function AddPost() {
         <div className="container">
           <div className="heading">
             <h1 className="title">
-              <i class="fa-solid fa-earth-americas"></i>&nbsp;What is Happening?
+              <i className="fa-solid fa-earth-americas"></i>&nbsp;What is Happening?
             </h1>
           </div>
           <form className="form" onSubmit={handleFormSubmit}>
             <div className="input-box">
               <label>
-                <i class="fa-brands fa-battle-net"></i>&nbsp;Enter Title
+                <i className="fa-brands fa-battle-net"></i>&nbsp;Enter Title
               </label>
               <input
                 required=""
@@ -67,7 +67,7 @@ export default function AddPost() {
                 onChange={handleInputChange}
               />
               <label>
-                <i class="fa-solid fa-pen-nib"></i>&nbsp;Add Post
+                <i className="fa-solid fa-pen-nib"></i>&nbsp;Add Post
               </label>
               <textarea
                 required=""
@@ -85,7 +85,7 @@ export default function AddPost() {
               <div className="column">
                 <div className="fileInputDiv">
                   <label htmlFor="imageUpload">
-                    <i class="fa-solid fa-cloud-arrow-up"></i>&nbsp;Upload Image {formData.image && formData.image.name}
+                    <i className="fa-solid fa-cloud-arrow-up"></i>&nbsp;Upload Image {formData.image && formData.image.name}
                   </label>
                   <input
                     id="imageUpload"

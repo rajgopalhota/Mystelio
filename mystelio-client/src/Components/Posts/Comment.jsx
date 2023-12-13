@@ -30,7 +30,7 @@ function Comment({ postId, comments }) {
     if (newComment === "") {
       toast(
         <>
-          <i class="fa-solid fa-heart-crack"></i> {"Write something..."}
+          <i className="fa-solid fa-heart-crack"></i> {"Write something..."}
         </>
       );
     } else {
@@ -84,7 +84,7 @@ function Comment({ postId, comments }) {
                     <p onClick={() => handleExpandReplies(comment.id)}>
                       Replies&nbsp;
                       <i
-                        class="fa-solid fa-share-from-square"
+                        className="fa-solid fa-share-from-square"
                         title="Add a reply"
                       ></i>
                       : {comment.replies.length}
@@ -98,7 +98,7 @@ function Comment({ postId, comments }) {
                       title={comment.user.fullName + "'s Profile"}
                     >
                       <p>
-                        <i class="fa-solid fa-user"></i> {comment.user.fullName}
+                        <i className="fa-solid fa-user"></i> {comment.user.fullName}
                       </p>
                     </Link>
                   </div>

@@ -37,7 +37,7 @@ export default function Profile() {
                 navigate("/");
               }}
             >
-              <i class="fa-solid fa-right-from-bracket"></i>
+              <i className="fa-solid fa-right-from-bracket"></i>
             </div>
           )}
           <img
@@ -112,7 +112,7 @@ export default function Profile() {
                     </div>
                     <div className="input-box">
                       <label>
-                        <i class="fa-solid fa-user-group"></i>&nbsp;Followers
+                        <i className="fa-solid fa-user-group"></i>&nbsp;Followers
                       </label>
                       <input
                         required=""

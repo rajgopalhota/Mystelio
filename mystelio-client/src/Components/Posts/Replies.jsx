@@ -17,7 +17,7 @@ export default function Replies({ commentId, replies }) {
       if (reply === "") {
         toast(
           <>
-            <i class="fa-solid fa-heart-crack"></i> {"Write something..."}
+            <i className="fa-solid fa-heart-crack"></i> {"Write something..."}
           </>
         );
       } else {
@@ -35,10 +35,10 @@ export default function Replies({ commentId, replies }) {
           {auth.user && (
             <>
               <div className="user-reply-box comments">
-                <div class="reply-input-grp">
+                <div className="reply-input-grp">
                   <input
                     type="text"
-                    class="replyinput"
+                    className="replyinput"
                     name="reply"
                     placeholder="Add a reply....."
                     autocomplete="off"
@@ -71,7 +71,7 @@ export default function Replies({ commentId, replies }) {
                       </p>
                     </Link>
                     <p>
-                      <i class="fa-solid fa-comment-dots"></i>
+                      <i className="fa-solid fa-comment-dots"></i>
                       {r.reply}
                     </p>
                   </div>

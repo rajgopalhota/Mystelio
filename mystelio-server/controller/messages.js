@@ -90,7 +90,7 @@ exports.sendPvtMsg = async (req, res) => {
     const toUserId = req.params.toUserId;
     const { body } = req.body;
 
-    let message; // Declare message here
+    let message;
 
     // Check if a conversation already exists
     const existingConversation = await Message.findOne({
@@ -109,7 +109,7 @@ exports.sendPvtMsg = async (req, res) => {
         fromUserId,
         toUserId,
         body,
-        conversationId: existingConversation.conversationId, // Use the existing conversationId
+        conversationId: existingConversation.conversationId,
       });
     } else {
       // Conversation doesn't exist, create a new conversation and add the message
@@ -124,12 +124,22 @@ exports.sendPvtMsg = async (req, res) => {
       newConversation.conversationId = newConversation.id;
       await newConversation.save();
 
-      message = newConversation; // Assign the newConversation to message
+      message = newConversation;
     }
-
+    // Emit the new message to connected clients
+    req.io.emit("newMessage", {
+      conversationId: message.conversationId,
+      message: {
+        id: message.id,
+        body: message.body,
+        fromUserId: message.fromUserId,
+        toUserId: message.toUserId,
+        createdAt: message.createdAt,
+      },
+    });
     res.json({
       message: "Message sent successfully",
-      conversationId: message.conversationId, // Use the conversationId from the message
+      conversationId: message.conversationId,
       message,
     });
   } catch (error) {

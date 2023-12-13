@@ -37,7 +37,7 @@ function Sidebar() {
           </NavLink>
           <NavLink to="/friends" onClick={handleClick}>
             <span>
-              <i class="fa-solid fa-people-robbery"></i>friends
+              <i className="fa-solid fa-people-robbery"></i>friends
             </span>
           </NavLink>
           <NavLink to="/explore" onClick={handleClick}>
