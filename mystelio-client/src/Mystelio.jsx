@@ -12,6 +12,8 @@ import "./Styles/UiVerse.css";
 import { Routes, Route } from "react-router-dom";
 import Profile from "./Components/Profile";
 import ChatApp from "./Components/Chats/ChatApp";
+import PersonalMessages from "./Components/Chats/PersonalMessages"; // Import the new component
+import ChatRoutes from "./Components/Chats/ChatRoutes";
 
 const App = () => {
   return (
@@ -31,8 +33,10 @@ const App = () => {
       <Sidebar />
       <section className="content">
         <Routes>
+          {/* Set / as the home route */}
           <Route path="/" element={<Home />} />
-          <Route path="/messages" element={<ChatApp />} />
+          {/* Nest ChatApp under / */}
+          <Route path="/messages/*" element={<ChatRoutes />} />
           <Route path="/login" element={<Login />} />
           <Route path="/users/:userId" element={<Profile />} />
           <Route path="/register" element={<Signup />} />

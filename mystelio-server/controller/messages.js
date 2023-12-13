@@ -7,8 +7,8 @@ const User = require("../models/userModel");
 // Get conversations for the authenticated user
 exports.getConversations = async (req, res) => {
   try {
-    const userId = req.user.id;
 
+    const userId = req.user.id;
     // Find all messages involving the authenticated user
     const messages = await Message.findAll({
       where: {
@@ -75,7 +75,6 @@ exports.getSpecific = async (req, res) => {
       ],
       order: [["createdAt", "ASC"]],
     });
-
     res.json({ messages });
   } catch (error) {
     console.error(error);

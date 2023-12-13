@@ -37,7 +37,6 @@ sequelize
 
 // Socket.io setup
 io.on('connection', (socket) => {
-  console.log("User connected to socket")
   socket.on('error', (error) => {
     console.error('Socket error:', error);
   });

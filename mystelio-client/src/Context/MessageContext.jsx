@@ -36,27 +36,21 @@ export const MessageProvider = ({ children }) => {
     if (!socket) return;
 
     socket.on("newMessage", (data) => {
-      console.log("Received data:", data); // Log the received data
-      // setMessages((prevMessages) => [...prevMessages, data.message]);
-
-      // // Update the corresponding conversation
-      // setConversations((prevConversations) => {
-      //   console.log("Previous conversations:", prevConversations); // Log the previous conversations
-      //   return prevConversations.map((conversation) => {
-      //     if (conversation && data && conversation.id === data.conversationId) {
-      //       return { ...conversation, lastMessage: data.message };
-      //     } else {
-      //       return conversation;
-      //     }
-      //   });
-      // });
+      // Update the corresponding conversation
+      setConversations((prevConversations) => {
+        return prevConversations.map((conversation) =>
+          conversation.id === data.conversationId
+            ? { ...conversation, lastMessage: data.message }
+            : conversation
+        );
+      });
     });
 
     return () => {
       socket.off("newMessage");
     };
   }, [socket]);
-
+  
   useEffect(() => {
     // Fetch conversations when the user or conversations list changes
     const fetchConversations = async () => {
@@ -66,6 +60,7 @@ export const MessageProvider = ({ children }) => {
             Authorization: auth.user.token,
           },
         });
+        console.log("object");
         setConversations(response.data);
       } catch (error) {
         console.error("Error fetching conversations:", error.message);
@@ -75,7 +70,7 @@ export const MessageProvider = ({ children }) => {
     if (auth.user) {
       fetchConversations();
     }
-  }, [auth.user, socket]);
+  }, [auth.user]);
 
   // Function to send a message
   const sendMessage = async (toUserId) => {
