@@ -6,12 +6,12 @@ import { useAuth } from "../../Context/AuthContext";
 
 const PersonalMessages = () => {
   const { conversationId, toUserId, fromUserId } = useParams();
+  const [messageText, setMessageText] = useState();
+
   const auth = useAuth();
   const {
     messages,
     sendMessage,
-    setMessageText,
-    messageText,
     selectConversation,
   } = useMessage();
 
@@ -35,7 +35,7 @@ const PersonalMessages = () => {
       />
       <button
         onClick={() =>
-          sendMessage(auth.user.id == toUserId ? fromUserId : toUserId)
+          sendMessage(auth.user.id == toUserId ? fromUserId : toUserId, messageText)
         }
       >
         Send Message

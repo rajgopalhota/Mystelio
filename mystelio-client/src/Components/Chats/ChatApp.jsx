@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useMessage } from "./../../Context/MessageContext";
 import { useAuth } from "../../Context/AuthContext";
 
 const ChatApp = () => {
-  const { conversations, selectConversation } = useMessage();
+  const [newTo, setNewTo] = useState("");
+  const [messageText, setMessageText] = useState("");
+  const {
+    conversations,
+    selectConversation,
+    sendMessage,
+  } = useMessage();
   const auth = useAuth();
+
   return (
     <div>
       <h2>Conversations</h2>
@@ -29,8 +36,6 @@ const ChatApp = () => {
               onClick={() =>
                 selectConversation(
                   conversation.conversationId,
-                  conversation.fromUser.id,
-                  conversation.toUser.id
                 )
               }
             >
@@ -50,6 +55,38 @@ const ChatApp = () => {
           </li>
         ))}
       </ul>
+      <div style={{ flex: 1, padding: "10px" }}>
+        {/* New message section */}
+        <div style={{ flex: 1, padding: "10px" }}>
+          <h2>New Message</h2>
+          {/* Input for user ID */}
+          <label>
+            User ID:
+            <input
+              type="text"
+              value={newTo}
+              onChange={(e) => setNewTo(e.target.value)}
+            />
+          </label>
+          {/* Input for message text */}
+          <label>
+            Message:
+            <input
+              type="text"
+              value={messageText}
+              onChange={(e) => setMessageText(e.target.value)}
+            />
+          </label>
+          {/* Button to send new message */}
+          <button
+            onClick={() => {
+              sendMessage(newTo, messageText);
+            }}
+          >
+            Send New Message
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
