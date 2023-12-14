@@ -144,10 +144,154 @@ header .profile a{
   header.smallact {
     left: 0%;
   }
+  .conversation-list {
+    font-size: 1.1rem !important;
+  }
+  .ChatApp li img{
+    width: 33px !important;
+  }
+  .message {
+    margin: 8px 35px !important;
+  }
+
 }
 
 @media (max-width: 450px) {
   header {
     width: 100%;
   }
+
 }
+
+/* Chats section */
+.ChatRoutes {
+  display: flex;
+  font-size: 1.4rem;
+}
+
+.ChatApp {
+  position: absolute;
+  top: 0;
+  font-weight: 500;
+  right: 0;
+  bottom: 0;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 999;
+  flex-flow: column;
+  padding: 1rem 5%;
+  width: 100%;
+  text-align: center;
+  overflow-y: scroll;
+}
+
+.ChatApp h2 {
+  align-items: center;
+  text-transform: uppercase;
+}
+
+.ChatApp ul {
+  width: 100%;
+  text-align: left;
+}
+
+.ChatApp li {
+  text-transform: uppercase;
+  transition: all 0.2s linear;
+  display: block;
+  font-size: 2rem;
+  letter-spacing: 0.1rem;
+  width: 100%;
+  border-radius: 50px;
+  color: black;
+  background-color: lavender;
+  position: relative;
+  margin: 8px 0px;
+  border: 2px solid transparent;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 3px rgb(47, 0, 16);
+  overflow: hidden;
+}
+
+.ChatApp li:hover {
+  transition: all 0.2s linear;
+  background-color: rgb(171, 171, 245);
+}
+.ChatApp li img{
+  width: 60px;
+  border-radius: 50%;
+  box-shadow: 0 0 9px black;
+}
+.chatUserInfo{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.chatUserInfo span{
+  color: rgb(92, 28, 157);
+}
+.userInfo{
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+}
+.new-message-section {
+  flex: 1;
+  padding: 10px;
+}
+
+/* PersonalMessages.css */
+.personal-messages-container {
+  font-size: 1.5rem;
+  max-width: 700px;
+  margin: auto;
+}
+
+.messages-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.message {
+  margin: 8px;
+  padding: 12px;
+  border-radius: 8px;
+  max-width: 70%;
+  position: relative;
+}
+
+.avatar-container {
+  display: flex;
+}
+
+.avatar {
+  margin: 8px;
+  position: absolute;
+  top: 0;
+}
+
+.messages-container img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.sent {
+  align-self: flex-end;
+  background-color: #4caf50;
+  color: #fff;
+}
+.sent .avatar {
+  right: -50px;
+}
+.received {
+  align-self: flex-start;
+  background-color: #e0e0e0;
+}
+.received .avatar {
+  left: -50px;
+}
+
+
+

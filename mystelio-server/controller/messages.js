@@ -18,12 +18,12 @@ exports.getConversations = async (req, res) => {
         {
           model: User,
           as: "fromUser",
-          attributes: ["id", "username", "fullName"],
+          attributes: ["id", "username", "fullName", "profileImagePath"],
         },
         {
           model: User,
           as: "toUser",
-          attributes: ["id", "username", "fullName"],
+          attributes: ["id", "username", "fullName", "profileImagePath"],
         },
       ],
       order: [["createdAt", "DESC"]],
@@ -65,12 +65,12 @@ exports.getSpecific = async (req, res) => {
         {
           model: User,
           as: "fromUser",
-          attributes: ["id", "username", "fullName"],
+          attributes: ["id", "username", "fullName", "profileImagePath"],
         },
         {
           model: User,
           as: "toUser",
-          attributes: ["id", "username", "fullName"],
+          attributes: ["id", "username", "fullName", "profileImagePath"],
         },
       ],
       order: [["createdAt", "ASC"]],

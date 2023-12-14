@@ -2,64 +2,19 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useMessage } from "./../../Context/MessageContext";
 import { useAuth } from "../../Context/AuthContext";
+import { serverUrl } from "../../UrlHelper";
 
 const ChatApp = () => {
   const [newTo, setNewTo] = useState("");
   const [messageText, setMessageText] = useState("");
-  const {
-    conversations,
-    selectConversation,
-    sendMessage,
-  } = useMessage();
+  const { conversations, selectConversation, sendMessage } = useMessage();
   const auth = useAuth();
 
   return (
-    <div>
-      <h2>Conversations</h2>
-      <ul>
-        {conversations.map((conversation) => (
-          <li
-            key={conversation.id}
-            style={{
-              padding: "10px",
-              backgroundColor: "skyblue",
-              border: "2px solid red",
-              boxShadow: "0 0px 12px 1px red",
-              margin: "4px",
-              cursor: "pointer",
-              listStyle: "none",
-              borderRadius: "40px",
-            }}
-          >
-            <Link
-              to={`personal/${conversation.conversationId}/${conversation.toUser.id}/${conversation.fromUser.id}`}
-              onClick={() =>
-                selectConversation(
-                  conversation.conversationId,
-                )
-              }
-            >
-              {auth.user.id === conversation.fromUser.id ? (
-                // Display toUser if logged-in user is the sender (fromUser)
-                <>
-                  To: {conversation.toUser.id}, {conversation.toUser.username}
-                </>
-              ) : (
-                // Display fromUser if logged-in user is the recipient (toUser)
-                <>
-                  From: {conversation.fromUser.id},{" "}
-                  {conversation.fromUser.username}
-                </>
-              )}
-            </Link>
-          </li>
-        ))}
-      </ul>
-      <div style={{ flex: 1, padding: "10px" }}>
-        {/* New message section */}
-        <div style={{ flex: 1, padding: "10px" }}>
+    <div className="ChatApp">
+      <div className="new-message-section">
+        <div className="new-message-section">
           <h2>New Message</h2>
-          {/* Input for user ID */}
           <label>
             User ID:
             <input
@@ -68,7 +23,6 @@ const ChatApp = () => {
               onChange={(e) => setNewTo(e.target.value)}
             />
           </label>
-          {/* Input for message text */}
           <label>
             Message:
             <input
@@ -77,7 +31,6 @@ const ChatApp = () => {
               onChange={(e) => setMessageText(e.target.value)}
             />
           </label>
-          {/* Button to send new message */}
           <button
             onClick={() => {
               sendMessage(newTo, messageText);
@@ -87,6 +40,58 @@ const ChatApp = () => {
           </button>
         </div>
       </div>
+      <h2>Conversations</h2>
+      <ul>
+        {conversations.map((conversation) => (
+          <Link
+            key={conversation.id}
+            to={`personal/${conversation.conversationId}/${conversation.toUser.id}/${conversation.fromUser.id}`}
+            onClick={() => selectConversation(conversation.conversationId)}
+          >
+            <li className="conversation-list">
+              {auth.user.id === conversation.fromUser.id ? (
+                // Display toUser if logged-in user is the sender (fromUser)
+                <div className="chatUserInfo">
+                  <img
+                    src={`${serverUrl}/${conversation.toUser.profileImagePath}`}
+                  />
+                  <div className="userInfo">
+                    <p>
+                      <span><i class="fa-regular fa-circle-up"></i></span> {conversation.toUser.username}
+                    </p>
+                    <p>
+                      <span><i class="fa-regular fa-comments"></i></span> {conversation.body.slice(0, 3)}...
+                    </p>
+                    <p>
+                      <span><i class="fa-regular fa-clock fa-spin"></i></span>
+                      {" "}{new Date(conversation.updatedAt).toLocaleString()}
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                // Display fromUser if logged-in user is the recipient (toUser)
+                <div className="chatUserInfo">
+                  <img
+                    src={`${serverUrl}/${conversation.fromUser.profileImagePath}`}
+                  />
+                  <div className="userInfo">
+                    <p>
+                      <span><i class="fa-regular fa-circle-down"></i></span> {conversation.fromUser.username}
+                    </p>
+                    <p>
+                      <span><i class="fa-regular fa-comments"></i></span> {conversation.body.slice(0, 3)}...
+                    </p>
+                    <p>
+                      <span><i class="fa-regular fa-clock fa-spin"></i></span>
+                      {" "}{new Date(conversation.updatedAt).toLocaleString()}
+                    </p>
+                  </div>
+                </div>
+              )}
+            </li>
+          </Link>
+        ))}
+      </ul>
     </div>
   );
 };
