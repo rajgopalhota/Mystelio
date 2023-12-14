@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios, { serverUrl } from "../UrlHelper";
-import logo from "./../assets/logo.jpg";
-import { useAuth } from "../Context/AuthContext";
+import axios, { serverUrl } from "./../../UrlHelper";
+import logo from "./../../assets/logo.jpg";
+import { useAuth } from "./../../Context/AuthContext";
 import { toast } from "react-toastify";
 
 export default function Profile() {
@@ -112,7 +112,8 @@ export default function Profile() {
                     </div>
                     <div className="input-box">
                       <label>
-                        <i className="fa-solid fa-user-group"></i>&nbsp;Followers
+                        <i className="fa-solid fa-user-group"></i>
+                        &nbsp;Followers
                       </label>
                       <input
                         required=""

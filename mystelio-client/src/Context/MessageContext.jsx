@@ -97,14 +97,10 @@ export const MessageProvider = ({ children }) => {
     if (!socket) return;
 
     socket.on("newMessage", (data) => {
-      console.log(data, "lfkdlfld");
-      setConversations((prevConversations) => {
-        return prevConversations.map((conversation) =>
-          conversation.id === data.conversationId
-            ? { ...conversation, lastMessage: data.message }
-            : conversation
-        );
-      });
+      console.log(data)
+      if(data.message.fromUserId!=auth.user.id){
+        toast("New Message")
+      }
       fetchConversations();
     });
 

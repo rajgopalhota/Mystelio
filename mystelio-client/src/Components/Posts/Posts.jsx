@@ -121,7 +121,7 @@ const Posts = () => {
                 onClick={() => handleExpandComments(post.id)}
               >
                 <i className="fa-regular fa-comments"></i>&nbsp;
-                {post.comments.length}
+                {post.comments && post.comments.length}
               </p>
               <p>
                 <i className="fa-regular fa-clock"></i>{" "}

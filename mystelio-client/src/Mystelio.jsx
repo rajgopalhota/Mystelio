@@ -10,9 +10,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Styles/UiVerse.css";
 import { Routes, Route } from "react-router-dom";
-import Profile from "./Components/Profile";
-import ChatApp from "./Components/Chats/ChatApp";
-import PersonalMessages from "./Components/Chats/PersonalMessages"; // Import the new component
+import Profile from "./Components/Profile/Profile";
 import ChatRoutes from "./Components/Chats/ChatRoutes";
 
 const App = () => {
