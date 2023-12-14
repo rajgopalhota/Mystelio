@@ -54,9 +54,6 @@ header .logo img {
   padding: 4px;
   filter: saturate(1.1);
 }
-.cross{
-  color: white;
-}
 header .logo img:hover {
   padding: 0;
   filter: brightness(1.1);
@@ -66,6 +63,7 @@ header .logo img:hover {
   width: 100%;
   text-align: left;
   text-shadow: 0 0 2px black;
+  z-index: 999;
 }
 
 header .navbar a {
@@ -160,7 +158,9 @@ header .profile a{
   header {
     width: 100%;
   }
-
+  .cross{
+    color: white;
+  }
 }
 
 /* Chats section */
@@ -177,7 +177,6 @@ header .profile a{
   bottom: 0;
   align-items: center;
   justify-content: space-between;
-  z-index: 999;
   flex-flow: column;
   padding: 1rem 5%;
   width: 100%;
@@ -242,15 +241,19 @@ header .profile a{
 }
 
 /* PersonalMessages.css */
+.messages{
+  scroll-behavior: auto;
+}
 .personal-messages-container {
   font-size: 1.5rem;
-  max-width: 700px;
+  max-width: 900px;
   margin: auto;
 }
 
 .messages-container {
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .message {
@@ -276,7 +279,15 @@ header .profile a{
   height: 30px;
   border-radius: 50%;
 }
-
+.messageDate{
+  background-color: var(--prussian-blue);
+  color: white;
+  padding: 0 20px;
+  text-align: center;
+  border-radius: 50px;
+  width: 30%;
+  margin: auto;
+}
 .sent {
   align-self: flex-end;
   background-color: #4caf50;
@@ -291,6 +302,20 @@ header .profile a{
 }
 .received .avatar {
   left: -50px;
+}
+.messages{
+  margin-bottom: 70px;
+}
+.personal-messages-input{
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  margin: 0;
+  width: 100%;
+}
+.personal-messages-input .user-comment-box{
+  margin: 0 !important;
+  border-radius: 0;
 }
 
 
