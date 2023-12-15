@@ -5,6 +5,7 @@ const cors = require("cors");
 const http = require("http"); // Require the http module
 const socketIo = require("socket.io");
 const sequelize = require("./config/database");
+const errorMiddleware = require('./middleware/errorMiddleware');
 
 const app = express();
 const PORT = 5000;
@@ -21,6 +22,7 @@ const io = socketIo(server, {
 app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
+app.use(errorMiddleware);
 
 // Serve static files from the "uploads" directory
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
@@ -55,12 +57,14 @@ const messageRoutes = require("./routes/messageurls");
 const followRoutes = require("./routes/followurls");
 const postRoutes = require("./routes/posturls");
 const commentRoutes = require("./routes/commenturls");
+const songRoutes = require("./routes/songurls");
 
 app.use("/auth", userRoutes);
 app.use("/friend", followRoutes);
 app.use("/posts", postRoutes);
 app.use("/comment", commentRoutes);
 app.use("/dm", messageRoutes);
+app.use("/music", songRoutes);
 
 // Serve your HTML file
 app.get("/", (req, res) => {

@@ -3,6 +3,7 @@ const db = require("../config/database");
 const Post = require("./postModel");
 const Comment = require("./commentModel");
 const Message = require("./messageModel");
+const Playlist = require("./playlistModel");
 
 const User = db.define("User", {
   fullName: {
@@ -63,5 +64,8 @@ User.hasMany(Comment, { foreignKey: "userId", as: "comments" });
 
 Message.belongsTo(User, { foreignKey: "fromUserId", as: "fromUser" });
 Message.belongsTo(User, { foreignKey: "toUserId", as: "toUser" });
+
+Playlist.belongsTo(User, { foreignKey: "createdUserId", as: "createdUser" });
+User.hasMany(Playlist, { foreignKey: "createdUserId", as: "createdPlaylists" });
 
 module.exports = User;
