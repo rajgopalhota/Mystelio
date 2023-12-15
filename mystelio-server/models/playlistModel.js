@@ -1,7 +1,6 @@
 // playlistModel.js
 const { DataTypes } = require("sequelize");
 const db = require("../config/database");
-const User = require("./userModel");
 
 const Playlist = db.define("Playlist", {
   playlistName: {

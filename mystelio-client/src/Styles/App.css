@@ -15,8 +15,7 @@
 }
 
 ::selection{
-  color: rgb(255, 255, 255);
-  background-color: rgba(0, 0, 0, 0.65);
+  color: var(--ut-orange);
 }
 
 .Toastify__toast-body {
@@ -263,10 +262,12 @@ a{
   body {
     padding: 0;
   }
+
 }
 
 @media (max-width: 450px) {
   html {
     font-size: 50%;
   }
+
 }

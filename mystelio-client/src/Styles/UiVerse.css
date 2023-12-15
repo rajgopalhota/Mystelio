@@ -14,7 +14,7 @@
   content: "";
   height: 26px;
   width: 26px;
-  z-index: 2;
+  /* z-index: 1; */
   border-radius: 50%;
   left: 25px;
   background-color: var(--prussian-blue);

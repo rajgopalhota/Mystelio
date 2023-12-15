@@ -2,9 +2,11 @@ import React from "react";
 import Login from "./Components/Login";
 import Signup from "./Components/Signup";
 import Sidebar from "./Components/Sidebar";
+import MusicRoutes from "./Components/Music/MusicRoutes";
 import Home from "./Components/Home";
 import "./Styles/App.css";
 import "./Styles/Sidebar.css";
+import "./Styles/Music.css";
 import "./Styles/ProfilePage.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -31,10 +33,9 @@ const App = () => {
       <Sidebar />
       <section className="content">
         <Routes>
-          {/* Set / as the home route */}
           <Route path="/" element={<Home />} />
-          {/* Nest ChatApp under / */}
           <Route path="/messages/*" element={<ChatRoutes />} />
+          <Route path="/music/*" element={<MusicRoutes />} />
           <Route path="/login" element={<Login />} />
           <Route path="/users/:userId" element={<Profile />} />
           <Route path="/register" element={<Signup />} />

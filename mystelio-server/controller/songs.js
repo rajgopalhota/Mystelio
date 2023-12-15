@@ -3,6 +3,7 @@ const Playlist = require("../models/playlistModel");
 const Song = require("../models/songModel");
 const User = require("../models/userModel");
 const multer = require("multer");
+const path = require('path');
 
 // Set up storage for playlist covers
 const playlistCoversStorage = multer.diskStorage({
@@ -36,7 +37,6 @@ exports.playlistCoverUpload = multer({ storage: playlistCoversStorage });
 exports.addPlaylist = async (req, res) => {
   try {
     const userId = req.user.id;
-
     let playlistCoverUrl = null;
 
     // Check if req.file exists before constructing the complete URL
@@ -46,9 +46,8 @@ exports.addPlaylist = async (req, res) => {
 
     const newPlaylist = await Playlist.create({
       playlistName: req.body.playlistName,
-      sharedWith: req.body.sharedWith, // Assuming sharedWith is an array of user IDs
       albumCover: playlistCoverUrl,
-      createdUser: userId,
+      createdUserId: userId,
     });
 
     res

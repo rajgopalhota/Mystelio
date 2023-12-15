@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import logo from "./../assets/logo.jpg";
-import userIcon from "./../assets/profile.png"
+import userIcon from "./../assets/profile.png";
 import { NavLink, Link } from "react-router-dom";
 import { useAuth } from "../Context/AuthContext";
-import {serverUrl} from "../UrlHelper"
+import { serverUrl } from "../UrlHelper";
 
 function Sidebar() {
   const auth = useAuth();
@@ -21,7 +21,16 @@ function Sidebar() {
       ></i>
       <header className={`${menu ? "smallact" : ""}`}>
         <Link to="/" className="logo" onClick={handleClick}>
-          <img src={auth.user && auth.user.profileImage &&`${serverUrl}/${auth.user.profileImage}`||logo} alt="Logo" className="logo-image" />
+          <img
+            src={
+              (auth.user &&
+                auth.user.profileImage &&
+                `${serverUrl}/${auth.user.profileImage}`) ||
+              logo
+            }
+            alt="Logo"
+            className="logo-image"
+          />
           <div className="quote">
             <p>
               <i className="fa-brands fa-tiktok fa-fade"></i>&nbsp;Mystelio -
@@ -45,9 +54,9 @@ function Sidebar() {
               <i className="fa-solid fa-magnifying-glass"></i>explore
             </span>
           </NavLink>
-          <NavLink to="/notifications" onClick={handleClick}>
+          <NavLink to="/music" onClick={handleClick}>
             <span>
-              <i className="fa-solid fa-bell"></i>notifications
+              <i class="fa-solid fa-headphones-simple"></i>chill
             </span>
           </NavLink>
           <NavLink to="/messages" onClick={handleClick}>
@@ -73,7 +82,12 @@ function Sidebar() {
             >
               <span className="user-profile-content">
                 <img
-                  src={auth.user && auth.user.profileImage &&`${serverUrl}/${auth.user.profileImage}`||userIcon}
+                  src={
+                    (auth.user &&
+                      auth.user.profileImage &&
+                      `${serverUrl}/${auth.user.profileImage}`) ||
+                    userIcon
+                  }
                   alt="Profile"
                   className="profile-image"
                 />
