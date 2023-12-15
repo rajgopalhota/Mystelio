@@ -32,53 +32,38 @@ export default function AddPlaylist() {
 
   return (
     <>
-      <div className="formInputBox playlistBox">
-        <div className="container">
-          <div className="heading">
-            <h1 className="title">
-              <i className="fa-brands fa-spotify"></i>&nbsp;Create Playlist
-            </h1>
-          </div>
-          <form className="form" onSubmit={handleFormSubmit}>
-            <div className="input-box address">
-              <label>
-                <i className="fa-solid fa-folder-open"></i>&nbsp;Add Image and
-                Tags
+      <form className="form musicplaylistinput" onSubmit={handleFormSubmit}>
+        <div className="input-box address">
+          <label>
+            <i className="fa-solid fa-folder-open"></i>&nbsp;Add Image and Tags
+          </label>
+          <div className="column">
+            <div className="fileInputDiv">
+              <label htmlFor="imageUpload">
+                <i className="fa-solid fa-cloud-arrow-up"></i>&nbsp;Upload Image{" "}
+                {formData.coverImage && formData.coverImage.name.slice(0,24)}
               </label>
-              <div className="column">
-                <div className="fileInputDiv">
-                  <label htmlFor="imageUpload">
-                    <i className="fa-solid fa-cloud-arrow-up"></i>&nbsp;Upload
-                    Image {formData.coverImage && formData.coverImage.name}
-                  </label>
-                  <input
-                    id="imageUpload"
-                    className="imageFile"
-                    type="file"
-                    accept="image/*"
-                    name="coverImage"
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <input
-                  required=""
-                  placeholder="Enter playlist name"
-                  type="text"
-                  name="playlistName"
-                  value={formData.playlistName}
-                  onChange={handleInputChange}
-                />
-              </div>
+              <input
+                id="imageUpload"
+                className="imageFile"
+                type="file"
+                accept="image/*"
+                name="coverImage"
+                onChange={handleInputChange}
+              />
             </div>
-
             <input
-              value="CREATE PLAYLIST"
-              type="submit"
-              className="formInputBox-button"
+              required=""
+              placeholder="Enter playlist name"
+              type="text"
+              name="playlistName"
+              value={formData.playlistName}
+              onChange={handleInputChange}
             />
-          </form>
+          </div>
         </div>
-      </div>
+        <button type="submit" className="formInputBox-button">CREATE PLAYLIST <i class="fa-solid fa-radio"></i></button>
+      </form>
     </>
   );
 }

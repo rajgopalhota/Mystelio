@@ -122,7 +122,7 @@
 input {
   text-transform: none !important;
 }
-.formInputBox .form .input-box {
+.input-box {
   width: 100%;
   background: white;
   border: none;
@@ -134,36 +134,36 @@ input {
   border-inline: 6px solid transparent;
 }
 
-.formInputBox .form .input-box:focus-within {
+.input-box:focus-within {
   outline: none;
   border-inline: 6px solid var(--prussian-blue);
 }
 
-.formInputBox .input-box label {
+.input-box label {
   color: #000;
   font-size: 1.9rem;
 }
 
-.formInputBox .form :where(.input-box input, textarea, .select-box) {
+.form :where(.input-box input, textarea, .select-box) {
   position: relative;
   height: 35px;
   width: 100%;
   outline: none;
   font-size: 1.8rem;
   color: #373737;
-  margin-top: 5px;
+  margin-top: 8px;
   border: 2px solid var(--blue-green);
   border-radius: 6px;
   padding: 0px 18px;
   background: #eef4f5;
 }
 
-.formInputBox .input-box input:focus,
+.input-box input:focus,
 textarea:focus {
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
 }
 
-.formInputBox .form .column {
+.column {
   display: flex;
   column-gap: 15px;
 }
@@ -304,10 +304,10 @@ textarea:focus {
     max-width: 98%;
     padding: 18px 2px;
   }
-  .formInputBox .form :where(.input-box input, .select-box) {
+  .form :where(.input-box input, .select-box) {
     font-size: 1.4rem;
   }
-  .formInputBox .form .column {
+  .column {
     flex-direction: column;
   }
 }

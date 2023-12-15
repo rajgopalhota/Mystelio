@@ -8,6 +8,7 @@
   padding: 24px 40px;
   z-index: 5;
 }
+
 .MusicContainer .playlists {
   display: flex;
   flex-wrap: wrap;
