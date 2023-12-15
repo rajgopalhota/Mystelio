@@ -1,7 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { motion } from "framer-motion";
+import { serverUrl } from "../../UrlHelper";
+import { Link } from "react-router-dom";
 
 export default function Card({ playlists, reference }) {
+  const { albumCover, playlistName } = playlists;
+  const backgroundImage = `${serverUrl}/${albumCover.replace(/\\/g, "/")}`;
   return (
     <motion.div
       drag
@@ -10,12 +14,15 @@ export default function Card({ playlists, reference }) {
       dragElastic={0.2}
       dragTransition={{ bounceStiffness: 100, bounceDamping: 30 }}
     >
-      <div className="card">
+      <div
+        className="card"
+        style={{ backgroundImage: `url(${backgroundImage})` }}
+      >
         <div className="info">
           <span>
             <i className="fa-solid fa-folder-open"></i>
           </span>
-          <p>{playlists.playlistName}</p>
+          <p>{playlistName}</p>
         </div>
         <div className="footer">
           <div className="download-info">
@@ -24,9 +31,13 @@ export default function Card({ playlists, reference }) {
               <i className="fa-solid fa-headphones-simple"></i>
             </span>
           </div>
-          <div className="tag">
-            <h3>Download Now</h3>
-          </div>
+          <Link to={`/playlist/${playlists.id}`}>
+            <div className="tag">
+              <h3>
+                Listen Now <i class="fa-solid fa-music"></i>
+              </h3>
+            </div>
+          </Link>
         </div>
       </div>
     </motion.div>

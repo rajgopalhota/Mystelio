@@ -18,12 +18,11 @@ export default function AddPlaylist() {
       ...prevData,
       [name]: type === "file" ? e.target.files[0] : value,
     }));
-
   };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData)
+    console.log(formData);
     musicContext.addPlaylist(formData);
     setFormData({
       playlistName: "",
@@ -41,31 +40,32 @@ export default function AddPlaylist() {
             </h1>
           </div>
           <form className="form" onSubmit={handleFormSubmit}>
-            <div className="input-box">
+            <div className="input-box address">
               <label>
-                <i className="fa-brands fa-spotify"></i>&nbsp;Playlist Name
+                <i className="fa-solid fa-folder-open"></i>&nbsp;Add Image and
+                Tags
               </label>
-              <input
-                required=""
-                placeholder="Enter playlist name"
-                type="text"
-                name="playlistName"
-                value={formData.playlistName}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="input-box">
-              <div className="fileInputDiv">
-                <label htmlFor="coverImageUpload">
-                  <i className="fa-solid fa-cloud-arrow-up"></i>&nbsp;Upload
-                  Cover Image {formData.coverImage && formData.coverImage.name}
-                </label>
+              <div className="column">
+                <div className="fileInputDiv">
+                  <label htmlFor="imageUpload">
+                    <i className="fa-solid fa-cloud-arrow-up"></i>&nbsp;Upload
+                    Image {formData.coverImage && formData.coverImage.name}
+                  </label>
+                  <input
+                    id="imageUpload"
+                    className="imageFile"
+                    type="file"
+                    accept="image/*"
+                    name="coverImage"
+                    onChange={handleInputChange}
+                  />
+                </div>
                 <input
-                  id="coverImageUpload"
-                  className="imageFile"
-                  type="file"
-                  accept="image/*"
-                  name="coverImage"
+                  required=""
+                  placeholder="Enter playlist name"
+                  type="text"
+                  name="playlistName"
+                  value={formData.playlistName}
                   onChange={handleInputChange}
                 />
               </div>

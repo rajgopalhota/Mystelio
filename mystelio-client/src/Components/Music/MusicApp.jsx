@@ -8,8 +8,8 @@ export default function MusicApp() {
   const { playlists, fetchPlaylists } = useMusic();
 
   useEffect(() => {
-    if(playlists.length===0){
-    fetchPlaylists();
+    if (playlists.length === 0) {
+      fetchPlaylists();
     }
   }, [fetchPlaylists]);
 
