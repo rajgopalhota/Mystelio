@@ -2,10 +2,13 @@ import React from "react";
 import { motion } from "framer-motion";
 import { serverUrl } from "../../UrlHelper";
 import { Link } from "react-router-dom";
+import playlistpic from "./../../assets/images/playlist.webp";
 
 export default function Card({ playlists, reference }) {
   const { albumCover, playlistName } = playlists;
-  const backgroundImage = `${serverUrl}/${albumCover.replace(/\\/g, "/")}`;
+  const backgroundImage = albumCover
+    ? `${serverUrl}/${albumCover.replace(/\\/g, "/")}`
+    : playlistpic;
   return (
     <motion.div
       drag
@@ -26,7 +29,7 @@ export default function Card({ playlists, reference }) {
         </div>
         <div className="footer">
           <div className="download-info">
-            <h5>.4mb</h5>
+            <h5>{playlists.songs.length} songs</h5>
             <span className="download-icon">
               <i className="fa-solid fa-headphones-simple"></i>
             </span>
@@ -34,7 +37,7 @@ export default function Card({ playlists, reference }) {
           <Link to={`playlist/${playlists.id}`}>
             <div className="tag">
               <h3>
-                Listen Now <i class="fa-solid fa-music"></i>
+                Listen Now <i className="fa-solid fa-music"></i>
               </h3>
             </div>
           </Link>

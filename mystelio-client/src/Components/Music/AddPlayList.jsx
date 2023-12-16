@@ -41,7 +41,7 @@ export default function AddPlaylist() {
             <div className="fileInputDiv">
               <label htmlFor="imageUpload">
                 <i className="fa-solid fa-cloud-arrow-up"></i>&nbsp;Upload Image{" "}
-                {formData.coverImage && formData.coverImage.name.slice(0,24)}
+                {formData.coverImage && formData.coverImage.name.slice(0, 24)}
               </label>
               <input
                 id="imageUpload"
@@ -53,7 +53,7 @@ export default function AddPlaylist() {
               />
             </div>
             <input
-              required=""
+              required
               placeholder="Enter playlist name"
               type="text"
               name="playlistName"
@@ -62,7 +62,9 @@ export default function AddPlaylist() {
             />
           </div>
         </div>
-        <button type="submit" className="formInputBox-button">CREATE PLAYLIST <i class="fa-solid fa-radio"></i></button>
+        <button type="submit" className="formInputBox-button">
+          CREATE PLAYLIST <i className="fa-solid fa-radio"></i>
+        </button>
       </form>
     </>
   );

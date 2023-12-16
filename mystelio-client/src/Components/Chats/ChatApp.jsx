@@ -57,13 +57,13 @@ const ChatApp = () => {
                   />
                   <div className="userInfo">
                     <p>
-                      <span><i class="fa-regular fa-circle-up"></i></span> {conversation.toUser.username}
+                      <span><i className="fa-regular fa-circle-up"></i></span> {conversation.toUser.username}
                     </p>
                     <p>
-                      <span><i class="fa-regular fa-comments"></i></span> {conversation.body.slice(0, 3)}...
+                      <span><i className="fa-regular fa-comments"></i></span> {conversation.body.slice(0, 3)}...
                     </p>
                     <p>
-                      <span><i class="fa-regular fa-clock fa-spin"></i></span>
+                      <span><i className="fa-regular fa-clock fa-spin"></i></span>
                       {" "}{new Date(conversation.updatedAt).toLocaleString()}
                     </p>
                   </div>
@@ -76,13 +76,13 @@ const ChatApp = () => {
                   />
                   <div className="userInfo">
                     <p>
-                      <span><i class="fa-regular fa-circle-down"></i></span> {conversation.fromUser.username}
+                      <span><i className="fa-regular fa-circle-down"></i></span> {conversation.fromUser.username}
                     </p>
                     <p>
-                      <span><i class="fa-regular fa-comments"></i></span> {conversation.body.slice(0, 3)}...
+                      <span><i className="fa-regular fa-comments"></i></span> {conversation.body.slice(0, 3)}...
                     </p>
                     <p>
-                      <span><i class="fa-regular fa-clock fa-spin"></i></span>
+                      <span><i className="fa-regular fa-clock fa-spin"></i></span>
                       {" "}{new Date(conversation.updatedAt).toLocaleString()}
                     </p>
                   </div>

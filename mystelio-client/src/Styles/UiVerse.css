@@ -24,12 +24,20 @@
   position: relative;
   margin: auto;
   max-width: 60%;
-  background: #f8f9fd;
-  background: linear-gradient(
-    -45deg,
-    rgb(249, 255, 244) 0%,
-    rgb(243, 248, 255) 100%
-  );
+  background-image: radial-gradient(
+      circle at center center,
+      lavenderblush,
+      lavender
+    ),
+    repeating-radial-gradient(
+      circle at top left,
+      #dedff1,
+      #e5e5f5,
+      32px,
+      transparent 32px,
+      transparent 26px
+    );
+  background-blend-mode: multiply;
   border-radius: 40px;
   margin-top: 7rem;
   padding: 25px 35px;
@@ -124,7 +132,12 @@ input {
 }
 .input-box {
   width: 100%;
-  background: white;
+  background-color: #fefff9;
+  background-image: radial-gradient(
+    #444cf7 0.65px,
+    lavender 0.65px
+  );
+  background-size: 12px 12px;
   border: none;
   padding: 15px 20px;
   text-transform: none !important;
@@ -155,7 +168,7 @@ input {
   border: 2px solid var(--blue-green);
   border-radius: 6px;
   padding: 0px 18px;
-  background: #eef4f5;
+  background: #fdffff;
 }
 
 .input-box input:focus,
@@ -179,7 +192,7 @@ textarea:focus {
   border: none;
   color: #808080;
   font-size: 1.9rem;
-  background: #eef4f5;
+  background: #fdffff;
 }
 .posstInfo {
   padding: 10px 0px;
@@ -187,7 +200,7 @@ textarea:focus {
   box-shadow: 0 7px 20px var(--prussian-blue);
   color: var(--selective-yellow);
 }
-.posstInfo .hashtags{
+.posstInfo .hashtags {
   margin-bottom: 10px;
 }
 .posstInfo-footer {
@@ -238,8 +251,14 @@ textarea:focus {
   margin: 20px 0;
   overflow: hidden;
   backdrop-filter: blur(12px);
-  background-color: rgba(240, 248, 255, 0.9);
-  box-shadow: rgba(255, 255, 255, 0.6) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.4) 0px 50px 100px -20px, rgba(0, 0, 0, 0.7) 0px 30px 60px -30px;
+  background-color: lavenderblush;
+  background-image: radial-gradient(#444cf7 0.5px, transparent 0.5px),
+    radial-gradient(#444cf7 0.5px, #e5e5f7 0.5px);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+  box-shadow: rgba(255, 255, 255, 0.6) 0px 1px 1px 0px inset,
+    rgba(50, 50, 93, 0.4) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.7) 0px 30px 60px -30px;
 }
 
 .post-header {
@@ -255,14 +274,21 @@ textarea:focus {
   object-fit: cover;
   margin: 0 20px;
   padding: 2px;
-  background-image: linear-gradient(aliceblue, rgb(255, 34, 71), yellow, red, purple, green);
+  background-image: linear-gradient(
+    aliceblue,
+    rgb(255, 34, 71),
+    yellow,
+    red,
+    purple,
+    green
+  );
 }
 
-.post-container{
+.post-container {
   margin: 10px;
   min-height: 120px;
 }
-.post-container .read-more{
+.post-container .read-more {
   cursor: pointer;
   color: red;
 }
@@ -272,12 +298,9 @@ textarea:focus {
   margin: 0;
 }
 
-
 .post h2 {
   color: var(--prussian-blue);
-  
 }
-
 
 @keyframes pulse {
   from {

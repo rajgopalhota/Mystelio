@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useAuth, useMusic } from "./../../Context/MusicContext";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function AddSong() {
   const { playlistId } = useParams();
@@ -32,16 +33,20 @@ export default function AddSong() {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    musicContext.addSongToPlaylist(playlistId, formData); // Replace 'playlistId' with the actual playlistId
-    setFormData({
-      songName: "",
-      audioFile: null,
-    });
+    if (!formData.audioFile) {
+      console.log("object");
+      toast.error("File is required!");
+    } else {
+      musicContext.addSongToPlaylist(playlistId, formData); // Replace 'playlistId' with the actual playlistId
+      setFormData({
+        songName: "",
+        audioFile: null,
+      });
+    }
   };
 
   return (
-    <>
+    <div className="addmusic">
       <form className="form musicplaylistinput" onSubmit={handleFormSubmit}>
         <div className="input-box address">
           <label>
@@ -68,7 +73,7 @@ export default function AddSong() {
               />
             </div>
             <input
-              required=""
+              required
               placeholder="Enter audio name"
               type="text"
               name="songName"
@@ -81,6 +86,6 @@ export default function AddSong() {
           Upload&nbsp;<i className="fa-solid fa-music"></i>
         </button>
       </form>
-    </>
+    </div>
   );
 }

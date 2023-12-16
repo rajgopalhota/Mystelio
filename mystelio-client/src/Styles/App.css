@@ -20,6 +20,7 @@
 
 .Toastify__toast-body {
   font-size: 1.7rem !important;
+  z-index: 999 !important;
 }
 
 html {
@@ -43,10 +44,19 @@ html {
   overflow-x: hidden;
   scroll-behavior: smooth;
   color: var(--main-text-color);
-  background-image: url(./../assets/images/bg.jpg);
+}
+html::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: url(./../assets/images/bg.png);
   background-size: cover;
-  background-position: center center fixed;
-  background-repeat: repeat;
+  background-position: center center;
+  background-repeat: no-repeat;
+  z-index: -1;
 }
 
 body {
@@ -95,7 +105,7 @@ h1 {
   border: 2px solid var(--blue-green);
   margin-top: 10px;
   border-radius: 6px;
-  background: #eef4f5;
+  background: #fdffff;
 }
 .fileInputDiv label {
   margin-left: 10px;

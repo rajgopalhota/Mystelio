@@ -63,7 +63,7 @@ const PersonalMessages = () => {
           {Object.entries(messagesByDate).map(([date, messages]) => (
             <div className="messages-container" key={date}>
               <span className="messageDate">
-                <i class="fa-solid fa-calendar-days"></i>&nbsp;{date}
+                <i className="fa-solid fa-calendar-days"></i>&nbsp;{date}
               </span>
               {messages.map((message) => (
                 <div

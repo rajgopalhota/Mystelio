@@ -2,16 +2,12 @@ import React, { useEffect, useRef } from "react";
 import Card from "./Card";
 import AddPlaylist from "./AddPlayList";
 import { useMusic } from "./../../Context/MusicContext";
+import { useAuth } from "../../Context/AuthContext";
 
 export default function MusicApp() {
   const ref = useRef(null);
-  const { playlists, fetchPlaylists } = useMusic();
-
-  useEffect(() => {
-    if (playlists.length === 0) {
-      fetchPlaylists();
-    }
-  }, [fetchPlaylists]);
+  const auth = useAuth();
+  const { playlists } = useMusic();
 
   return (
     <div ref={ref}>

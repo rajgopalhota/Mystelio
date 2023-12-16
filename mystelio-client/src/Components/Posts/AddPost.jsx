@@ -59,7 +59,7 @@ export default function AddPost() {
                 <i className="fa-brands fa-battle-net"></i>&nbsp;Enter Title
               </label>
               <input
-                required=""
+                required
                 placeholder="Add a quick title to your post"
                 type="text"
                 name="title"
@@ -70,7 +70,7 @@ export default function AddPost() {
                 <i className="fa-solid fa-pen-nib"></i>&nbsp;Add Post
               </label>
               <textarea
-                required=""
+                required
                 placeholder="Write something............"
                 name="postContent"
                 value={formData.postContent}
@@ -97,7 +97,7 @@ export default function AddPost() {
                   />
                 </div>
                 <input
-                  required=""
+                  required
                   placeholder="Enter tags #mystelio"
                   type="text"
                   name="tags"

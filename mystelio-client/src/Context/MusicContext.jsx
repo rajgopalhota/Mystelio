@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext } from "react";
+import React, { useState, createContext, useContext, useEffect } from "react";
 import { toast } from "react-toastify";
 import axios from "../UrlHelper";
 import { useAuth } from "./AuthContext";
@@ -9,6 +9,11 @@ export const MusicProvider = ({ children }) => {
   const auth = useAuth();
   const [playlists, setPlaylists] = useState([]);
 
+  useEffect(() => {
+    if (auth.user) {
+      fetchPlaylists();
+    }
+  }, [auth.user]);
   const fetchPlaylists = async () => {
     try {
       const response = await axios.get("/music/my-playlists", {
@@ -30,10 +35,7 @@ export const MusicProvider = ({ children }) => {
           Authorization: auth.user.token,
         },
       });
-      setPlaylists((prevPlaylists) => [
-        response.data.playlist,
-        ...prevPlaylists,
-      ]);
+      fetchPlaylists();
       toast.success("Playlist created!");
     } catch (error) {
       console.error("Error creating playlist:", error.message);
@@ -107,6 +109,26 @@ export const MusicProvider = ({ children }) => {
     }
   };
 
+  const [songs, setSongs] = useState([]);
+  const [pid, setPid] = useState([]);
+  useEffect(() => {
+    if (auth.user) {
+      fetchSongs();
+    }
+  }, [auth.user, pid]);
+  const fetchSongs = async () => {
+    try {
+      const response = await axios.get(`/music/playlist/${pid}`, {
+        headers: {
+          Authorization: auth.user.token,
+        },
+      });
+      setSongs(response.data.playlist);
+    } catch (error) {
+      console.error("Error fetching songs:", error.message);
+    }
+  };
+
   return (
     <MusicContext.Provider
       value={{
@@ -117,7 +139,9 @@ export const MusicProvider = ({ children }) => {
         addSongToPlaylist,
         deleteSongFromPlaylist,
         sharePlaylist,
-        // Add other functions as needed
+        songs,
+        fetchSongs,
+        setPid,
       }}
     >
       {children}

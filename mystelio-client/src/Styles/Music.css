@@ -8,7 +8,14 @@
   padding: 24px 40px;
   z-index: 5;
 }
-
+.musicplaylistinput{
+  position: relative;
+  margin-bottom: 50px;
+}
+.addSongbtn{
+  position: absolute;
+  right: 0;
+}
 .MusicContainer .playlists {
   display: flex;
   flex-wrap: wrap;

@@ -56,7 +56,7 @@ function Sidebar() {
           </NavLink>
           <NavLink to="/music" onClick={handleClick}>
             <span>
-              <i class="fa-solid fa-headphones-simple"></i>chill
+              <i className="fa-solid fa-headphones-simple"></i>chill
             </span>
           </NavLink>
           <NavLink to="/messages" onClick={handleClick}>
