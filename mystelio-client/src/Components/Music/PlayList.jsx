@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import AddSong from "./AddSong";
 import { useMusic } from "../../Context/MusicContext";
@@ -81,6 +81,19 @@ export default function PlayList() {
   const handleSeekChange = (value) => {
     playerRef.current.seekTo(value / 100);
   };
+
+  useEffect(() => {
+    // Automatically select and play a random song when the component mounts
+    const randomSongIndex = Math.floor(Math.random() * songs.length);
+    selectSong(randomSongIndex);
+  }, [songs]);
+
+  useEffect(() => {
+    // Play the selected song when isPlaying changes
+    if (isPlaying) {
+      playerRef.current.seekTo(0); // Reset the playback progress
+    }
+  }, [isPlaying]);
 
   return (
     <>
