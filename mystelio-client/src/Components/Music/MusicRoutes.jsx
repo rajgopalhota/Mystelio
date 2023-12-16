@@ -9,8 +9,8 @@ export default function MusicRoutes() {
       <h1 className="bgText">Chilling Area</h1>
       <div className="MusicContainer">
         <Routes>
-          <Route path="/" element={<MusicApp />} />
-          <Route path="playlist/:playlistId" element={<PlayList />} />
+          <Route path="" element={<MusicApp />} />
+          <Route path="/playlist/:playlistId" element={<PlayList />} />
         </Routes>
       </div>
     </>

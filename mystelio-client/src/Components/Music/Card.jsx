@@ -31,7 +31,7 @@ export default function Card({ playlists, reference }) {
               <i className="fa-solid fa-headphones-simple"></i>
             </span>
           </div>
-          <Link to={`/playlist/${playlists.id}`}>
+          <Link to={`playlist/${playlists.id}`}>
             <div className="tag">
               <h3>
                 Listen Now <i class="fa-solid fa-music"></i>

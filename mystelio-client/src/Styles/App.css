@@ -97,12 +97,8 @@ h1 {
   border-radius: 6px;
   background: #eef4f5;
 }
-.fileInputDiv i{
-  font-size: 1.8rem !important;
-}
 .fileInputDiv label {
-  margin-left: 5px;
-  font-size: 1rem !important;
+  margin-left: 10px;
 }
 .imageFile {
   display: none;
