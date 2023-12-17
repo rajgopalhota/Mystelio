@@ -174,8 +174,8 @@ export default function PlayList() {
                     max={100}
                     value={volume * 100}
                     onChange={handleVolumeChange}
-                    trackStyle={{ backgroundColor: "#023047ff" }}
-                    handleStyle={{ borderColor: "#cdb4dbff" }}
+                    trackStyle={{ backgroundColor: "red" }}
+                    handleStyle={{ borderColor: "red" }}
                   />
                 </div>
               )}
