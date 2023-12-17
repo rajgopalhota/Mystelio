@@ -10,7 +10,7 @@ export default function MusicApp() {
   const { playlists } = useMusic();
 
   return (
-    <div ref={ref}>
+    <div className="musiccontent" ref={ref}>
       <AddPlaylist />
       <div className="playlists">
         {playlists.map((playlist) => (

@@ -7,6 +7,7 @@ import { useAuth } from "../../Context/AuthContext";
 import ReactPlayer from "react-player";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
+import AudioCard from "./AudioCard";
 
 export default function PlayList() {
   const auth = useAuth();
@@ -35,7 +36,7 @@ export default function PlayList() {
   };
 
   const playPreviousSong = () => {
-    if (isShuffle) {
+    if (songs.length > 0 && isShuffle) {
       setSelectedSong((prevIndex) =>
         prevIndex === selectedSong
           ? Math.floor(Math.random() * songs.length)
@@ -89,31 +90,34 @@ export default function PlayList() {
   }, [songs]);
 
   useEffect(() => {
-    // Play the selected song when isPlaying changes
-    if (isPlaying) {
+    if (songs.length > 0 && isPlaying) {
       playerRef.current.seekTo(0); // Reset the playback progress
     }
   }, [isPlaying]);
 
   return (
     <>
-      <div className="songscontainer">
+      <div className="songscontainer musiccontent">
         <AddSong />
-        <div className="song-list">
-          {songs.map((song, index) => (
-            <div
-              key={song.id}
-              className={`song-card ${selectedSong === index ? "active" : ""}`}
-              onClick={() => selectSong(index)}
-            >
-              <p>{song.songName}</p>
-              <p>{song.artist}</p>
-              <p>{song.album}</p>
-            </div>
-          ))}
-        </div>
+        {songs.length === 0 ? (
+          <h1>No songs</h1>
+        ) : (
+          <div className="song-list">
+            {songs.map((song, index) => (
+              <div
+                key={song.id}
+                className={`song-card ${
+                  selectedSong === index ? "songActive" : ""
+                }`}
+                onClick={() => selectSong(index)}
+              >
+                <AudioCard song={song} isPlay={selectedSong === index} />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
-      {selectedSong !== null && (
+      {selectedSong !== null && songs.length !== 0 && (
         <div className="bottom-player">
           <p>{songs[selectedSong].songName}</p>
           <ReactPlayer
@@ -127,8 +131,7 @@ export default function PlayList() {
             onEnded={handleEnded}
             onProgress={handleProgress}
             progressInterval={100}
-            width="100%"
-            height="50px"
+            height="0px"
             controls={false}
           />
           <Slider
@@ -136,8 +139,8 @@ export default function PlayList() {
             max={100}
             value={played * 100}
             onChange={handleSeekChange}
-            trackStyle={{ backgroundColor: "#ff0000" }}
-            handleStyle={{ borderColor: "#ff0000" }}
+            trackStyle={{ backgroundColor: "#023047ff" }}
+            handleStyle={{ borderColor: "#023047ff" }}
           />
           <div className="player-controls">
             <button onClick={playPreviousSong}>
@@ -171,8 +174,8 @@ export default function PlayList() {
                     max={100}
                     value={volume * 100}
                     onChange={handleVolumeChange}
-                    trackStyle={{ backgroundColor: "#ff0000" }}
-                    handleStyle={{ borderColor: "#ff0000" }}
+                    trackStyle={{ backgroundColor: "#023047ff" }}
+                    handleStyle={{ borderColor: "#cdb4dbff" }}
                   />
                 </div>
               )}

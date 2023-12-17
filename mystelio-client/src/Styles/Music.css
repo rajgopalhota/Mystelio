@@ -5,14 +5,16 @@
   width: 100%;
   height: 100%;
   background: zinc;
-  padding: 24px 40px;
   z-index: 5;
 }
-.musicplaylistinput{
+.musiccontent{
+  padding: 24px 40px;
+}
+.musicplaylistinput {
   position: relative;
   margin-bottom: 50px;
 }
-.addSongbtn{
+.addSongbtn {
   position: absolute;
   right: 0;
 }
@@ -36,7 +38,6 @@
   text-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
   z-index: 1;
 }
-
 .MusicContainer .card {
   position: relative;
   width: 210px;
@@ -49,7 +50,9 @@
   overflow: hidden;
   transition: 0.3s;
   border: 4px solid var(--prussian-blue);
-  box-shadow: rgba(255, 255, 255, 0.4) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.7) 0px 50px 100px -20px, rgba(0, 0, 0, 0.5) 0px 30px 60px -30px;
+  box-shadow: rgba(255, 255, 255, 0.4) 0px 1px 1px 0px inset,
+    rgba(50, 50, 93, 0.7) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.5) 0px 30px 60px -30px;
 }
 
 .MusicContainer .card::before {
@@ -79,12 +82,12 @@
   bottom: 0;
   width: 100%;
 }
-.addSongbtn{
+.addSongbtn {
   width: auto !important;
   padding: 0 10px;
   margin: 10px 10px !important;
 }
-.audioinput{
+.audioinput {
   align-items: center;
 }
 
@@ -114,7 +117,11 @@
 .MusicContainer .tag {
   width: 100%;
   padding: 1rem 0; /* Equivalent to 16px 0 in Tailwind */
-  background-image: linear-gradient(45deg, var(--prussian-blue), var(--blue-green)); /* Equivalent to bg-green-600 in Tailwind */
+  background-image: linear-gradient(
+    45deg,
+    var(--prussian-blue),
+    var(--blue-green)
+  ); /* Equivalent to bg-green-600 in Tailwind */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -125,13 +132,26 @@
   font-size: 1.4rem;
   font-weight: 600;
 }
-.MusicContainer .tag i{
+.MusicContainer .tag i {
   margin: 0 8px;
 }
 
 /* Music player related */
-/* PlayList.css */
-.songscontainer{
+.song-list .card {
+  height: 150px !important;
+  padding: 4px !important;
+}
+.song-list .tag {
+  padding: 0.8rem !important;
+}
+.songActive .card {
+  scale: 1.07;
+  background-position: right top !important;
+}
+.songActive .tag {
+  background-image: linear-gradient(45deg, green, rgb(0, 198, 0)) !important;
+}
+.songscontainer {
   min-height: 100vh;
 }
 .songscontainer {
@@ -148,38 +168,43 @@
 .song-list {
   display: flex;
   flex-wrap: wrap;
+  gap: 10px;
   margin-bottom: 60px; /* Adjust margin to accommodate bottom player */
 }
 
 .song-card {
-  border: 1px solid #ccc;
   padding: 10px;
   margin: 10px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.song-card:hover {
-  background-color: #f0f0f0;
-}
-
-.song-card.active {
-  background-color: #e0e0e0;
+  transition: all 0.3s ease;
 }
 
 .bottom-player {
   position: sticky;
   bottom: 0;
-  left: 0;
+  right: 0;
   width: 100%;
-  background-color: #dedede;
+  background-image: radial-gradient(
+      circle at center center,
+      lavenderblush,
+      lavender
+    ),
+    repeating-radial-gradient(
+      circle at top left,
+      #dedff1,
+      #e5e5f5,
+      32px,
+      transparent 32px,
+      transparent 26px
+    );
   padding: 10px;
-  box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px -2px 12px var(--prussian-blue);
+  border-radius: 30px 30px 0 0;
 }
 
 .bottom-player p {
   font-size: 16px;
-  margin: 0;
+  margin: 0 0 10px 10px;
 }
 
 .player-controls {
@@ -187,14 +212,17 @@
   justify-content: space-around;
   align-items: center;
   padding: 10px;
-  background: #bbbbbb;
+  margin-top: 10px;
+  background: var(--prussian-blue);
   color: #fff;
+  border-radius: 20px;
 }
 
 .player-controls button {
   background: none;
   border: none;
   font-size: 20px;
+  color: white;
 }
 
 .player-controls button:hover {
@@ -205,7 +233,7 @@
 .player-controls button:focus {
   outline: none;
 }
-.volumeControl{
+.volumeControl {
   position: relative;
 }
 .volume-slider {
@@ -220,7 +248,8 @@
   margin: 0 auto;
 }
 
-.rc-slider-track, .rc-slider-handle {
+.rc-slider-track,
+.rc-slider-handle {
   height: 10px;
 }
 
@@ -235,5 +264,20 @@
     width: 160px;
     height: 150px;
     border-radius: 30px;
+  }
+  .song-list {
+    display: block;
+  }
+  .song-list .card {
+    width: 100% !important;
+    height: 110px !important;
+    padding: 1px !important;
+  }
+  .songActive .card {
+    scale: 1.03 !important;
+    background-position: right top !important;
+  }
+  .song-card:hover {
+    scale: unset !important;
   }
 }

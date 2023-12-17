@@ -50,7 +50,7 @@ export default function AddSong() {
       <form className="form musicplaylistinput" onSubmit={handleFormSubmit}>
         <div className="input-box address">
           <label>
-            <i className="fa-solid fa-music"></i>&nbsp;Add Audio and Tags
+            <i className="fa-solid fa-music"></i>&nbsp;Add Audio
           </label>
           <div className="column audioinput">
             <div className="fileInputDiv">
