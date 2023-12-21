@@ -29,7 +29,53 @@ const fetchLikesWithUserInfo = async (likes) => {
     })
   );
 };
+const addPostInfo = async (post) => {
+  try {
+    // Include the 'user' and 'comments' associations when fetching the post
+    const populatedPost = await Post.findByPk(post.id, {
+      include: [
+        {
+          model: User,
+          as: "user",
+          attributes: [
+            "id",
+            "fullName",
+            "username",
+            "email",
+            "profileImagePath",
+          ],
+        },
+        {
+          model: Comment,
+          as: "comments",
+          include: [
+            {
+              model: User,
+              as: "user",
+              attributes: ["id", "fullName", "username", "profileImagePath"],
+            },
+          ],
+        },
+      ],
+    });
 
+    const likesWithUserInfo = await fetchLikesWithUserInfo(populatedPost.likes);
+    return {
+      id: populatedPost.id,
+      title: populatedPost.title,
+      content: populatedPost.content,
+      postImagePath: populatedPost.postImagePath,
+      tags: populatedPost.tags,
+      createdAt: populatedPost.createdAt,
+      likes: likesWithUserInfo,
+      created_user: populatedPost.user,
+      comments: populatedPost.comments,
+    };
+  } catch (error) {
+    console.error("Error fetching post with info:", error);
+    throw error;
+  }
+};
 // Create a new post
 exports.addPost = async (req, res) => {
   try {
@@ -47,10 +93,13 @@ exports.addPost = async (req, res) => {
       content: req.body.content,
       postImagePath: postImageUrl,
       tags: req.body.tags,
-      userId
+      userId,
     });
-
-    res.status(201).json({ message: "Post added successfully", post: newPost });
+    const postWithInfo = await addPostInfo(newPost);
+    console.log(postWithInfo);
+    res
+      .status(201)
+      .json({ message: "Post added successfully", post: postWithInfo });
   } catch (error) {
     console.error("Error adding post:", error);
     res
@@ -89,7 +138,13 @@ exports.getLoggedInUserPosts = async (req, res) => {
         {
           model: User,
           as: "user",
-          attributes: ["id", "fullName", "username", "email", "profileImagePath"],
+          attributes: [
+            "id",
+            "fullName",
+            "username",
+            "email",
+            "profileImagePath",
+          ],
         },
         {
           model: Comment,
@@ -125,7 +180,13 @@ exports.getPostById = async (req, res) => {
         {
           model: User,
           as: "user",
-          attributes: ["id", "fullName", "username", "email", "profileImagePath"],
+          attributes: [
+            "id",
+            "fullName",
+            "username",
+            "email",
+            "profileImagePath",
+          ],
         },
         {
           model: Comment,
@@ -176,7 +237,13 @@ exports.getPosts = async (req, res) => {
         {
           model: User,
           as: "user",
-          attributes: ["id", "fullName", "username", "email", "profileImagePath"],
+          attributes: [
+            "id",
+            "fullName",
+            "username",
+            "email",
+            "profileImagePath",
+          ],
         },
         {
           model: Comment,

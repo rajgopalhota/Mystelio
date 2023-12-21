@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext, useEffect } from "react";
+import React, { useState, createContext, useContext } from "react";
 import { toast } from "react-toastify";
 import axios from "../UrlHelper";
 import { useAuth } from "./AuthContext";
@@ -102,6 +102,24 @@ export const PostProvider = ({ children }) => {
     }
   };
 
+  const deletePost = async (postId) => {
+    try {
+      await axios.delete(
+        `/posts/delete/${postId}`,
+        {
+          headers: {
+            Authorization: auth.user.token, // Add the authentication token
+          },
+        }
+      );
+      fetchPosts(); // Refresh posts after adding a comment
+      toast.success("Post deleted!");
+    } catch (error) {
+      console.error("Error Deleting:", error.message);
+      toast.error("Post deletion failed");
+    }
+  };
+
   // Other functions for fetching comments, etc.
 
   return (
@@ -114,6 +132,7 @@ export const PostProvider = ({ children }) => {
         unlikePost,
         addComment,
         addReply,
+        deletePost
         // Add other functions as needed
       }}
     >
