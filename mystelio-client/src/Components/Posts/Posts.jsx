@@ -1,21 +1,24 @@
+// Posts.js
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../Context/AuthContext";
 import logo from "./../../assets/logo.jpg";
-import { serverUrl } from "../../UrlHelper";
 import Comment from "./Comment";
 import { Link } from "react-router-dom";
 import { usePost } from "../../Context/PostContext";
+import ConfirmationModal from "./../ConfirmationModal";
+import { serverUrl } from "../../UrlHelper";
 
-const Posts = ({profileUserId}) => {
+const Posts = ({ profileUserId }) => {
   const auth = useAuth();
   const postContext = usePost();
+  const [expandedPosts, setExpandedPosts] = useState([]);
+  const [expandedComments, setExpandedComments] = useState([]);
+  const [deletePostId, setDeletePostId] = useState(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   useEffect(() => {
     postContext.fetchPosts();
   }, []);
-
-  const [expandedPosts, setExpandedPosts] = useState([]);
-  const [expandedComments, setExpandedComments] = useState([]);
 
   const handleExpandPost = (postId) => {
     setExpandedPosts((prevExpandedPosts) => [...prevExpandedPosts, postId]);
@@ -23,13 +26,30 @@ const Posts = ({profileUserId}) => {
 
   const handleExpandComments = (postId) => {
     setExpandedComments((prevExpandedComments) => {
-      // If the postId is already in the state, remove it; otherwise, add it
       if (prevExpandedComments.includes(postId)) {
         return prevExpandedComments.filter((id) => id !== postId);
       } else {
         return [...prevExpandedComments, postId];
       }
     });
+  };
+
+  const handleDeleteClick = (postId) => {
+    setDeletePostId(postId);
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleDeleteConfirm = () => {
+    if (deletePostId) {
+      postContext.deletePost(deletePostId);
+      setDeletePostId(null);
+      setIsDeleteModalOpen(false);
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setDeletePostId(null);
+    setIsDeleteModalOpen(false);
   };
 
   const filteredPosts = profileUserId
@@ -41,33 +61,40 @@ const Posts = ({profileUserId}) => {
       {postContext.posts &&
         filteredPosts.map((post) => (
           <div className="post" key={post.id}>
-            <div className="post-header posstInfo">
-              <img
-                className="user-image"
-                src={
-                  (post.created_user &&
-                    post.created_user.profileImagePath &&
-                    `${serverUrl}/${post.created_user.profileImagePath}`) ||
-                  logo
-                }
-                alt={post.created_user && post.created_user.fullName}
-              />
-              <Link to={post.created_user && `/users/${post.created_user.id}`}>
-                <p className="user-name">
-                  {post.created_user && post.created_user.fullName} &nbsp;
-                  <i className="fa-solid fa-feather"></i>
-                </p>
-              </Link>
-              {auth.user && post && post.created_user && post.created_user.id === auth.user.id && (
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    postContext.deletePost(post.id);
-                  }}
+            <div className="posstInfo postHeadControl">
+              <div className="post-header">
+                <img
+                  className="user-image"
+                  src={
+                    (post.created_user &&
+                      post.created_user.profileImagePath &&
+                      `${serverUrl}/${post.created_user.profileImagePath}`) ||
+                    logo
+                  }
+                  alt={post.created_user && post.created_user.fullName}
+                />
+                <Link
+                  to={post.created_user && `/users/${post.created_user.id}`}
                 >
-                  Delete
-                </button>
-              )}
+                  <p className="user-name">
+                    {post.created_user && post.created_user.fullName} &nbsp;
+                    <i className="fa-solid fa-feather"></i>
+                  </p>
+                </Link>
+              </div>
+              {auth.user &&
+                post &&
+                post.created_user &&
+                post.created_user.id === auth.user.id && (
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleDeleteClick(post.id);
+                    }}
+                  >
+                    <i className="fa-solid fa-trash-can"></i>
+                  </button>
+                )}
             </div>
             {post.postImagePath && (
               <img
@@ -82,10 +109,8 @@ const Posts = ({profileUserId}) => {
               </h2>
               <div className="content">
                 {expandedPosts.includes(post.id) ? (
-                  // If post is expanded, show full content
                   <p>{post.content}</p>
                 ) : (
-                  // If post is not expanded, show only 2 lines and "Read more" link
                   <div>
                     <p>
                       {post.content.slice(0, 300)}......
@@ -112,8 +137,8 @@ const Posts = ({profileUserId}) => {
               <div className="posstInfo-footer">
                 {auth.user &&
                 auth.user.id &&
-                post.likes && post.likes.some((user) => user.id === auth.user.id) ? (
-                  // If the logged-in user's ID is in the likes array, show Dislike button
+                post.likes &&
+                post.likes.some((user) => user.id === auth.user.id) ? (
                   <button
                     onClick={() => postContext.unlikePost(post.id)}
                     className="likebutton"
@@ -122,7 +147,6 @@ const Posts = ({profileUserId}) => {
                     <p>{post.likes.length}</p>
                   </button>
                 ) : (
-                  // If the logged-in user's ID is NOT in the likes array, show Like button
                   <button
                     onClick={() => postContext.likePost(post.id)}
                     className="likebutton likebtn"
@@ -149,6 +173,12 @@ const Posts = ({profileUserId}) => {
             </div>
           </div>
         ))}
+
+      <ConfirmationModal
+        isOpen={isDeleteModalOpen}
+        onCancel={handleDeleteCancel}
+        onConfirm={handleDeleteConfirm}
+      />
     </div>
   );
 };

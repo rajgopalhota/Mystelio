@@ -104,10 +104,8 @@ export const MessageProvider = ({ children }) => {
     if (!socket) return;
 
     socket.on("newMessage", (data) => {
-      console.log("ssssssssss",data);
-      if (data.message.fromUserId != auth.user.id) {
-        toast("New Message");
-      }
+      console.log(data)
+      toast("New message: "+ data.message.body)
       fetchConversations();
     });
 

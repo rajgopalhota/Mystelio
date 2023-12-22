@@ -195,10 +195,25 @@ textarea:focus {
   background: #fdffff;
 }
 .posstInfo {
-  padding: 10px 0px;
+  padding: 7px 10px;
   background-color: var(--prussian-blue);
   box-shadow: 0 7px 20px var(--prussian-blue);
   color: var(--selective-yellow);
+}
+.postHeadControl {
+  display: flex;
+  justify-content: space-between;
+}
+.postHeadControl button{
+  border: none;
+  outline: none;
+  background-color: transparent;
+  color: red;
+  font-weight: 800;
+  font-size: 2.3em;
+}
+.postHeadControl button:hover{
+  transform: scale(1.1);
 }
 .posstInfo .hashtags {
   margin-bottom: 10px;

@@ -34,6 +34,7 @@ const PersonalMessages = () => {
       behavior: "smooth",
     });
   };
+  
   useLayoutEffect(() => {
     const observer = new MutationObserver((mutations) => {
       console.log("object");
