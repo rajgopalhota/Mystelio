@@ -4,6 +4,7 @@ import axios, { serverUrl } from "./../../UrlHelper";
 import logo from "./../../assets/logo.jpg";
 import { useAuth } from "./../../Context/AuthContext";
 import { toast } from "react-toastify";
+import Posts from "../Posts/Posts";
 
 export default function Profile() {
   const auth = useAuth();
@@ -163,6 +164,8 @@ export default function Profile() {
           </div>
         </div>
       )}
+      <h1 className="userPosts">{user?user.fullName:"User"} Posts</h1>
+      <Posts profileUserId = {userId} />
     </>
   );
 }

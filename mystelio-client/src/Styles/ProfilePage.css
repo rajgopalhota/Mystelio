@@ -35,7 +35,9 @@
 .profilePage::-webkit-scrollbar-thumb{
     display: none;
 }
-
+.userPosts{
+    margin-top: 20px;
+}
 .profilePage .userImg {
     z-index: 2;
     display: inline-block; /* Make it inline-block to center using text-align */

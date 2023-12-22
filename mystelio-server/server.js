@@ -6,6 +6,7 @@ const http = require("http"); // Require the http module
 const socketIo = require("socket.io");
 const sequelize = require("./config/database");
 const errorMiddleware = require('./middleware/errorMiddleware');
+require('dotenv').config();
 
 const app = express();
 const PORT = 5000;
@@ -14,7 +15,7 @@ const PORT = 5000;
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: process.env.ORIGIN,
   }
 });
 
@@ -42,8 +43,13 @@ io.on('connection', (socket) => {
   socket.on('error', (error) => {
     console.error('Socket error:', error);
   });
-});
 
+  // Handle joining a room based on user ID
+  socket.on('joinRoom', (userId) => {
+    socket.join(userId);
+    console.log(`Socket ${socket.id} joined room ${userId}`);
+  });
+});
 
 // Send io object to routes to use it for emitting events
 app.use((req, res, next) => {

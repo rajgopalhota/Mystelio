@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../Context/AuthContext";
 import logo from "./../../assets/logo.jpg";
-import axios, { serverUrl } from "../../UrlHelper";
+import { serverUrl } from "../../UrlHelper";
 import Comment from "./Comment";
 import { Link } from "react-router-dom";
 import { usePost } from "../../Context/PostContext";
 
-const Posts = () => {
+const Posts = ({profileUserId}) => {
   const auth = useAuth();
   const postContext = usePost();
 
@@ -32,10 +32,14 @@ const Posts = () => {
     });
   };
 
+  const filteredPosts = profileUserId
+    ? postContext.posts.filter((post) => post.created_user.id == profileUserId)
+    : postContext.posts;
+
   return (
     <div className="posts">
       {postContext.posts &&
-        postContext.posts.map((post) => (
+        filteredPosts.map((post) => (
           <div className="post" key={post.id}>
             <div className="post-header posstInfo">
               <img

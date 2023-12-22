@@ -16,19 +16,26 @@ export const MessageProvider = ({ children }) => {
   useEffect(() => {
     // Establish a WebSocket connection
     const newSocket = io(serverUrl);
-    newSocket.on("connect", () => {
-      console.log("Socket connected:", newSocket.connected);
-    });
+
+    if (auth.user) {
+      newSocket.on("connect", () => {
+        console.log("Socket connected:", newSocket.connected);
+        const userId = auth.user.id;
+        newSocket.emit("joinRoom", userId);
+      });
+    }
 
     newSocket.on("disconnect", () => {
       console.log("Socket disconnected");
     });
 
     setSocket(newSocket);
+
     return () => {
       newSocket.disconnect();
     };
-  }, []);
+  }, [auth.user]);
+
   const fetchConversations = async () => {
     try {
       const response = await axios.get("/dm/conversations", {
@@ -97,9 +104,9 @@ export const MessageProvider = ({ children }) => {
     if (!socket) return;
 
     socket.on("newMessage", (data) => {
-      console.log(data)
-      if(data.message.fromUserId!=auth.user.id){
-        toast("New Message")
+      console.log("ssssssssss",data);
+      if (data.message.fromUserId != auth.user.id) {
+        toast("New Message");
       }
       fetchConversations();
     });

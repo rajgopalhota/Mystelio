@@ -7,7 +7,6 @@ const User = require("../models/userModel");
 // Get conversations for the authenticated user
 exports.getConversations = async (req, res) => {
   try {
-
     const userId = req.user.id;
     // Find all messages involving the authenticated user
     const messages = await Message.findAll({
@@ -59,7 +58,7 @@ exports.getSpecific = async (req, res) => {
     const messages = await Message.findAll({
       where: {
         [Op.or]: [{ fromUserId: userId }, { toUserId: userId }],
-        conversationId
+        conversationId,
       },
       include: [
         {
@@ -125,8 +124,9 @@ exports.sendPvtMsg = async (req, res) => {
 
       message = newConversation;
     }
-    // Emit the new message to connected clients
-    req.io.emit("newMessage", {
+
+    // Emit the new message to the specific room (conversationId)
+    req.io.to(parseInt(toUserId)).emit("newMessage", {
       conversationId: message.conversationId,
       message: {
         id: message.id,
@@ -136,6 +136,7 @@ exports.sendPvtMsg = async (req, res) => {
         createdAt: message.createdAt,
       },
     });
+
     res.json({
       message: "Message sent successfully",
       conversationId: message.conversationId,

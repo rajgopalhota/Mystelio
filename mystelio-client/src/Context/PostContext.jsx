@@ -104,15 +104,12 @@ export const PostProvider = ({ children }) => {
 
   const deletePost = async (postId) => {
     try {
-      await axios.delete(
-        `/posts/delete/${postId}`,
-        {
-          headers: {
-            Authorization: auth.user.token, // Add the authentication token
-          },
-        }
-      );
-      fetchPosts(); // Refresh posts after adding a comment
+      await axios.delete(`/posts/delete/${postId}`, {
+        headers: {
+          Authorization: auth.user.token, // Add the authentication token
+        },
+      });
+      setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
       toast.success("Post deleted!");
     } catch (error) {
       console.error("Error Deleting:", error.message);
@@ -132,7 +129,7 @@ export const PostProvider = ({ children }) => {
         unlikePost,
         addComment,
         addReply,
-        deletePost
+        deletePost,
         // Add other functions as needed
       }}
     >
