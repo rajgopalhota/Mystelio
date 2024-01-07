@@ -104,8 +104,8 @@ export const MessageProvider = ({ children }) => {
     if (!socket) return;
 
     socket.on("newMessage", (data) => {
-      console.log(data)
-      toast("New message: "+ data.message.body)
+      console.log(data);
+      toast("New message: " + data.message.body);
       fetchConversations();
     });
 

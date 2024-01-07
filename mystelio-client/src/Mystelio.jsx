@@ -14,6 +14,7 @@ import "./Styles/UiVerse.css";
 import { Routes, Route } from "react-router-dom";
 import Profile from "./Components/Profile/Profile";
 import ChatRoutes from "./Components/Chats/ChatRoutes";
+import Explore from "./Components/Explore";
 
 const App = () => {
   return (
@@ -36,6 +37,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/messages/*" element={<ChatRoutes />} />
           <Route path="/music/*" element={<MusicRoutes />} />
+          <Route path="/explore" element={<Explore />} />
           <Route path="/login" element={<Login />} />
           <Route path="/users/:userId" element={<Profile />} />
           <Route path="/register" element={<Signup />} />

@@ -29,7 +29,7 @@ export default function Profile() {
     <>
       {user && (
         <div className="profilePage">
-          {auth.user && auth.user.id === user.id && (
+          {auth.user && auth.user.id === user.id ? (
             <div
               className="logout"
               onClick={() => {
@@ -40,6 +40,34 @@ export default function Profile() {
             >
               <i className="fa-solid fa-right-from-bracket"></i>
             </div>
+          ) : (
+            <>
+              <div className="profilebtns">
+                <div
+                  title={"Follow " + user.fullName}
+                  className="userBtns"
+                  onClick={() => {
+                    
+                  }}
+                >
+                  <i class="fa-solid fa-user-plus"></i>
+                </div>
+                <div
+                  title={"Message " + user.fullName}
+                  className="userBtns"
+                  onClick={() => {}}
+                >
+                  <i class="fa-regular fa-comment-dots"></i>
+                </div>
+                <div
+                  className="userBtns"
+                  title={"Checkout posts by " + user.fullName}
+                  onClick={() => {}}
+                >
+                  <i class="fa-solid fa-blog"></i>
+                </div>
+              </div>
+            </>
           )}
           <img
             className="userImg"
@@ -164,8 +192,8 @@ export default function Profile() {
           </div>
         </div>
       )}
-      <h1 className="userPosts">{user?user.fullName:"User"} Posts</h1>
-      <Posts profileUserId = {userId} />
+      <h1 className="userPosts">{user ? user.fullName : "User"} Posts</h1>
+      <Posts profileUserId={userId} />
     </>
   );
 }

@@ -43,7 +43,7 @@ export default function AddPost() {
       tags: "",
     });
   };
-
+  
   return (
     <>
       <div className="formInputBox postBox">
